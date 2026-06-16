@@ -126,6 +126,7 @@ Each log should include:
 
 ---
 
+## ✅ Step 4 — After the lab (MANDATORY, not optional)
 
 1. **Run the validation checklist** — every checkbox in the lab README must pass
 2. **Hit at least 1 failure scenario without reading the fix first** — attempt to diagnose independently

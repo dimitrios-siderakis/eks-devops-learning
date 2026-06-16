@@ -4,7 +4,27 @@
 
 ---
 
-## Kubernetes for the Absolute Beginners
+## Kubernetes Crash Course: For Absolute Beginners ✅ COMPLETED 2026-06-17
+
+- [x] Course Introduction
+- [x] Kubernetes Overview & Kubectl
+- [x] Lab: Kubectl
+- [x] Pods
+- [x] Lab: Pods
+- [x] YAML - Part 1
+- [x] Lab: YAML - Part 1
+- [x] YAML - Part 2
+- [x] Lab: YAML - Part 2
+- [x] Pods with YAML
+- [x] Lab: Pods With YAML
+- [ ] Next Steps *(navigation only — no learning content)*
+- [ ] Link to Next Course *(navigation only)*
+
+Notes: `sources/kodekloud/notes/k8s-crash-course.md`
+
+---
+
+## Kubernetes for the Absolute Beginners - Hands-on Tutorial
 
 - [ ] Core Concepts (Pods, ReplicaSets, Deployments)
 - [ ] Services

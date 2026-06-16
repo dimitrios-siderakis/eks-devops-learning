@@ -9,7 +9,8 @@
 
 | Course | Slug | Aligns to Labs | Priority |
 |--------|------|---------------|----------|
-| Kubernetes for the Absolute Beginners | k8s-beginners | lab-03, lab-04, lab-06 | HIGH (do first) |
+| Kubernetes Crash Course: For Absolute Beginners | k8s-crash-course | lab-03 | ✅ COMPLETED |
+| Kubernetes for the Absolute Beginners - Hands-on Tutorial | k8s-beginners | lab-03, lab-04, lab-06 | HIGH (do next) |
 | Certified Kubernetes Administrator (CKA) | cka | all | HIGH |
 | Kubernetes CKAD | ckad | lab-03, lab-04, lab-07 | MEDIUM |
 | Kubernetes Security Specialist (CKS) | cks | lab-08 | MEDIUM |
