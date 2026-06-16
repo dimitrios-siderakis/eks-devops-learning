@@ -57,6 +57,14 @@ What should I work on today based on:
 1. Update `progress/log.md` with today's entry (use the template at the bottom of that file)
 2. Update `skills_matrix.md` — change any levels that genuinely changed
 3. Write the "Next action" line — be specific, not vague
+4. Commit and push to GitHub:
+
+```bash
+cd /Users/disi01/Documents/GitHub/Skills-Workspace
+git add -A
+git commit -m "YYYY-MM-DD: lab-XX completed, skills updated"
+git push
+```
 
 Ask Copilot:
 ```
