@@ -1,0 +1,50 @@
+##############################################################################
+# EC2NodeClass — defines the AMI, subnets, SGs, and kubelet config
+# for all nodes that Karpenter provisions.
+#
+# Karpenter v1 API (karpenter.k8s.aws/v1)
+# Replace:
+#   <CLUSTER_NAME>  → lab01-eks
+##############################################################################
+---
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  # Bottlerocket — matches Lab 01 managed node group OS
+  amiSelectorTerms:
+    - alias: bottlerocket@latest
+
+  # Discover subnets by cluster tag (set in Lab 01 vpc.tf)
+  subnetSelectorTerms:
+    - tags:
+        kubernetes.io/cluster/<CLUSTER_NAME>: owned
+        karpenter.sh/discovery: <CLUSTER_NAME>
+
+  # Discover security groups by cluster tag
+  securityGroupSelectorTerms:
+    - tags:
+        kubernetes.io/cluster/<CLUSTER_NAME>: owned
+
+  role: KarpenterNodeRole-<CLUSTER_NAME>
+
+  # Kubelet configuration — mirrors the Lab 01 managed node group settings
+  kubelet:
+    maxPods: 110          # EKS default for m-series; adjust per instance size
+    systemReserved:
+      cpu: "100m"
+      memory: "100Mi"
+    kubeReserved:
+      cpu: "100m"
+      memory: "100Mi"
+    evictionHard:
+      memory.available: "200Mi"
+
+  # Block device — gp3, encrypted, same as Lab 01 nodes
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeSize: 20Gi
+        volumeType: gp3
+        encrypted: true

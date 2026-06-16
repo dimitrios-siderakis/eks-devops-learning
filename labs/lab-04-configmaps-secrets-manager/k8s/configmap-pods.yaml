@@ -1,0 +1,96 @@
+##############################################################################
+# Pods demonstrating ConfigMap injection patterns
+# Adapted from: repo_k8sbook/configmaps/envpod.yml, cmpod.yml, startuppod.yml
+##############################################################################
+---
+# Pattern 1: ConfigMap → env vars (from Poulton envpod.yml)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-envpod
+  namespace: config-lab
+spec:
+  restartPolicy: Never
+  containers:
+    - name: ctr
+      image: busybox:1.36
+      command: ["env"]
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 50m
+          memory: 32Mi
+      env:
+        - name: FIRSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: multimap
+              key: given
+        - name: LASTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: multimap
+              key: family
+---
+# Pattern 2: ConfigMap → volume file mount (from Poulton cmpod.yml)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-filepod
+  namespace: config-lab
+spec:
+  restartPolicy: Never
+  containers:
+    - name: ctr
+      image: busybox:1.36
+      command: ["cat", "/etc/config/app.conf"]
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 50m
+          memory: 32Mi
+      volumeMounts:
+        - name: config-vol
+          mountPath: /etc/config
+          readOnly: true
+  volumes:
+    - name: config-vol
+      configMap:
+        name: singlemap
+---
+# Pattern 3: Projected volume — combines ConfigMap + Secret in single mountPath
+# Useful when app reads all config from one directory
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-projected-pod
+  namespace: config-lab
+spec:
+  restartPolicy: Never
+  containers:
+    - name: ctr
+      image: busybox:1.36
+      command: ["ls", "-la", "/etc/app-config/"]
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 50m
+          memory: 32Mi
+      volumeMounts:
+        - name: combined-config
+          mountPath: /etc/app-config
+          readOnly: true
+  volumes:
+    - name: combined-config
+      projected:
+        sources:
+          - configMap:
+              name: singlemap
+          - secret:
+              name: tkb-secret

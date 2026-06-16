@@ -1,0 +1,134 @@
+##############################################################################
+# Service Discovery Deployments
+# Adapted from: repo_k8sbook/service-discovery/sd-example.yml
+# Same service name 'ent' in both dev and prod — demonstrates DNS namespace scoping
+##############################################################################
+---
+# Dev deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise
+  namespace: dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: enterprise
+  template:
+    metadata:
+      labels:
+        app: enterprise
+        env: dev
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: enterprise-ctr
+          image: nigelpoulton/k8sbook:text-dev
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ent
+  namespace: dev
+spec:
+  selector:
+    app: enterprise
+  ports:
+    - port: 8080
+  type: ClusterIP
+---
+# Prod deployment (same service name 'ent' — different namespace)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: enterprise
+  template:
+    metadata:
+      labels:
+        app: enterprise
+        env: prod
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: enterprise-ctr
+          image: nigelpoulton/k8sbook:text-prod
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ent
+  namespace: prod
+spec:
+  selector:
+    app: enterprise
+  ports:
+    - port: 8080
+  type: ClusterIP
+---
+# Shared API — accessible from both dev and prod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shared-api
+  namespace: shared
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shared-api
+  template:
+    metadata:
+      labels:
+        app: shared-api
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: api
+          image: nginx:1.25-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 32Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shared-api
+  namespace: shared
+spec:
+  selector:
+    app: shared-api
+  ports:
+    - port: 8080
+      targetPort: 80
+  type: ClusterIP

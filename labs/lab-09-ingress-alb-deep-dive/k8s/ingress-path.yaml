@@ -1,0 +1,52 @@
+##############################################################################
+# Path-Based ALB Ingress
+# Translation of: repo_k8sbook/ingress/ig-mcu-path.yml → AWS ALB
+# Shares the same ALB as ingress-host.yaml via group.name annotation
+#
+# Replace before applying:
+#   <YOUR_CERT_ARN>   → arn:aws:acm:us-east-1:ACCOUNT:certificate/UUID
+#   <YOUR_DOMAIN>     → lab.yourdomain.com
+##############################################################################
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mcu-paths
+  namespace: ingress-lab
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443},{"HTTP":80}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/certificate-arn: "<YOUR_CERT_ARN>"
+    alb.ingress.kubernetes.io/group.name: ingress-lab      # SAME group → same ALB
+    external-dns.alpha.kubernetes.io/hostname: "app.<YOUR_DOMAIN>"
+spec:
+  rules:
+    # Maps from Nigel's ig-mcu-path.yml — same /shield and /hydra paths
+    - host: "app.<YOUR_DOMAIN>"
+      http:
+        paths:
+          - path: /shield
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-shield
+                port:
+                  number: 8080
+          - path: /hydra
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-hydra
+                port:
+                  number: 8080
+          # Default route — catches everything not matched above
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-shield
+                port:
+                  number: 8080

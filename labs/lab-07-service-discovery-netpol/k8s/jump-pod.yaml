@@ -1,0 +1,46 @@
+##############################################################################
+# Jump pods for connectivity testing — one in each namespace
+# Adapted from: repo_k8sbook/service-discovery/sd-example.yml (jump pod)
+##############################################################################
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jump
+  namespace: dev
+  labels:
+    app: jump
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+    - name: jump
+      image: curlimages/curl:8.7.1
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          cpu: 5m
+          memory: 8Mi
+        limits:
+          cpu: 20m
+          memory: 16Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jump
+  namespace: prod
+  labels:
+    app: jump
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+    - name: jump
+      image: curlimages/curl:8.7.1
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          cpu: 5m
+          memory: 8Mi
+        limits:
+          cpu: 20m
+          memory: 16Mi

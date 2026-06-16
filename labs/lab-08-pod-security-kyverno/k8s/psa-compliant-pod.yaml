@@ -1,0 +1,52 @@
+##############################################################################
+# PSA-Compliant Pod — passes 'restricted' profile
+# Demonstrates what a fully hardened pod spec looks like
+##############################################################################
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: psa-compliant
+  namespace: psa-test
+  labels:
+    owner: lab08
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 3000
+    fsGroup: 2000
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: ctr
+      image: nginx:1.25-alpine
+      ports:
+        - containerPort: 8080
+      resources:
+        requests:
+          cpu: 20m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop:
+            - ALL
+      volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: var-cache
+          mountPath: /var/cache/nginx
+        - name: var-run
+          mountPath: /var/run
+  volumes:
+    - name: tmp
+      emptyDir: {}
+    - name: var-cache
+      emptyDir: {}
+    - name: var-run
+      emptyDir: {}

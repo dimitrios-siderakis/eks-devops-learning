@@ -1,0 +1,42 @@
+##############################################################################
+# HorizontalPodAutoscaler
+# Scales between 2-10 replicas based on CPU utilization.
+# Requires: metrics-server installed (EKS managed add-on available)
+#           resource.requests.cpu set on pods (not just limits)
+#
+# Install metrics-server if not present:
+#   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+##############################################################################
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web-app-hpa
+  namespace: web
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300   # wait 5 min before scaling down
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0    # scale up immediately
+      policies:
+        - type: Pods
+          value: 2
+          periodSeconds: 30

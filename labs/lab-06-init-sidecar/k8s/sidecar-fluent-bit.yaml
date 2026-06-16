@@ -1,0 +1,114 @@
+##############################################################################
+# Fluent Bit Sidecar Pod
+# Adapted from: repo_k8sbook/pods/sidecarpod.yml (git-sync → Fluent Bit)
+#
+# Pattern: app writes JSON logs to shared emptyDir volume
+#          Fluent Bit reads from volume and ships to CloudWatch Logs
+#
+# For IRSA (CloudWatch access): annotate the pod's ServiceAccount with
+# the appropriate IRSA role ARN that has logs:CreateLogGroup, logs:PutLogEvents
+##############################################################################
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fluent-bit-sa
+  namespace: init-lab
+  # Annotate with IRSA role after Terraform apply:
+  # kubectl annotate sa fluent-bit-sa -n init-lab eks.amazonaws.com/role-arn=<ARN>
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: init-lab
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush         5
+        Daemon        off
+        Log_Level     info
+        Parsers_File  parsers.conf
+
+    [INPUT]
+        Name          tail
+        Path          /var/log/app/app.log
+        Parser        json
+        Tag           app.*
+        Refresh_Interval 5
+
+    [OUTPUT]
+        Name          cloudwatch_logs
+        Match         app.*
+        region        us-east-1
+        log_group_name  /eks/init-lab/app
+        log_stream_prefix  sidecar-pod/
+        auto_create_group true
+
+  parsers.conf: |
+    [PARSER]
+        Name   json
+        Format json
+        Time_Key time
+        Time_Format %Y-%m-%dT%H:%M:%S
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-pod
+  namespace: init-lab
+  labels:
+    app: sidecar
+spec:
+  serviceAccountName: fluent-bit-sa
+  terminationGracePeriodSeconds: 15
+
+  containers:
+    # Main app container — writes JSON logs to shared volume
+    - name: ctr-app
+      image: busybox:1.36
+      command:
+        - sh
+        - -c
+        - |
+          mkdir -p /var/log/app
+          while true; do
+            echo "{\"time\":\"$(date -Iseconds)\",\"level\":\"info\",\"msg\":\"heartbeat\",\"pod\":\"sidecar-pod\"}" \
+              >> /var/log/app/app.log
+            sleep 5
+          done
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 50m
+          memory: 32Mi
+      volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/app
+
+    # Sidecar: Fluent Bit reads logs from shared volume, ships to CloudWatch
+    - name: ctr-fluent-bit
+      image: fluent/fluent-bit:3.0
+      resources:
+        requests:
+          cpu: 20m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
+      volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/app
+          readOnly: true
+        - name: fluent-bit-config
+          mountPath: /fluent-bit/etc/
+
+  volumes:
+    - name: log-volume
+      emptyDir:
+        sizeLimit: 100Mi   # prevent disk exhaustion on the node
+    - name: fluent-bit-config
+      configMap:
+        name: fluent-bit-config

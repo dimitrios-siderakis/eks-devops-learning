@@ -1,0 +1,36 @@
+##############################################################################
+# PSA Namespaces
+# Adapted from: repo_k8sbook/psa/psa-pod.yml context
+#
+# Three modes for progressive rollout:
+#   warn:    admission allowed, warning shown in kubectl output
+#   audit:   admission allowed, violation logged in audit log
+#   enforce: admission denied, pod not created
+#
+# Production strategy: apply warn → audit → enforce over multiple days
+# while watching audit logs for violations before enforcing.
+##############################################################################
+---
+# Enforce mode — pods violating 'restricted' are BLOCKED
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: psa-test
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: latest
+---
+# Audit/warn mode — violations logged and warned but pods ARE created
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: psa-audit
+  labels:
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: latest

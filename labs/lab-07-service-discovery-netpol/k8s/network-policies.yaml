@@ -1,0 +1,156 @@
+##############################################################################
+# NetworkPolicies — enforce namespace isolation
+#
+# Rule matrix:
+#   dev   → ent.dev:8080        ALLOW (intra-namespace)
+#   prod  → ent.prod:8080       ALLOW (intra-namespace)
+#   dev   → shared-api:8080     ALLOW (explicit cross-ns allow)
+#   prod  → shared-api:8080     ALLOW (explicit cross-ns allow)
+#   dev   → ent.prod            DENY  (default deny)
+#   prod  → ent.dev             DENY  (default deny)
+#   *     → kube-system:53      ALLOW (DNS must work)
+##############################################################################
+
+# ── dev namespace ─────────────────────────────────────────────────────────────
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: dev
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-intra-dev
+  namespace: dev
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              env: dev
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              env: dev
+    # Allow reach to shared namespace
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              env: shared
+      ports:
+        - port: 8080
+    # DNS — MUST include, or nslookup breaks after default-deny
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+
+# ── prod namespace ────────────────────────────────────────────────────────────
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: prod
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-intra-prod
+  namespace: prod
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              env: prod
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              env: prod
+    # Allow reach to shared namespace
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              env: shared
+      ports:
+        - port: 8080
+    # DNS
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+
+# ── shared namespace ──────────────────────────────────────────────────────────
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: shared
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+# shared-api accepts traffic from dev and prod only
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-from-dev-prod
+  namespace: shared
+spec:
+  podSelector:
+    matchLabels:
+      app: shared-api
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              env: dev
+        - namespaceSelector:
+            matchLabels:
+              env: prod
+      ports:
+        - port: 80

@@ -1,0 +1,270 @@
+##############################################################################
+# Lab 06 — Production Deployment
+#
+# UPGRADE over the basic init-pod.yaml + sidecar-fluent-bit.yaml:
+#
+#  Basic version (what you had)       Production version (this file)
+#  ─────────────────────────────      ──────────────────────────────
+#  Plain Pod (restartPolicy:OnFail)   Deployment (self-healing, rolling)
+#  IRSA = a code comment              IRSA = real SA annotation from Terraform
+#  No topology spread                 topologySpreadConstraints (3 AZ)
+#  No PDB                             PDB: minAvailable 2
+#  Init + Sidecar in separate pods    Both patterns in one pod spec
+#  emptyDir no limit                  emptyDir: sizeLimit 100Mi
+#  Fluent Bit SA unannotated          SA annotated with role ARN from Terraform
+#
+# Apply order:
+#  1. cd terraform && terraform apply
+#  2. kubectl apply -f k8s/init-demo-ns.yaml (if not already applied)
+#  3. kubectl apply -f k8s/production-deployment.yaml
+#  4. kubectl apply -f k8s/postgres-stub-svc.yaml (unblocks init container)
+##############################################################################
+
+---
+# ServiceAccount with IRSA annotation.
+# The annotation value comes from Terraform output: fluent_bit_role_arn
+# Apply the annotation with the command from `terraform output annotate_command`
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fluent-bit-sa
+  namespace: init-lab
+  annotations:
+    # Replace with: terraform -chdir=terraform output -raw fluent_bit_role_arn
+    eks.amazonaws.com/role-arn: "<FLUENT_BIT_ROLE_ARN_FROM_TERRAFORM>"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: init-lab
+  # immutable: true once you have a stable config — prevents accidental changes
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush         5
+        Daemon        off
+        Log_Level     info
+        Parsers_File  parsers.conf
+
+    [INPUT]
+        Name             tail
+        Path             /var/log/app/app.log
+        Parser           json
+        Tag              app.*
+        Refresh_Interval 5
+        # Rotate_Wait: don't lose tail position on log rotation
+        Rotate_Wait      30
+
+    [FILTER]
+        Name   record_modifier
+        Match  app.*
+        Record hostname ${HOSTNAME}
+        Record cluster   lab01-eks
+
+    [OUTPUT]
+        Name              cloudwatch_logs
+        Match             app.*
+        region            us-east-1
+        log_group_name    /eks/init-lab/app
+        log_stream_prefix pod/
+        auto_create_group false   # pre-created by Terraform
+
+  parsers.conf: |
+    [PARSER]
+        Name        json
+        Format      json
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S
+
+---
+# PodDisruptionBudget — ensures at least 2 replicas always available
+# Blocks unsafe node drains during maintenance
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: app-pdb
+  namespace: init-lab
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: init-sidecar-app
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-sidecar-app
+  namespace: init-lab
+  annotations:
+    kubernetes.io/change-cause: "v1 — production upgrade: init + sidecar Deployment"
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  progressDeadlineSeconds: 120
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: init-sidecar-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0   # never kill a pod before a new one is ready
+      maxSurge: 1
+
+  template:
+    metadata:
+      labels:
+        app: init-sidecar-app
+        version: v1
+
+    spec:
+      serviceAccountName: fluent-bit-sa   # IRSA for Fluent Bit CloudWatch access
+      terminationGracePeriodSeconds: 30
+
+      # Spread across all 3 AZs — one pod per AZ, max skew 1
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: init-sidecar-app
+
+      ##########################################################################
+      # Init Containers — run once, in order, before main containers start
+      # Pattern: dependency gating before the app starts
+      ##########################################################################
+      initContainers:
+        # Init step 1: Wait for postgres Service DNS to resolve.
+        # This gates on a dependency being REACHABLE, not just the DB being ready.
+        # Real-world: replace postgres with your DB, message bus, or config service.
+        - name: init-wait-db
+          image: public.ecr.aws/docker/library/busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for postgres service DNS..."
+              until nslookup postgres.init-lab.svc.cluster.local; do
+                echo "postgres not ready, retrying in 3s..."
+                sleep 3
+              done
+              echo "postgres DNS resolved"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 32Mi
+
+        # Init step 2: Run DB migration / schema check.
+        # In production: replace with your migration tool (Flyway, Liquibase, etc.)
+        - name: init-migrate
+          image: public.ecr.aws/docker/library/busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              echo "Running DB schema check..."
+              sleep 2
+              echo "Schema OK — version 42"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 32Mi
+
+      ##########################################################################
+      # Main Containers
+      ##########################################################################
+      containers:
+        # Primary application container
+        - name: app
+          image: nigelpoulton/k8sbook:1.0
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+
+          # startupProbe: gives the app up to 5 minutes to finish starting.
+          # Only once it passes does liveness kick in.
+          # Prevents restarts of slow-starting apps.
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
+
+          # readinessProbe: removes pod from Service endpoints until healthy.
+          # Traffic only flows to pods that pass this check.
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+
+          # livenessProbe: restarts hung container.
+          # Only start AFTER startupProbe — use a later initialDelaySeconds.
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 3
+
+          # preStop: give in-flight requests 5 seconds to drain before SIGTERM.
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 5"]
+
+          volumeMounts:
+            - name: log-volume
+              mountPath: /var/log/app
+
+        # Fluent Bit sidecar — reads app logs from shared emptyDir and ships to CloudWatch.
+        # The IRSA role on the ServiceAccount grants cloudwatch:PutLogEvents.
+        - name: fluent-bit
+          image: public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+            - name: log-volume
+              mountPath: /var/log/app
+              readOnly: true
+            - name: fluent-bit-config
+              mountPath: /fluent-bit/etc/
+
+      volumes:
+        - name: log-volume
+          emptyDir:
+            sizeLimit: 100Mi    # cap: prevents one pod from filling the node's disk
+        - name: fluent-bit-config
+          configMap:
+            name: fluent-bit-config

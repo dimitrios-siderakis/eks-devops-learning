@@ -1,0 +1,52 @@
+##############################################################################
+# Host-Based ALB Ingress
+# Translation of: repo_k8sbook/ingress/ig-mcu-host.yml → AWS ALB
+#
+# Nigel used: ingressClassName: nginx + no TLS
+# This uses: AWS LBC + ACM cert + ExternalDNS
+#
+# Replace before applying:
+#   <YOUR_CERT_ARN>   → arn:aws:acm:us-east-1:ACCOUNT:certificate/UUID
+#   <YOUR_DOMAIN>     → lab.yourdomain.com
+##############################################################################
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mcu-host
+  namespace: ingress-lab
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443},{"HTTP":80}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/certificate-arn: "<YOUR_CERT_ARN>"
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+    alb.ingress.kubernetes.io/group.name: ingress-lab      # share ALB with path ingress
+    external-dns.alpha.kubernetes.io/hostname: "shield.<YOUR_DOMAIN>,hydra.<YOUR_DOMAIN>"
+spec:
+  rules:
+    # Maps directly from Nigel's ig-mcu-host.yml — same host/path structure
+    - host: "shield.<YOUR_DOMAIN>"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-shield
+                port:
+                  number: 8080
+    - host: "hydra.<YOUR_DOMAIN>"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-hydra
+                port:
+                  number: 8080

@@ -1,0 +1,162 @@
+##############################################################################
+# Kyverno ClusterPolicies
+#
+# Policy 1: require-owner-label       — all pods must have 'owner' label
+# Policy 2: restrict-image-registry   — only ECR images allowed
+# Policy 3: disallow-latest-tag       — 'latest' tag banned in production
+# Policy 4: require-resource-requests — all containers must set requests
+#
+# All policies EXCLUDE kube-system and kyverno namespaces.
+# validationFailureAction: Enforce — blocks non-compliant pods.
+# Change to Audit for initial rollout to observe without blocking.
+##############################################################################
+
+# ── Policy 1: require owner label ────────────────────────────────────────────
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-owner-label
+  annotations:
+    policies.kyverno.io/title: Require owner label
+    policies.kyverno.io/description: >
+      All pods must have an 'owner' label for accountability and cost attribution.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: check-owner-label
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kyverno
+                - kube-public
+                - kube-node-lease
+      validate:
+        message: "Pod must have label 'owner' set to the team or individual responsible."
+        pattern:
+          metadata:
+            labels:
+              owner: "?*"
+
+# ── Policy 2: restrict image registry ────────────────────────────────────────
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-image-registry
+  annotations:
+    policies.kyverno.io/title: Restrict image registry
+    policies.kyverno.io/description: >
+      Only images from approved ECR registries are allowed.
+      Replace <ACCOUNT_ID> with your AWS account ID.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: check-registry
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kyverno
+                - kube-public
+      validate:
+        message: >
+          Image must be from an approved ECR registry.
+          Approved pattern: <ACCOUNT_ID>.dkr.ecr.*.amazonaws.com/*
+          Got: {{ request.object.spec.containers[].image }}
+        foreach:
+          - list: "request.object.spec.containers"
+            pattern:
+              image: "*dkr.ecr.*.amazonaws.com/*"
+
+# ── Policy 3: disallow latest tag ─────────────────────────────────────────────
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-latest-tag
+  annotations:
+    policies.kyverno.io/title: Disallow latest image tag
+    policies.kyverno.io/description: >
+      The 'latest' image tag is mutable and causes unpredictable deployments.
+      Always use a specific version tag.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: check-image-tag
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kyverno
+                - kube-public
+      validate:
+        message: "Image tag 'latest' is not allowed. Use a specific version tag."
+        foreach:
+          - list: "request.object.spec.containers"
+            deny:
+              conditions:
+                any:
+                  - key: "{{ element.image }}"
+                    operator: Equals
+                    value: "*:latest"
+                  - key: "{{ element.image }}"
+                    operator: NotContains
+                    value: ":"
+
+# ── Policy 4: require resource requests ──────────────────────────────────────
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-resource-requests
+  annotations:
+    policies.kyverno.io/title: Require resource requests
+    policies.kyverno.io/description: >
+      All containers must specify CPU and memory requests.
+      Without requests, the scheduler cannot make informed placement decisions
+      and HPA cannot calculate utilization percentages.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: check-requests
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kyverno
+                - kube-public
+      validate:
+        message: "All containers must specify resources.requests.cpu and resources.requests.memory."
+        pattern:
+          spec:
+            containers:
+              - resources:
+                  requests:
+                    cpu: "?*"
+                    memory: "?*"

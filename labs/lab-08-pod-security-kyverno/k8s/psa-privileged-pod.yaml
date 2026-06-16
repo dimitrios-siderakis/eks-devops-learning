@@ -1,0 +1,24 @@
+##############################################################################
+# Privileged pod — directly from Poulton psa/psa-pod.yml
+# This will be BLOCKED in psa-test namespace (enforce=restricted)
+# This will generate a WARNING in psa-audit namespace
+##############################################################################
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: psa-pod
+  namespace: psa-test
+spec:
+  containers:
+    - name: psa-ctr
+      image: nginx:1.25-alpine
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 50m
+          memory: 32Mi
+      securityContext:
+        privileged: true   # violates 'restricted' and 'baseline' PSS

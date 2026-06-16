@@ -1,0 +1,27 @@
+##############################################################################
+# StorageClass — EBS gp3, encrypted
+# Adapted from: repo_k8sbook/statefulsets/dd-sc.yml (replaced flash/GKE with EBS)
+#
+# Key production settings:
+#   volumeBindingMode: WaitForFirstConsumer — EBS provisioned in pod's AZ
+#   encrypted: true — all volumes encrypted at rest (KMS default or CMK)
+#   allowVolumeExpansion: true — resize without recreating PVC
+##############################################################################
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gp3-encrypted
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+parameters:
+  type: gp3
+  encrypted: "true"
+  # Optional: specify CMK ARN for customer-managed encryption
+  # kmsKeyId: "arn:aws:kms:us-east-1:123456789:key/..."
+  throughput: "125"
+  iops: "3000"

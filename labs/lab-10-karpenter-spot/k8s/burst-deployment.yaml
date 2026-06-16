@@ -1,0 +1,50 @@
+##############################################################################
+# Burst Deployment — scale test to trigger Karpenter
+# Deploys 30 replicas with guaranteed requests so they won't fit on existing nodes.
+# Karpenter should provision Spot nodes within 60 seconds.
+##############################################################################
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: burst-app
+  namespace: default
+spec:
+  replicas: 30
+  selector:
+    matchLabels:
+      app: burst-app
+  template:
+    metadata:
+      labels:
+        app: burst-app
+    spec:
+      # Allow Spot nodes only for this burst workload
+      # No toleration for on-demand taint — pods land on Spot NodePool only
+      topologySpreadConstraints:
+        - maxSkew: 3
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: burst-app
+
+      containers:
+        - name: app
+          image: public.ecr.aws/docker/library/nginx:1.25-alpine
+          resources:
+            # Guaranteed requests: forces Karpenter to add nodes
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10

@@ -1,0 +1,56 @@
+##############################################################################
+# ALB Ingress — HTTPS with ACM cert, ExternalDNS annotation
+#
+# Before applying, replace:
+#   <YOUR_CERT_ARN>  → arn:aws:acm:us-east-1:123456789:certificate/...
+#   <YOUR_DOMAIN>    → app.lab.yourdomain.com
+#   <YOUR_API_DOMAIN>→ api.lab.yourdomain.com
+##############################################################################
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: production-ingress
+  namespace: production
+  annotations:
+    # AWS Load Balancer Controller annotations
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443},{"HTTP":80}]'
+    # Redirect HTTP → HTTPS
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/certificate-arn: "<YOUR_CERT_ARN>"
+    # Security: use modern TLS policy
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
+    # ExternalDNS will create Route53 records for these hostnames
+    external-dns.alpha.kubernetes.io/hostname: "<YOUR_DOMAIN>,<YOUR_API_DOMAIN>"
+    # Health check
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
+    # WAF (optional — add WAF ACL ARN if available)
+    # alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:..."
+spec:
+  rules:
+    - host: "<YOUR_DOMAIN>"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-frontend
+                port:
+                  number: 80
+    - host: "<YOUR_API_DOMAIN>"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-api
+                port:
+                  number: 8080

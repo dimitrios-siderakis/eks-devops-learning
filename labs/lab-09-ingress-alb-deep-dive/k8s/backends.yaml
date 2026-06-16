@@ -1,0 +1,105 @@
+##############################################################################
+# Backend Services — shield and hydra apps
+# Directly from Nigel Poulton repo_k8sbook/ingress/app.yml
+# Only change: added resource limits (Kyverno policy requirement from lab-08)
+##############################################################################
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-shield
+  namespace: ingress-lab
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    env: shield
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-hydra
+  namespace: ingress-lab
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    env: hydra
+---
+# Shield app — from Nigel's ingress example
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shield
+  namespace: ingress-lab
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      env: shield
+  template:
+    metadata:
+      labels:
+        env: shield
+        app: shield
+    spec:
+      containers:
+        - name: shield-ctr
+          image: nigelpoulton/k8sbook:shield-ingress
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+# Hydra app — from Nigel's ingress example
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hydra
+  namespace: ingress-lab
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      env: hydra
+  template:
+    metadata:
+      labels:
+        env: hydra
+        app: hydra
+    spec:
+      containers:
+        - name: hydra-ctr
+          image: nigelpoulton/k8sbook:hydra-ingress
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10

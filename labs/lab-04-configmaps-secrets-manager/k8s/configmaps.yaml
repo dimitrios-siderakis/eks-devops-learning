@@ -1,0 +1,47 @@
+##############################################################################
+# ConfigMap Patterns
+# Adapted from: repo_k8sbook/configmaps/singlemap.yml, multimap.yml
+# Added: immutable ConfigMap, projected volume combining CM + Secret
+##############################################################################
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: config-lab
+  labels:
+    env: lab
+---
+# Key-value ConfigMap (from Poulton multimap.yml)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: multimap
+  namespace: config-lab
+data:
+  given: Nigel
+  family: Poulton
+---
+# File-based ConfigMap (from Poulton singlemap.yml)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: singlemap
+  namespace: config-lab
+data:
+  app.conf: |
+    env = production
+    endpoint = 0.0.0.0:8080
+    log-level = warn
+    log-format = json
+---
+# Immutable ConfigMap — production pattern for config that should never change
+# Once set, prevents accidental overwrites; also improves kube-apiserver performance
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: immutable-config
+  namespace: config-lab
+immutable: true
+data:
+  region: us-east-1
+  cluster-name: lab01-eks

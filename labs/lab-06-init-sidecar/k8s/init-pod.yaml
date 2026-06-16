@@ -1,0 +1,79 @@
+##############################################################################
+# Init Container Pod — chained dependency gate
+# Adapted from: repo_k8sbook/pods/initpod.yml
+#
+# init-1: waits until postgres DNS resolves (real DB dependency pattern)
+# init-2: simulates DB migration (or schema check)
+# main:   app only starts after both init containers exit 0
+##############################################################################
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: initpod
+  namespace: init-lab
+  labels:
+    app: initpod
+spec:
+  restartPolicy: OnFailure
+  terminationGracePeriodSeconds: 10
+
+  initContainers:
+    # Step 1: Wait until postgres DNS resolves
+    # Adapted from Poulton initpod.yml — same pattern, real service name
+    - name: init-wait-db
+      image: busybox:1.36
+      command:
+        - sh
+        - -c
+        - |
+          echo "Waiting for postgres service DNS..."
+          until nslookup postgres.init-lab.svc.cluster.local; do
+            echo "postgres not ready, retrying in 2s..."
+            sleep 2
+          done
+          echo "postgres DNS resolved — proceeding"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 50m
+          memory: 32Mi
+
+    # Step 2: Run DB migration (simulated)
+    - name: init-migrate
+      image: busybox:1.36
+      command:
+        - sh
+        - -c
+        - |
+          echo "Running DB migrations..."
+          sleep 3
+          echo "Migrations complete — schema version 42"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 50m
+          memory: 32Mi
+
+  containers:
+    - name: app
+      image: nigelpoulton/k8sbook:1.0
+      ports:
+        - containerPort: 8080
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+      readinessProbe:
+        httpGet:
+          path: /
+          port: 8080
+        initialDelaySeconds: 5
+        periodSeconds: 10

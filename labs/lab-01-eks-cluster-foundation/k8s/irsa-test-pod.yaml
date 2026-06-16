@@ -1,0 +1,40 @@
+##############################################################################
+# IRSA Validation
+#
+# Replace <IRSA_TEST_ROLE_ARN> with the value from:
+#   terraform output irsa_test_role_arn
+#
+# The pod runs `aws sts get-caller-identity` and exits.
+# Check logs: kubectl logs irsa-test -n default
+# Expected: ARN contains "lab01-eks-irsa-test", NOT the node instance role.
+##############################################################################
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: irsa-test-sa
+  namespace: default
+  annotations:
+    eks.amazonaws.com/role-arn: "<IRSA_TEST_ROLE_ARN>"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: irsa-test
+  namespace: default
+spec:
+  serviceAccountName: irsa-test-sa
+  restartPolicy: Never
+  containers:
+    - name: aws-cli
+      image: amazon/aws-cli:latest
+      command:
+        - aws
+        - sts
+        - get-caller-identity
+      env:
+        - name: AWS_DEFAULT_REGION
+          value: us-east-1
+  # Prevent scheduling on Fargate / spot-only pools during lab
+  tolerations:
+    - operator: Exists

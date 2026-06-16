@@ -1,0 +1,72 @@
+##############################################################################
+# StatefulSet
+# Adapted from: repo_k8sbook/statefulsets/sts.yml
+#
+# Production additions:
+#   - gp3-encrypted StorageClass (not 'flash')
+#   - readinessProbe gates ordered startup
+#   - resource requests + limits
+#   - updateStrategy: RollingUpdate with partition (safe staged rollout)
+##############################################################################
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tkb-sts
+  namespace: stateful-lab
+spec:
+  replicas: 3
+  serviceName: "dullahan"   # must match headless service name
+  selector:
+    matchLabels:
+      app: tkb-sts
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0   # update all pods; set to N to freeze first N pods
+  template:
+    metadata:
+      labels:
+        app: tkb-sts
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: ctr-web
+          image: nginx:1.25-alpine
+          ports:
+            - containerPort: 80
+              name: web
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          volumeMounts:
+            - name: webroot
+              mountPath: /usr/share/nginx/html
+
+  volumeClaimTemplates:
+    - metadata:
+        name: webroot
+        labels:
+          app: tkb-sts
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: gp3-encrypted
+        resources:
+          requests:
+            storage: 1Gi

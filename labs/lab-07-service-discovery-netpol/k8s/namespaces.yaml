@@ -1,0 +1,25 @@
+##############################################################################
+# Namespaces
+# Adapted from: repo_k8sbook/service-discovery/sd-example.yml
+##############################################################################
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    env: dev
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod
+  labels:
+    env: prod
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: shared
+  labels:
+    env: shared

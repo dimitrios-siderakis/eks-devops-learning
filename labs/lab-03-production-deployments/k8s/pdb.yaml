@@ -1,0 +1,19 @@
+##############################################################################
+# PodDisruptionBudget
+# minAvailable: 2 means: at most 1 pod can be unavailable at any time.
+# With 3 replicas, this allows the rolling update (maxUnavailable: 0 + surge)
+# and blocks node drain if it would leave fewer than 2 healthy pods.
+#
+# Common mistake: set minAvailable == replicas → rollouts deadlock forever.
+##############################################################################
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: web-app-pdb
+  namespace: web
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: web-app

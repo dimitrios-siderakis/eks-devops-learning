@@ -1,0 +1,17 @@
+# Cloned reference repos — these are separate git repos, not part of this project
+sources/nigel_poulton/repo_k8sbook/
+sources/nigel_poulton/repo_getting_started/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+.terraform.lock.hcl
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+*.swp

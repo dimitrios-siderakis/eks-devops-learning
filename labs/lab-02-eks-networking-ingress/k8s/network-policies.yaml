@@ -1,0 +1,143 @@
+##############################################################################
+# Network Policies
+#
+# Default-deny all ingress/egress per namespace, then allow explicitly.
+# This is the pattern you should use in every production namespace.
+#
+# Rule summary:
+#  - production: default deny all; allow ingress from ALB; allow egress to database + kube-dns
+#  - staging:    default deny all; allow egress to kube-dns only (isolated)
+#  - database:   default deny all; allow ingress from production only
+##############################################################################
+
+# ── production namespace ──────────────────────────────────────────────────────
+
+# Step 1: Deny everything by default
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: production
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+# Step 2: Allow ingress from ALB (AWS LBC uses IP-mode; ALB nodes are in VPC CIDR)
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-from-alb
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: app-frontend
+  policyTypes:
+    - Ingress
+  ingress:
+    - ports:
+        - port: 80
+
+# Step 3: Allow production → database (port 5432)
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-egress-to-database
+  namespace: production
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              env: database
+      ports:
+        - port: 5432
+          protocol: TCP
+    # Allow DNS resolution — critical, do NOT omit
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+
+# ── staging namespace ─────────────────────────────────────────────────────────
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: staging
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+# Staging can only talk to kube-dns — cannot reach production or database
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-egress-dns-only
+  namespace: staging
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+
+# ── database namespace ────────────────────────────────────────────────────────
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: database
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+# Only production pods can reach the database
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-from-production
+  namespace: database
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              env: production
+      ports:
+        - port: 5432
+          protocol: TCP

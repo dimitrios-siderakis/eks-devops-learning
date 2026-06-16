@@ -1,0 +1,41 @@
+##############################################################################
+# Compliant pod — passes ALL Kyverno policies
+# Use this as a template for production pod specs.
+# Note: ECR image placeholder — replace with a real ECR image.
+##############################################################################
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kyverno-compliant
+  namespace: default
+  labels:
+    owner: platform-team          # Policy 1: required label
+    app: kyverno-test
+    version: "1.0"
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: app
+      # Policy 2: ECR registry (replace ACCOUNT_ID and REGION)
+      # Policy 3: pinned tag, not 'latest'
+      image: "nginx:1.25-alpine"   # swap to: <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/myapp:1.0
+      ports:
+        - containerPort: 8080
+      # Policy 4: requests defined
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
