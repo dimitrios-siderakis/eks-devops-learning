@@ -149,7 +149,50 @@ If you read the fix first → your skill level stays where it was. You learned n
 
 ---
 
-# 🔁 KodeKloud Workflow (when using it)
+# �️ Local Cluster & kubectl Context Safety
+
+## Clusters
+
+| Context name | What it is |
+|---|---|
+| `rancher-desktop` | Local training cluster (Rancher Desktop) |
+| `apps-datasson-prod-euc1` | **WORK — PRODUCTION** |
+| `apps-datasson-test-euc1` | Work — test |
+| `lab-datasson-test-euc1` | Work — lab/test |
+
+## Rule: always know where you're pointing
+
+```bash
+kctx          # print current context before any kubectl command
+kuse-train    # switch to local training cluster
+kuse-prod     # switch to prod — shows warning
+```
+
+## Aliases (these live in ~/.zshrc)
+
+```bash
+alias k="kubectl"
+alias k-prod='kubectl config use-context apps-datasson-prod-euc1'
+alias k-test='kubectl config use-context apps-datasson-test-euc1'
+alias k-lab='kubectl config use-context lab-datasson-test-euc1'
+alias k-view='kubectl config view'
+alias kdpo='kubectl describe pods'
+alias kgpo='kubectl get pods'
+alias kl='kubectl logs'
+alias ktno='kubectl top nodes'
+alias ktpo='kubectl top pods'
+alias ll='ls -ltr'
+alias k-train='kubectl --context=rancher-desktop'   # run one-off cmd on training cluster without switching context
+alias kctx='kubectl config current-context'
+alias kuse-train='kubectl config use-context rancher-desktop && echo "NOW ON: rancher-desktop"'
+alias kuse-prod='kubectl config use-context apps-datasson-prod-euc1 && echo "NOW ON: PROD - be careful"'
+```
+
+## For all labs in this workspace: use `k-train` for one-off commands, or `kuse-train` to switch, then `k`
+
+---
+
+# �🔁 KodeKloud Workflow (when using it)
 
 ---
 

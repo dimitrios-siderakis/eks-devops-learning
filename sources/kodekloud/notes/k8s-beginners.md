@@ -5,3 +5,10 @@
 > Previous: Crash Course notes in `k8s-crash-course.md`
 
 ---
+
+## Kubernetes Concepts
+
+Commands:
+**kubectl run nginx --image nginx**
+**kubectl get pods**
+

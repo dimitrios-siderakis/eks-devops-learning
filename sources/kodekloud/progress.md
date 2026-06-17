@@ -26,6 +26,14 @@ Notes: `sources/kodekloud/notes/k8s-crash-course.md`
 
 ## Kubernetes for the Absolute Beginners - Hands-on Tutorial
 
+- [x] Kubernetes Concepts (module) — completed 2026-06-17
+- [x] Kubernetes Concepts — Pods, Re... (29% / 5 of 17 lessons) — IN PROGRESS 2026-06-17
+  - [x] Pods with YAML
+  - [x] Demo - Pods with YAML
+  - [x] Demo - YAML Tips
+  - [x] Labs: Pods with YAML
+  - [x] Lab Solution
+  - [ ] ReplicaSets (continue next session)
 - [ ] Core Concepts (Pods, ReplicaSets, Deployments)
 - [ ] Services
 - [ ] Namespaces

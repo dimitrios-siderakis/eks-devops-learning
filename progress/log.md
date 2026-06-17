@@ -7,6 +7,38 @@
 
 ---
 
+## 2026-06-17 — Phase 1 Day 1: Cluster setup + Lab 03 partial (PAUSED — theory gap)
+
+**Lab:** lab-03-production-deployments (partial)  
+**Time spent:** ~1h  
+**Cluster:** Rancher Desktop (local, k3s, single node, v1.32.4)
+
+**What was done:**
+- Set up Rancher Desktop as local training cluster
+- Secured kubeconfig: added aliases to ~/.zshrc to prevent accidentally hitting work/prod clusters (`kuse-train`, `kuse-prod`, `k-train`, `kctx`)
+- Documented alias reference in workflow.md
+- Applied lab-03 manifests: namespace, deployment-v1, service, pdb, hpa
+- Hit and diagnosed first real failure: pods stuck `Pending` due to `topologySpreadConstraints` requiring `topology.kubernetes.io/zone` label — missing on local node
+- Fix applied: `kubectl label node lima-rancher-desktop topology.kubernetes.io/zone=local-az-1`
+- All 3 pods reached `Running`, HPA reading CPU (2%/60%), PDB showing `ALLOWED DISRUPTIONS: 1`
+- Observed Pod Security Admission warning on deploy (baseline enforced, restricted warned — not blocked)
+- Paused before triggering Failure Scenario 2 (readinessProbe 404)
+
+**Blocker / decision:**
+- Theory gap identified. Do not understand readiness vs liveness probes, rolling update mechanics, or requests/limits well enough to diagnose failure scenarios meaningfully
+- Decision: study KodeKloud "Kubernetes for the Absolute Beginners" before continuing
+
+**Skills updated:** none (no skill raised until theory + failure scenarios fully completed)
+
+**Next action:**
+- KodeKloud → "Kubernetes Concepts — Pods, Re..." module — resume at lesson 6 (ReplicaSets), 29% done
+- Complete remaining lessons: ReplicaSets → Deployments → Resource Limits → Self-Healing → Rolling Updates
+- Then: Services module
+- Then: Return to Lab 03, trigger Failure Scenario 2 (readinessProbe patch already prepared)
+- Then complete all validation checklist items and remaining failure scenarios
+
+---
+
 ## 2026-06-16 — System Initialization (SCAFFOLDING ONLY — no training done)
 
 **This is NOT a training session. No kubectl, no Terraform, no cluster.**
