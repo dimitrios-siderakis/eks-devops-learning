@@ -24,10 +24,13 @@ Notes: `sources/kodekloud/notes/k8s-crash-course.md`
 
 ---
 
-## Kubernetes for the Absolute Beginners - Hands-on Tutorial
+## Kubernetes for the Absolute Beginners - Hands-on Tutorial (63% / 36 of 57 lessons as of 2026-06-19)
 
-- [x] Kubernetes Concepts (module) — completed 2026-06-17
-- [x] Kubernetes Concepts — Pods, Re... (65% / 11 of 17 lessons) — IN PROGRESS 2026-06-19
+- [x] Introduction (2 lessons)
+- [x] Kubernetes Overview (8 lessons) — completed 2026-06-19
+- [x] Kubernetes Concepts (5 lessons) — completed 2026-06-17
+- [x] YAML Introduction (2 lessons) — completed 2026-06-19
+- [x] Kubernetes Concepts - Pods, ReplicaSets, Deployments (17 lessons) — completed 2026-06-19
   - [x] Pods with YAML
   - [x] Demo - Pods with YAML
   - [x] Demo - YAML Tips
@@ -39,21 +42,20 @@ Notes: `sources/kodekloud/notes/k8s-crash-course.md`
   - [x] Lab Solution
   - [x] Deployments
   - [x] Demo: Deployments
-  - [ ] Labs: Deployments (resume next session)
-- [ ] Core Concepts (Pods, ReplicaSets, Deployments)
-- [ ] Services
-- [ ] Namespaces
-- [ ] Imperative vs Declarative
-- [ ] Manual Scheduling
-- [ ] Labels and Selectors
-- [ ] Resource Limits
-- [ ] DaemonSets
-- [ ] Static Pods
-- [ ] ConfigMaps
-- [ ] Secrets
-- [ ] Init Containers
-- [ ] Self-Healing
-- [ ] Rolling Updates
+  - [x] Labs: Deployments
+  - [x] Lab Solution
+  - [x] Deployments - Update and Rollback
+  - [x] Demo - Deployments - Update and Rollback
+  - [x] Lab: Practice Test Rolling Updates and Rollbacks
+  - [x] Lab Solution
+- [x] Networking in Kubernetes (1 lesson) — completed 2026-06-19
+- [ ] Services (6 lessons) — in progress (1/6 lessons)
+- [ ] Microservices Architecture (5 lessons)
+- [ ] Kubernetes on the Cloud (4 lessons)
+- [ ] Conclusion (1 lesson)
+- [ ] Appendix (6 lessons)
+
+Next recommended order: Services -> Microservices Architecture -> Kubernetes on the Cloud
 
 ## CKA
 

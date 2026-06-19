@@ -39,7 +39,7 @@
 
 ---
 
-## 2026-06-19 — KodeKloud catch-up: ReplicaSets + Deployments partial
+## 2026-06-19 — KodeKloud catch-up: 63% complete (36/57)
 
 **Lab:** none  
 **Time spent:** not logged  
@@ -47,19 +47,19 @@
 
 **What was done:**
 - Continued KodeKloud "Kubernetes for the Absolute Beginners - Hands-on Tutorial"
-- Completed lessons: Replication Controllers and ReplicaSets, Demo - ReplicaSets, Labs: Replica Sets, Lab Solution, Deployments, Demo: Deployments
-- Course progress now at 18/57 lessons overall; current module at 11/17 lessons
-- Updated `sources/kodekloud/notes/k8s-beginners.md` with ReplicaSets and Deployments notes during study
+- Confirmed completed modules: Introduction, Kubernetes Overview, Kubernetes Concepts, YAML Introduction, Kubernetes Concepts - Pods/ReplicaSets/Deployments, Networking in Kubernetes
+- Started Services module (1 of 6 lessons complete)
+- Course progress now at 36/57 lessons (63%)
+- Updated KodeKloud tracking files in repo to match current course UI state
 
 **Blocker / decision:**
-- Stopping for the day due to fatigue; do not continue into more hands-on work tonight
+- Stopping for the day after progress update; resume with Services next session
 
 **Skills updated:** none (theory progressing, but no repo lab closed yet)
 
 **Next action:**
-- Resume KodeKloud at `Labs: Deployments`
-- Then complete: Lab Solution → Deployments Update and Rollback → Demo → Practice Test
-- Then continue Resource Limits, Self-Healing, Rolling Updates, and Services
+- Finish Services module (remaining 5 lessons)
+- Continue with Microservices Architecture and Kubernetes on the Cloud
 - Then return to `labs/lab-03-production-deployments` and finish the remaining failure scenarios and validation checklist
 
 ---

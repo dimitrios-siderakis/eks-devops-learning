@@ -1,7 +1,7 @@
 # Kubernetes for the Absolute Beginners - Hands-on Tutorial — Notes
 
 > Course: Kubernetes for the Absolute Beginners - Hands-on Tutorial (KodeKloud)
-> Status: 🔄 IN PROGRESS
+> Status: 🔄 IN PROGRESS — 63% (36/57) as of 2026-06-19; current module: Services (1/6)
 > Previous: Crash Course notes in `k8s-crash-course.md`
 
 ---
@@ -37,19 +37,49 @@ ReplicaSet supports both equality-based and set-based selectors and usually is m
 *kubectl get deployments*
 *kubectl get all*
 
-## Resource Limits
-
-## Self-Healing Applications
-
-## Rolling Updates & Rollbacks
 
 ## Services
+A Service in Kubernetes is an abstraction that provides a stable network endpoint for a group of Pods.
 
-## Namespaces
+Why do Services exist?
 
-## ConfigMaps
+Pods are ephemeral:
 
-## Secrets
+They can be deleted and recreated.
+Their IP addresses can change.
+A Deployment might create multiple replicas of the same application.
 
-## Init Containers
+Instead of connecting directly to Pods, clients connect to a Service, which automatically routes traffic to the available Pods.
 
+
+Deployment
+    ↓
+ ReplicaSet
+    ↓
+    Pods
+      ↑
+      │ (labels)
+      │
+   Service
+
+Deployment manages the Pods.
+ReplicaSet ensures the desired number of Pods exist.
+Service provides stable networking and load balancing to those Pods.
+
+A simple way to remember it:
+
+Deployment = manages application instances
+Service = gives those instances a stable network address
+
+
+Services :
+1. NodePort
+2. ClusterIP
+3. Load Balancer
+
+## Microservices Architecture
+
+## Kubernetes on the Cloud
+
+## Conclusion
+ 
