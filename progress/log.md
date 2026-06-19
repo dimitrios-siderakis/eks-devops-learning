@@ -7,6 +7,28 @@
 
 ---
 
+## 2026-06-16 — System Initialization (SCAFFOLDING ONLY — no training done)
+
+**This is NOT a training session. No kubectl, no Terraform, no cluster.**
+
+**Setup actions (Copilot-assisted):**
+- Initialized workspace structure (goals/, roadmap/, labs/, progress/, notes/, sources/, mappings/)
+- Created `skills_matrix.md` with starting baseline
+- Cloned Nigel Poulton repos into `sources/nigel_poulton/`
+- Analyzed repos → generated `mappings/k8s_learning_map.md`
+- Scaffolded labs 01–10 (Terraform + Kubernetes manifests, failure scenarios, validation checklists)
+- Created Phase 1 roadmap (`roadmap/eks-2-week-focused.md`) and Phase 2 roadmap (`roadmap/eks-4-week-roadmap.md`)
+- Initialized `sources/kodekloud/` structure (courses.md, progress.md, notes stubs)
+- Reviewed and improved all labs; upgraded lab-06 to production-grade
+
+**Starting baseline (unchanged from initial state):**
+- AWS: 3 | Terraform: 3 | CI/CD: 3
+- Kubernetes/EKS: 0 — not started
+
+**Next action:** Start Phase 1, Day 1 — provision lab-01 EKS cluster, then run lab-03 Deployments
+
+---
+
 ## 2026-06-17 — Phase 1 Day 1: Cluster setup + Lab 03 partial (PAUSED — theory gap)
 
 **Lab:** lab-03-production-deployments (partial)  
@@ -61,28 +83,6 @@
 - Finish Services module (remaining 5 lessons)
 - Continue with Microservices Architecture and Kubernetes on the Cloud
 - Then return to `labs/lab-03-production-deployments` and finish the remaining failure scenarios and validation checklist
-
----
-
-## 2026-06-16 — System Initialization (SCAFFOLDING ONLY — no training done)
-
-**This is NOT a training session. No kubectl, no Terraform, no cluster.**
-
-**Setup actions (Copilot-assisted):**
-- Initialized workspace structure (goals/, roadmap/, labs/, progress/, notes/, sources/, mappings/)
-- Created `skills_matrix.md` with starting baseline
-- Cloned Nigel Poulton repos into `sources/nigel_poulton/`
-- Analyzed repos → generated `mappings/k8s_learning_map.md`
-- Scaffolded labs 01–10 (Terraform + Kubernetes manifests, failure scenarios, validation checklists)
-- Created Phase 1 roadmap (`roadmap/eks-2-week-focused.md`) and Phase 2 roadmap (`roadmap/eks-4-week-roadmap.md`)
-- Initialized `sources/kodekloud/` structure (courses.md, progress.md, notes stubs)
-- Reviewed and improved all labs; upgraded lab-06 to production-grade
-
-**Starting baseline (unchanged from initial state):**
-- AWS: 3 | Terraform: 3 | CI/CD: 3
-- Kubernetes/EKS: 0 — not started
-
-**Next action:** Start Phase 1, Day 1 — provision lab-01 EKS cluster, then run lab-03 Deployments
 
 ---
 
