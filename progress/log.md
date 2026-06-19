@@ -39,6 +39,31 @@
 
 ---
 
+## 2026-06-19 — KodeKloud catch-up: ReplicaSets + Deployments partial
+
+**Lab:** none  
+**Time spent:** not logged  
+**Cluster:** none used for repo labs today
+
+**What was done:**
+- Continued KodeKloud "Kubernetes for the Absolute Beginners - Hands-on Tutorial"
+- Completed lessons: Replication Controllers and ReplicaSets, Demo - ReplicaSets, Labs: Replica Sets, Lab Solution, Deployments, Demo: Deployments
+- Course progress now at 18/57 lessons overall; current module at 11/17 lessons
+- Updated `sources/kodekloud/notes/k8s-beginners.md` with ReplicaSets and Deployments notes during study
+
+**Blocker / decision:**
+- Stopping for the day due to fatigue; do not continue into more hands-on work tonight
+
+**Skills updated:** none (theory progressing, but no repo lab closed yet)
+
+**Next action:**
+- Resume KodeKloud at `Labs: Deployments`
+- Then complete: Lab Solution → Deployments Update and Rollback → Demo → Practice Test
+- Then continue Resource Limits, Self-Healing, Rolling Updates, and Services
+- Then return to `labs/lab-03-production-deployments` and finish the remaining failure scenarios and validation checklist
+
+---
+
 ## 2026-06-16 — System Initialization (SCAFFOLDING ONLY — no training done)
 
 **This is NOT a training session. No kubectl, no Terraform, no cluster.**
