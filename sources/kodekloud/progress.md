@@ -24,13 +24,13 @@ Notes: `sources/kodekloud/notes/k8s-crash-course.md`
 
 ---
 
-## Kubernetes for the Absolute Beginners - Hands-on Tutorial (63% / 36 of 57 lessons as of 2026-06-19)
+## Kubernetes for the Absolute Beginners - Hands-on Tutorial ✅ COMPLETED 2026-06-20 (100% / 57 of 57 lessons)
 
-- [x] Introduction (2 lessons)
-- [x] Kubernetes Overview (8 lessons) — completed 2026-06-19
+- [x] Introduction (2 lessons) — completed 2026-06-20
+- [x] Kubernetes Overview (8 lessons) — completed 2026-06-20
 - [x] Kubernetes Concepts (5 lessons) — completed 2026-06-17
-- [x] YAML Introduction (2 lessons) — completed 2026-06-19
-- [x] Kubernetes Concepts - Pods, ReplicaSets, Deployments (17 lessons) — completed 2026-06-19
+- [x] YAML Introduction (2 lessons) — completed 2026-06-20
+- [x] Kubernetes Concepts - Pods, ReplicaSets, Deployments (17 lessons) — completed 2026-06-20
   - [x] Pods with YAML
   - [x] Demo - Pods with YAML
   - [x] Demo - YAML Tips
@@ -48,14 +48,33 @@ Notes: `sources/kodekloud/notes/k8s-crash-course.md`
   - [x] Demo - Deployments - Update and Rollback
   - [x] Lab: Practice Test Rolling Updates and Rollbacks
   - [x] Lab Solution
-- [x] Networking in Kubernetes (1 lesson) — completed 2026-06-19
-- [ ] Services (6 lessons) — in progress (1/6 lessons)
-- [ ] Microservices Architecture (5 lessons)
-- [ ] Kubernetes on the Cloud (4 lessons)
-- [ ] Conclusion (1 lesson)
-- [ ] Appendix (6 lessons)
+- [x] Networking in Kubernetes (1 lesson) — completed 2026-06-20
+- [x] Services (6 lessons) — completed 2026-06-20
+- [x] Microservices Architecture (5 lessons) — completed 2026-06-20
+- [x] Kubernetes on the Cloud (4 lessons) — completed 2026-06-20
+- [x] Conclusion (1 lesson) — completed 2026-06-20
+- [x] Appendix (6 lessons) — completed 2026-06-20
 
-Next recommended order: Services -> Microservices Architecture -> Kubernetes on the Cloud
+Notes: `sources/kodekloud/notes/k8s-beginners.md`
+
+## Kubernetes and Cloud-Native Associate (KCNA) (0% / 0 of 105 lessons)
+
+- [ ] Introduction (3 lessons)
+- [ ] Kubernetes Fundamentals (9 lessons)
+- [ ] Kubernetes Resources (15 lessons)
+- [ ] Scheduling (12 lessons)
+- [ ] Container Orchestration - Security (13 lessons)
+- [ ] Container Orchestration - Networking (6 lessons)
+- [ ] Container Orchestration - Storage (10 lessons)
+- [ ] Cloud Native Architecture (9 lessons)
+- [ ] Cloud Native Observability (12 lessons)
+- [ ] Cloud Native Application Delivery (9 lessons)
+- [ ] Mock Exams (5 lessons)
+- [ ] Conclusion (2 lessons)
+
+Next recommended order: Start Introduction -> Kubernetes Fundamentals -> continue through all modules
+
+Notes: `sources/kodekloud/notes/kcna.md`
 
 ## CKA
 

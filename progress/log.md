@@ -86,6 +86,32 @@
 
 ---
 
+## 2026-06-20 — KodeKloud Beginner Course Completion + KCNA Prep
+
+**Lab:** none (pure theory completion)  
+**Time spent:** not logged  
+**Cluster:** none used
+
+**What was done:**
+- Completed entire "Kubernetes for the Absolute Beginners - Hands-on Tutorial" course
+- All 57 lessons completed: Introduction, Overview, Concepts, YAML, Pods/ReplicaSets/Deployments, Networking, Services, Microservices Architecture, Kubernetes on the Cloud, Conclusion, Appendix
+- Updated `sources/kodekloud/progress.md` to reflect 100% completion
+- Added KCNA (Kubernetes and Cloud-Native Associate) course structure to progress tracker
+- Total KCNA course: 105 lessons across 12 modules
+
+**Blocker / decision:**
+- Theory gap fully resolved; ready to execute hands-on labs
+- Transition to KCNA course preparation and lab-03 validation
+
+**Skills updated:** none (awaiting lab-03 execution to validate and raise skill levels)
+
+**Next action:**
+- Execute `labs/lab-03-production-deployments` end-to-end (remaining failure scenarios + validation checklist)
+- Upon lab-03 completion, begin KCNA course or move to next lab in sequence
+- Decision point: KCNA first (deep cert prep) vs. lab-04+ (hands-on learning)
+
+---
+
 <!-- TEMPLATE — copy this block for each session
 ## YYYY-MM-DD — [Lab title]
 
