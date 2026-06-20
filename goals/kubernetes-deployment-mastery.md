@@ -1,0 +1,187 @@
+# Kubernetes Deployment Mastery Objective
+
+**Status:** Active  
+**Priority:** Medium  
+**Review Date:** 30 Jun 2025  
+**End Date:** 31 Dec 2025  
+
+---
+
+## Objective Summary
+
+Progress on Kubernetes know-how: Work more on issues, deployments, and investigations on Kubernetes. This goes without saying — would be day to day job and need to excel eventually on this. In parallel with this, we have to document key tasks around it.
+
+---
+
+## Task Breakdown (1/7 complete)
+
+### 1. ✅ Core Concepts: Pods, Services, Deployments, Namespaces, ConfigMaps, Replication
+
+**Status:** COMPLETED  
+**Completion Date:** 2026-06-20  
+**Source:** Kubernetes for the Absolute Beginners - Hands-on Tutorial (KodeKloud)  
+**Details:**
+- Pods with YAML
+- ReplicaSets and Replication Controllers
+- Deployments with rolling updates and rollbacks
+- Services (NodePort, ClusterIP, LoadBalancer)
+- Namespaces
+- ConfigMaps overview
+
+**Evidence:** [sources/kodekloud/progress.md](sources/kodekloud/progress.md) — 57/57 lessons completed
+
+---
+
+### 2. [ ] Containerization: Docker, Container Images, Container Registries
+
+**Status:** NOT STARTED  
+**Target Date:** 2026-07-10  
+**Source:** KCNA - Kubernetes Fundamentals module  
+**Linked Labs:** N/A (theory-only)  
+**Progress:** 0/9 lessons  
+**Key Topics:**
+- What are Containers?
+- Demo - Docker
+- Container Orchestration
+- Runtime - CRI
+- Docker vs ContainerD
+- Quiz - Kubernetes Fundamentals
+- Notes available at KodeKloud Notes
+
+**Next Action:** Begin KCNA course, complete Kubernetes Fundamentals module
+
+---
+
+### 3. [ ] Networking: Services, Service Discovery, Ingress Controllers, Network Policies
+
+**Status:** NOT STARTED  
+**Target Date:** 2026-07-25  
+**Source:** KCNA - Container Orchestration (Networking) module + hands-on labs  
+**Linked Labs:** lab-02 (EKS Networking & Ingress), lab-07 (Service Discovery & Network Policies), lab-09 (Ingress ALB Deep Dive)  
+**Progress:** 0/6 lessons  
+**Key Topics:**
+- Cluster Networking
+- Pod Networking
+- CNI in Kubernetes
+- DNS in Kubernetes
+- Ingress
+- Quiz - Networking
+
+**Dependency:** Must complete Task 1 (✅ done) and begin lab-02
+
+---
+
+### 4. [ ] Configuration Management: Helm, Templating, Package Management
+
+**Status:** NOT STARTED  
+**Target Date:** 2026-08-10  
+**Source:** KodeKloud "Helm for Beginners" course  
+**Linked Labs:** lab-09 (Ingress ALB), lab-10 (Karpenter Spot)  
+**Progress:** 0/course  
+**Key Topics:**
+- Helm basics
+- Charts and templates
+- Package management
+- Helm workflows
+
+**Dependency:** Complete Task 1 + networking fundamentals
+
+---
+
+### 5. [ ] Troubleshooting & Debugging: kubectl Commands, Pod Logs, Events, Descriptions
+
+**Status:** IN PROGRESS  
+**Target Date:** 2026-07-20  
+**Source:** Hands-on labs (failure scenarios and validation checklists)  
+**Linked Labs:** lab-03 (Production Deployments - remaining scenarios), lab-04, lab-05, lab-06  
+**Progress:** 0/6 labs  
+**Key Topics:**
+- kubectl explain command
+- kubectl apply command
+- Kubernetes Namespaces
+- Pod logs (kubectl logs)
+- Events and descriptions (kubectl describe)
+- Failure scenario investigation
+- Root cause analysis
+
+**Next Action:** Execute lab-03 end-to-end with remaining failure scenarios
+
+---
+
+### 6. [ ] Best Practices: Resource Management, Pod Design Patterns, Security Best Practices
+
+**Status:** NOT STARTED  
+**Target Date:** 2026-09-15  
+**Source:** KCNA (Cloud Native Architecture, Observability, Security) + hands-on labs  
+**Linked Labs:** lab-04 (ConfigMaps & Secrets), lab-05 (StatefulSet & EBS), lab-06 (Init & Sidecar), lab-08 (Pod Security & Kyverno)  
+**Progress:** 0/labs  
+**Key Topics:**
+- Resource limits and requests
+- Pod disruption budgets (PDB)
+- Health checks (liveness, readiness)
+- Stateful applications
+- Security best practices
+- Pod security policies
+
+**Dependency:** Complete Task 1 + Task 5
+
+---
+
+### 7. [ ] Training Completion: KCNA Certification Readiness
+
+**Status:** NOT STARTED  
+**Target Date:** 2026-08-31  
+**Source:** KCNA full course (105 lessons) + Mock exams  
+**Progress:** 0/105 lessons  
+**Key Modules:**
+- Introduction (3)
+- Kubernetes Fundamentals (9)
+- Kubernetes Resources (15)
+- Scheduling (12)
+- Container Orchestration - Security (13)
+- Container Orchestration - Networking (6)
+- Container Orchestration - Storage (10)
+- Cloud Native Architecture (9)
+- Cloud Native Observability (12)
+- Cloud Native Application Delivery (9)
+- Mock Exams (5)
+- Conclusion (2)
+
+**Next Action:** Start KCNA course after lab-03 completion
+
+---
+
+## Progress Summary
+
+| Task | Status | Completion % | Target Date |
+|------|--------|--------------|-------------|
+| 1. Core Concepts | ✅ COMPLETED | 100% | 2026-06-20 |
+| 2. Containerization | NOT STARTED | 0% | 2026-07-10 |
+| 3. Networking | NOT STARTED | 0% | 2026-07-25 |
+| 4. Config Management | NOT STARTED | 0% | 2026-08-10 |
+| 5. Troubleshooting | IN PROGRESS | 0% | 2026-07-20 |
+| 6. Best Practices | NOT STARTED | 0% | 2026-09-15 |
+| 7. Training (KCNA) | NOT STARTED | 0% | 2026-08-31 |
+
+**Overall Progress:** 1/7 tasks completed (14%)
+
+---
+
+## Success Criteria
+
+Each task is considered complete when:
+1. All theory lessons in the source course are finished (✅ marked)
+2. Related hands-on labs have passing validation checklists
+3. Failure scenarios have been investigated and documented
+4. Notes have been taken and are available in the repo
+
+---
+
+## Update Log
+
+**2026-06-20**
+- Created objective file
+- Marked Task 1 (Core Concepts) as COMPLETED
+- Linked all tasks to KodeKloud courses and hands-on labs
+- Set target dates for remaining 6 tasks
+- Scheduled lab-03 execution as next action
