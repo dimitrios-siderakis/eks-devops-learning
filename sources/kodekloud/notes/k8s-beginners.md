@@ -8,9 +8,11 @@
 
 ## Kubernetes Concepts
 
-Commands:
-**kubectl run nginx --image nginx**
-**kubectl get pods**
+Common commands:
+```bash
+kubectl run nginx --image nginx
+kubectl get pods
+```
 
 ---
 
@@ -21,21 +23,25 @@ The Replication Controller can help by automatically bringing up a new pod when 
 Similar terms Replication Controller & ReplicaSet.
 Both have the same purpose but are not the same. Replication Controller is the older technology that is replaced by ReplicaSet.
 
-ReplicaSet supports both equality-based and set-based selectors and usually is managed automatically by a Kubernetes Deployment. ReplicaSet must have the selector 
+ReplicaSet supports both equality-based and set-based selectors and usually is managed automatically by a Kubernetes Deployment. ReplicaSet must have the selector.
 
-*kubectl create -f replicaset-definition.yml*
-*kubectl get replicatset*
-*kubectl delete replicateset myapp-replicaset*
-*kubectl replace -f replicaset-definition.yml*
-*kubectl scale -replicas=6 -f replicaset-definition.yml*
-*kubectl edit replicaset myapp-replicaset*
+```bash
+kubectl create -f replicaset-definition.yml
+kubectl get replicatset
+kubectl delete replicateset myapp-replicaset
+kubectl replace -f replicaset-definition.yml
+kubectl scale -replicas=6 -f replicaset-definition.yml
+kubectl edit replicaset myapp-replicaset
+```
 
 
 ## Deployments
 
-*kubectl create -f deployment-definition.yml*
-*kubectl get deployments*
-*kubectl get all*
+```bash
+kubectl create -f deployment-definition.yml
+kubectl get deployments
+kubectl get all
+```
 
 
 ## Services
