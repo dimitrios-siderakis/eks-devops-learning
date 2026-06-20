@@ -1,9 +1,10 @@
 # Progress Log
 
 > Format per session: date · lab(s) worked · skills updated · blockers · next action
+> Presentation rule: keep one consolidated entry per date and append same-day updates in execution order.
 >
-> **Current status (2026-06-20): PHASE 1 IN PROGRESS — Day 2 partial complete (lab-04 A/B done), Part C blocked by sandbox IAM policy.**  
-> Lab-03 is closed. Lab-04 Part A and B are validated on local cluster. Part C requires AWS permissions (`iam:PassRole`) not available in the current KodeKloud sandbox.
+> **Current status (2026-06-20): PHASE 1 IN PROGRESS — Day 2 complete for local scope; Lab-04 Part C deferred due to sandbox IAM policy.**  
+> Lab-03 is closed. Lab-04 Part A and B are validated on local cluster. Part C is deferred until an AWS account/sandbox with `iam:PassRole` is available.
 
 ---
 
@@ -86,96 +87,57 @@
 
 ---
 
-## 2026-06-20 — KodeKloud Beginner Course Completion + KCNA Prep
+## 2026-06-20 — Consolidated Daily Progress (theory + labs + session restarts)
 
-**Lab:** none (pure theory completion)  
+**Labs / tracks worked:**
+- KodeKloud Beginners (course completion)
+- lab-03-production-deployments (completed)
+- lab-04-configmaps-secrets-manager (Part A/B completed, Part C deferred)
+- KCNA theory (started; Fundamentals in progress)
+
 **Time spent:** not logged  
-**Cluster:** none used
+**Clusters used:** Rancher Desktop (local, k3s) + KodeKloud AWS sandbox (Terraform preflight)
 
-**What was done:**
-- Completed entire "Kubernetes for the Absolute Beginners - Hands-on Tutorial" course
-- All 57 lessons completed: Introduction, Overview, Concepts, YAML, Pods/ReplicaSets/Deployments, Networking, Services, Microservices Architecture, Kubernetes on the Cloud, Conclusion, Appendix
-- Updated `sources/kodekloud/progress.md` to reflect 100% completion
-- Added KCNA (Kubernetes and Cloud-Native Associate) course structure to progress tracker
-- Total KCNA course: 105 lessons across 12 modules
+**Execution timeline (in order):**
+1. Completed the full KodeKloud Beginners course (57/57 lessons).
+2. Executed lab-03 end-to-end:
+   - rollout/rollback verified
+   - bad-image failure diagnosed and recovered
+   - readiness/liveness failure scenarios completed and recovered
+   - PDB behavior verified under drain
+3. Executed lab-04 Part A/B:
+   - ConfigMap env and file injection validated
+   - immutable ConfigMap rejection validated
+   - native Secret decode/injection validated
+4. Attempted AWS-backed prerequisites for lab-04 Part C:
+   - blocked by sandbox Organizations policy (`iam:PassRole`)
+   - Terraform resources cleaned up and Part C deferred
+5. Started KCNA:
+   - Introduction completed (3/3)
+   - Kubernetes Fundamentals progressed to 6/9 lessons (67%)
+   - notes/progress trackers updated
 
-**Blocker / decision:**
-- Theory gap fully resolved; ready to execute hands-on labs
-- Transition to KCNA course preparation and lab-03 validation
-
-**Skills updated:** none (awaiting lab-03 execution to validate and raise skill levels)
-
-**Next action:**
-- Execute `labs/lab-03-production-deployments` end-to-end (remaining failure scenarios + validation checklist)
-- Upon lab-03 completion, begin KCNA course or move to next lab in sequence
-- Decision point: KCNA first (deep cert prep) vs. lab-04+ (hands-on learning)
-
----
-
-## 2026-06-20 — Lab-03 execution: rollout, rollback, probes, and PDB behavior
-
-**Lab:** lab-03-production-deployments  
-**Time spent:** not logged  
-**Cluster:** Rancher Desktop (local, k3s)
-
-**What was done:**
-- Re-established baseline manifests and verified service, HPA, and PDB health
-- Completed clean v2 rolling update and successful rollout verification
-- Injected bad image and observed stalled rollout (`ImagePullBackOff` + progress deadline exceeded)
-- Executed rollback and confirmed deployment recovered
-- Ran node drain test and confirmed PDB enforcement (`Cannot evict pod as it would violate the pod's disruption budget`)
-- Completed failure scenario 1: request/metrics relationship validated (assumed completed)
-- Completed failure scenario 2: readiness path 404, endpoint reduction, recovery
-- Completed failure scenario 3: aggressive liveness + restart churn, recovery to conservative defaults
-- Attempted failure scenario 4 (PDB deadlock); not reproducible in this environment with current controller behavior
-
-**Blocker / decision:**
-- No blocking issue; cluster returned to healthy state with original lab guardrails restored
+**Blockers / decisions:**
+- AWS sandbox restrictions prevent EKS provisioning and lab-04 Part C execution (`iam:PassRole` denied).
+- Decision: treat Day 2 as complete for local scope, defer AWS-only Part C, continue theory/local progression.
 
 **Skills updated:**
 - Deployments / ReplicaSets: 0 -> 2
 - Resource requests/limits & QoS: 0 -> 2
 - Horizontal Pod Autoscaler: 0 -> 2
 - Pod Disruption Budgets: 0 -> 2
-
-**Next action:**
-- Proceed to Day 2 / `lab-04-configmaps-secrets-manager`
-
----
-
-## 2026-06-20 — Lab-04 execution (partial): ConfigMaps + Native Secrets validated, AWS CSI blocked
-
-**Lab:** lab-04-configmaps-secrets-manager (Part A + Part B complete, Part C blocked)  
-**Time spent:** not logged  
-**Cluster:** Rancher Desktop (local, k3s) + KodeKloud AWS sandbox (Terraform preflight)
-
-**What was done:**
-- Completed Part A ConfigMaps validation:
-  - env var injection verified (`FIRSTNAME`, `LASTNAME`)
-  - file mount verified (`/etc/config/app.conf`)
-  - immutable ConfigMap patch correctly rejected
-- Completed Part B Native Secrets validation:
-  - secret decode proved base64-only (`Password123%`)
-  - pod env injection verified (`password=Password123`)
-- Added command usage notes in `notes/lab-04.md` for `kubectl patch` vs `kubectl edit` vs `kubectl apply`
-- Standardized Terraform/AWS command patterns to explicit sandbox profile usage in lab docs + workflow
-- Attempted Lab-01 Terraform for Part C prerequisites; blocked by Organizations policy (`iam:PassRole`)
-
-**Blockers / decision:**
-- Blocker: sandbox user denied `iam:PassRole` (and previously restricted KMS APIs)
-- Decision: stop AWS-backed Part C in current sandbox; retry only with sandbox/account where `iam:PassRole` is allowed
-
-**Skills updated:**
 - ConfigMaps & Secrets management: 0 -> 2
 
 **Next action:**
-- Validate next sandbox/account before retrying Lab-04 Part C with this exact first command:
-  - `AWS_PROFILE=kodekloud-sandbox aws --no-cli-pager iam simulate-principal-policy --policy-source-arn arn:aws:iam::<ACCOUNT_ID>:user/<IAM_USER> --action-names iam:PassRole --resource-arns arn:aws:iam::<ACCOUNT_ID>:role/lab01-eks-cluster-role`
+- Continue KCNA Kubernetes Fundamentals with this exact first action:
+  - Open KCNA module and complete `Quiz - Kubernetes Fundamentals`
 
 ---
 
 <!-- TEMPLATE — copy this block for each session
 ## YYYY-MM-DD — [Lab title]
+
+If an entry for this date already exists, append updates to that same date block instead of creating a second block.
 
 **Lab completed:** lab-0X
 **Time spent:** Xh

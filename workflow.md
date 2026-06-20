@@ -114,6 +114,11 @@ Copilot should:
 4. Check consistency across roadmap, goals, and progress files
 5. Then help commit and push
 
+Log presentation rule (MANDATORY):
+1. Keep one consolidated entry per date in `progress/log.md`.
+2. If the same day has multiple restarts/sessions, append to that day entry in chronological order instead of creating a new date block.
+3. Keep one `Next action` at the end of the consolidated date entry.
+
 Commit and push to GitHub:
 
 ```bash

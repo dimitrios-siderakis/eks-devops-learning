@@ -1,7 +1,7 @@
 # Kubernetes and Cloud-Native Associate (KCNA) — Notes
 
 > Course: Kubernetes and Cloud-Native Associate (KCNA) (KodeKloud)
-> Status: 🔄 NOT STARTED — 0% (0/105 lessons) as of 2026-06-20
+> Status: 🔄 IN PROGRESS — 8% (9/115 lessons) as of 2026-06-20
 > Previous: Kubernetes for the Absolute Beginners (completed 2026-06-20)
 > Certification Level: Associate (intermediate)
 
@@ -9,7 +9,7 @@
 
 ## Course Structure Overview
 
-The KCNA course covers 12 modules with 105 total lessons:
+The KCNA course covers 13 modules with 115 total lessons:
 
 1. **Introduction** (3 lessons)
 2. **Kubernetes Fundamentals** (9 lessons)
@@ -26,11 +26,34 @@ The KCNA course covers 12 modules with 105 total lessons:
 
 ---
 
-## Module Notes
+### Introduction (completed)
 
-### Introduction
+- Course Introduction
+- Discount and Certification Details
+- How to Reach Out to KodeKloud
 
-### Kubernetes Fundamentals
+### Kubernetes Fundamentals (in progress: 6/9)
+
+- Completed lessons:
+	- What are Containers?
+	- Demo - Docker
+	- Container Orchestration
+	- Kubernetes Architecture
+	- Runtime - CRI
+	- Docker vs ContainerD
+- Pending in this module:
+	- Quiz - Kubernetes Fundamentals
+	- Notes available at KodeKloud Notes
+	- Module completion check
+
+Quick notes:
+- Containers package app + dependencies with process isolation and share host kernel.
+- Orchestration solves scaling, healing, rollout, and placement across many containers.
+- Kubernetes architecture: control plane manages desired state; worker nodes run workloads.
+- CRI is the contract between kubelet and container runtime.
+- Docker is a full platform; containerd is runtime-focused and commonly used by Kubernetes.
+
+
 
 ### Kubernetes Resources
 

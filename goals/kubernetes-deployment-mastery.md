@@ -34,11 +34,11 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 
 ### 2. [ ] Containerization: Docker, Container Images, Container Registries
 
-**Status:** NOT STARTED  
+**Status:** IN PROGRESS  
 **Target Date:** 2026-07-10  
 **Source:** KCNA - Kubernetes Fundamentals module  
 **Linked Labs:** N/A (theory-only)  
-**Progress:** 0/9 lessons  
+**Progress:** 6/9 lessons  
 **Key Topics:**
 - What are Containers?
 - Demo - Docker
@@ -48,7 +48,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 - Quiz - Kubernetes Fundamentals
 - Notes available at KodeKloud Notes
 
-**Next Action:** Begin KCNA course, complete Kubernetes Fundamentals module
+**Next Action:** Complete `Quiz - Kubernetes Fundamentals` and finalize module notes in `sources/kodekloud/notes/kcna.md`
 
 ---
 
@@ -110,9 +110,9 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 - Failure scenario 2 (readiness 404) completed and recovered
 - Failure scenario 3 (aggressive liveness) completed and recovered
 - lab-04 Part A/B completed: immutable ConfigMap behavior validated, native Secret decode/injection validated
-- AWS sandbox blocker diagnosed for Part C prerequisites (`iam:PassRole` denied by Organizations policy)
+- AWS sandbox blocker diagnosed for Part C prerequisites (`iam:PassRole` denied by Organizations policy); Part C intentionally deferred
 
-**Next Action:** Re-run AWS sandbox permission preflight before retrying lab-04 Part C: `AWS_PROFILE=kodekloud-sandbox aws --no-cli-pager iam simulate-principal-policy --policy-source-arn arn:aws:iam::<ACCOUNT_ID>:user/<IAM_USER> --action-names iam:PassRole --resource-arns arn:aws:iam::<ACCOUNT_ID>:role/lab01-eks-cluster-role`
+**Next Action:** Execute Day 3 lab on the local cluster: `kubectl apply -f labs/lab-07-service-discovery-netpol/k8s/`
 
 ---
 
@@ -137,10 +137,10 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 
 ### 7. [ ] Training Completion: KCNA Certification Readiness
 
-**Status:** NOT STARTED  
+**Status:** IN PROGRESS  
 **Target Date:** 2026-08-31  
-**Source:** KCNA full course (105 lessons) + Mock exams  
-**Progress:** 0/105 lessons  
+**Source:** KCNA full course (115 lessons) + Mock exams  
+**Progress:** 9/115 lessons  
 **Key Modules:**
 - Introduction (3)
 - Kubernetes Fundamentals (9)
@@ -164,12 +164,12 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 | Task | Status | Completion % | Target Date |
 |------|--------|--------------|-------------|
 | 1. Core Concepts | ✅ COMPLETED | 100% | 2026-06-20 |
-| 2. Containerization | NOT STARTED | 0% | 2026-07-10 |
+| 2. Containerization | IN PROGRESS | 67% | 2026-07-10 |
 | 3. Networking | NOT STARTED | 0% | 2026-07-25 |
 | 4. Config Management | NOT STARTED | 0% | 2026-08-10 |
 | 5. Troubleshooting | IN PROGRESS | 17% | 2026-07-20 |
 | 6. Best Practices | NOT STARTED | 0% | 2026-09-15 |
-| 7. Training (KCNA) | NOT STARTED | 0% | 2026-08-31 |
+| 7. Training (KCNA) | IN PROGRESS | 8% | 2026-08-31 |
 
 **Overall Progress:** 1/7 tasks completed (14%)
 
@@ -187,14 +187,16 @@ Each task is considered complete when:
 
 ## Update Log
 
-**2026-06-20**
+**2026-06-20 (consolidated):**
 - Created objective file
 - Marked Task 1 (Core Concepts) as COMPLETED
 - Linked all tasks to KodeKloud courses and hands-on labs
 - Set target dates for remaining 6 tasks
 - Scheduled lab-03 execution as next action
-
-**2026-06-20 (later update)**
 - Executed lab-03 end-to-end core flow and validated rollout/rollback/PDB behavior
 - Completed failure scenarios 2 and 3 with full recovery
 - Updated troubleshooting task progress to 1/6 labs
+- Started KCNA course
+- Completed Introduction module (3/3)
+- Progressed Kubernetes Fundamentals to 6/9 lessons (67%)
+- Updated Task 2 to IN PROGRESS and Task 7 to IN PROGRESS

@@ -1,7 +1,7 @@
 # Phase 1: EKS/Kubernetes Fundamentals (2 Weeks)
 
 > Created: 2026-06-16  
-> Status: **IN PROGRESS** — Day 1 completed; Day 2 Part A/B complete; Day 2 Part C blocked by sandbox IAM (`iam:PassRole`)  
+> Status: **IN PROGRESS** — Day 1 completed; Day 2 complete for local scope; Day 3 next  
 > Scope: Kubernetes fundamentals → EKS production capable  
 > Assumes: Lab 01 cluster is provisioned (or use a local kind cluster for Week 1)  
 > Cadence: ~2–3 hours per day
@@ -47,7 +47,7 @@ kubectl apply -f labs/lab-03-production-deployments/k8s/hpa.yaml
 
 ### Day 2 — ConfigMaps, Secrets, Secrets Manager
 
-**Current:** 🟡 Partial complete on 2026-06-20 (Part A + B validated, Part C blocked by AWS sandbox policy)
+**Current:** ✅ Complete for local scope on 2026-06-20 (Part A + B validated; Part C deferred until AWS sandbox/account allows `iam:PassRole`)
 
 **Theory (30 min):** KodeKloud CKA: ConfigMaps + Secrets  
 **Reference:** `sources/nigel_poulton/repo_k8sbook/configmaps/` — read all 6 files  
