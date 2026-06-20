@@ -53,8 +53,8 @@ Network Policies:
 
 ```bash
 cd labs/lab-02-eks-networking-ingress/terraform
-terraform init
-terraform apply
+AWS_PROFILE=kodekloud-sandbox terraform init
+AWS_PROFILE=kodekloud-sandbox terraform apply
 ```
 
 This provisions the IRSA role for the LBC. Then install via Helm:
@@ -67,9 +67,9 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
   --set clusterName=lab01-eks \
   --set serviceAccount.create=true \
-  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=$(terraform output -raw lbc_role_arn) \
+  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=$(AWS_PROFILE=kodekloud-sandbox terraform output -raw lbc_role_arn) \
   --set region=us-east-1 \
-  --set vpcId=$(terraform output -raw vpc_id)
+  --set vpcId=$(AWS_PROFILE=kodekloud-sandbox terraform output -raw vpc_id)
 ```
 
 Verify: `kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller`
@@ -81,7 +81,7 @@ helm install external-dns bitnami/external-dns \
   -n kube-system \
   --set provider=aws \
   --set aws.region=us-east-1 \
-  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=$(terraform output -raw externaldns_role_arn) \
+  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=$(AWS_PROFILE=kodekloud-sandbox terraform output -raw externaldns_role_arn) \
   --set domainFilters[0]=lab.yourdomain.com \
   --set policy=sync
 ```
@@ -165,7 +165,7 @@ Apply `k8s/network-policies.yaml` and forget to apply the allow policy for produ
 kubectl delete -f k8s/
 helm uninstall aws-load-balancer-controller -n kube-system
 helm uninstall external-dns -n kube-system
-terraform destroy
+AWS_PROFILE=kodekloud-sandbox terraform destroy
 ```
 
 ---

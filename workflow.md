@@ -51,6 +51,33 @@ Rules for session start:
 2. Copilot must return a recommendation, not a menu of five options.
 3. Copilot must include the exact first command to run.
 4. Manually override only if you have a strong reason.
+5. If the task includes Terraform or AWS CLI, run daily sandbox preflight first.
+
+Daily Terraform sandbox preflight (MANDATORY on any new Terraform day):
+1. Regenerate/restart KodeKloud AWS sandbox credentials.
+2. Update `~/.aws/credentials` profile `kodekloud-sandbox`.
+3. Verify access before any Terraform command:
+
+```bash
+aws sts get-caller-identity --profile kodekloud-sandbox
+```
+
+4. Verify EKS prerequisite IAM permission (required for cluster creation):
+
+```bash
+AWS_PROFILE=kodekloud-sandbox aws --no-cli-pager iam simulate-principal-policy \
+  --policy-source-arn arn:aws:iam::<ACCOUNT_ID>:user/<IAM_USER> \
+  --action-names iam:PassRole \
+  --resource-arns arn:aws:iam::<ACCOUNT_ID>:role/lab01-eks-cluster-role
+```
+
+If `EvalDecision` is not `allowed`, do not run Lab-01 Terraform apply in that sandbox.
+
+Rule: never run Terraform in this repo without explicit sandbox profile:
+
+```bash
+AWS_PROFILE=kodekloud-sandbox terraform <command>
+```
 
 Ask Copilot:
 
@@ -147,6 +174,12 @@ Before executing, confirm these four things:
 2. The success criteria are clear
 3. The first command is known
 4. "Done for this session" is well-defined
+
+If Terraform is involved, confirmation must include this preflight command output:
+
+```bash
+aws sts get-caller-identity --profile kodekloud-sandbox
+```
 
 Expected output from Copilot at this stage:
 - Confirmed task for this session

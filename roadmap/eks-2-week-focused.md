@@ -1,7 +1,7 @@
 # Phase 1: EKS/Kubernetes Fundamentals (2 Weeks)
 
 > Created: 2026-06-16  
-> Status: **IN PROGRESS** — Day 1 completed, Day 2 next  
+> Status: **IN PROGRESS** — Day 1 completed; Day 2 Part A/B complete; Day 2 Part C blocked by sandbox IAM (`iam:PassRole`)  
 > Scope: Kubernetes fundamentals → EKS production capable  
 > Assumes: Lab 01 cluster is provisioned (or use a local kind cluster for Week 1)  
 > Cadence: ~2–3 hours per day
@@ -47,6 +47,8 @@ kubectl apply -f labs/lab-03-production-deployments/k8s/hpa.yaml
 
 ### Day 2 — ConfigMaps, Secrets, Secrets Manager
 
+**Current:** 🟡 Partial complete on 2026-06-20 (Part A + B validated, Part C blocked by AWS sandbox policy)
+
 **Theory (30 min):** KodeKloud CKA: ConfigMaps + Secrets  
 **Reference:** `sources/nigel_poulton/repo_k8sbook/configmaps/` — read all 6 files  
 **Hands-on:**
@@ -62,7 +64,7 @@ kubectl apply -f labs/lab-04-configmaps-secrets-manager/k8s/native-secret.yaml
 kubectl get secret tkb-secret -n config-lab -o jsonpath='{.data.password}' | base64 -d
 
 # Part C (requires Terraform): Secrets Manager CSI
-cd labs/lab-04-configmaps-secrets-manager/terraform && terraform apply
+cd labs/lab-04-configmaps-secrets-manager/terraform && AWS_PROFILE=kodekloud-sandbox terraform init && AWS_PROFILE=kodekloud-sandbox terraform apply
 ```
 
 **Hit deliberately:** Failure Scenario 1 (missing Secrets Manager IAM permission)  

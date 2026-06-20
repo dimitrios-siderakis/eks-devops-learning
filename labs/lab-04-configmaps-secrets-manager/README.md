@@ -58,7 +58,7 @@ Part C — Secrets Manager + CSI Driver (production pattern)
   ```
 - Terraform in `terraform/` to provision the Secrets Manager secret + IRSA role:
   ```bash
-  cd terraform && terraform init && terraform apply
+  cd terraform && AWS_PROFILE=kodekloud-sandbox terraform init && AWS_PROFILE=kodekloud-sandbox terraform apply
   ```
 
 ---
@@ -102,7 +102,7 @@ kubectl exec -n config-lab secret-pod -- cat /etc/tkb/password
 
 ```bash
 # Get IRSA role ARN from Terraform
-CSI_ROLE_ARN=$(cd terraform && terraform output -raw csi_irsa_role_arn)
+CSI_ROLE_ARN=$(cd terraform && AWS_PROFILE=kodekloud-sandbox terraform output -raw csi_irsa_role_arn)
 
 # Annotate the ServiceAccount
 kubectl annotate sa csi-app-sa -n config-lab \
@@ -126,6 +126,7 @@ kubectl get secret synced-db-secret -n config-lab \
 ```bash
 # Update the secret in AWS Secrets Manager
 aws secretsmanager update-secret \
+  --profile kodekloud-sandbox \
   --secret-id lab04/db-password \
   --secret-string '{"db-password":"NewSecurePassword456!"}'
 
@@ -146,7 +147,7 @@ Remove `secretsmanager:GetSecretValue` from the IRSA policy.
 ### Failure 2: SecretProviderClass wrong secret name
 Set `objectName` in the SecretProviderClass to a non-existent Secrets Manager secret name.
 - **Symptom:** Pod stuck `ContainerCreating` → `ResourceVersion... failed to get secret`
-- **Fix:** `aws secretsmanager describe-secret --secret-id <name>` to verify ARN; update `objectName`
+- **Fix:** `aws secretsmanager describe-secret --profile kodekloud-sandbox --secret-id <name>` to verify ARN; update `objectName`
 
 ### Failure 3: ConfigMap env var typo in `valueFrom.key`
 Change `configMapKeyRef.key` from `given` to `firstname` (wrong key).

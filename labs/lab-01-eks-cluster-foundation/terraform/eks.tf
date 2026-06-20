@@ -8,14 +8,16 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_kms_key" "eks" {
+  count                   = var.enable_eks_secrets_encryption ? 1 : 0
   description             = "EKS secrets envelope encryption — ${var.cluster_name}"
   deletion_window_in_days = 7
-  enable_key_rotation     = true
+  enable_key_rotation     = var.kms_enable_key_rotation
 }
 
 resource "aws_kms_alias" "eks" {
+  count         = var.enable_eks_secrets_encryption ? 1 : 0
   name          = "alias/${var.cluster_name}-secrets"
-  target_key_id = aws_kms_key.eks.key_id
+  target_key_id = aws_kms_key.eks[0].key_id
 }
 
 resource "aws_eks_cluster" "this" {
@@ -31,11 +33,14 @@ resource "aws_eks_cluster" "this" {
     # public_access_cidrs = ["203.0.113.0/24"]
   }
 
-  encryption_config {
-    provider {
-      key_arn = aws_kms_key.eks.arn
+  dynamic "encryption_config" {
+    for_each = var.enable_eks_secrets_encryption ? [1] : []
+    content {
+      provider {
+        key_arn = aws_kms_key.eks[0].arn
+      }
+      resources = ["secrets"]
     }
-    resources = ["secrets"]
   }
 
   enabled_cluster_log_types = [

@@ -172,15 +172,15 @@ patterns clearly. Once you understand them, the production version combines both
 ```bash
 # 1. Provision IRSA role and CloudWatch log group
 cd labs/lab-06-init-sidecar/terraform
-terraform init
-terraform apply -var="oidc_provider_arn=$(cd ../../lab-01-eks-cluster-foundation/terraform && terraform output -raw oidc_provider_arn)" \
-                -var="oidc_provider_url=$(cd ../../lab-01-eks-cluster-foundation/terraform && terraform output -raw oidc_provider_url)"
+AWS_PROFILE=kodekloud-sandbox terraform init
+AWS_PROFILE=kodekloud-sandbox terraform apply -var="oidc_provider_arn=$(cd ../../lab-01-eks-cluster-foundation/terraform && AWS_PROFILE=kodekloud-sandbox terraform output -raw oidc_provider_arn)" \
+                -var="oidc_provider_url=$(cd ../../lab-01-eks-cluster-foundation/terraform && AWS_PROFILE=kodekloud-sandbox terraform output -raw oidc_provider_url)"
 
 # 2. Annotate the ServiceAccount with the actual role ARN
-$(terraform output -raw annotate_command)
+$(AWS_PROFILE=kodekloud-sandbox terraform output -raw annotate_command)
 # or manually:
 kubectl annotate sa fluent-bit-sa -n init-lab \
-  eks.amazonaws.com/role-arn=$(terraform output -raw fluent_bit_role_arn) --overwrite
+  eks.amazonaws.com/role-arn=$(AWS_PROFILE=kodekloud-sandbox terraform output -raw fluent_bit_role_arn) --overwrite
 
 # 3. Apply the namespace (PSA labels added)
 kubectl apply -f k8s/init-demo-ns.yaml
@@ -204,8 +204,10 @@ kubectl get pdb -n init-lab
 # 9. Verify Fluent Bit shipping logs
 kubectl logs -n init-lab -l app=init-sidecar-app -c fluent-bit --tail=20
 aws logs get-log-events \
+  --profile kodekloud-sandbox \
   --log-group-name /eks/init-lab/app \
   --log-stream-name $(aws logs describe-log-streams \
+    --profile kodekloud-sandbox \
     --log-group-name /eks/init-lab/app \
     --order-by LastEventTime --descending \
     --query 'logStreams[0].logStreamName' --output text)

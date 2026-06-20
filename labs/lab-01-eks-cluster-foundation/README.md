@@ -21,9 +21,12 @@ VPC (3 AZs)
 ## Prerequisites
 
 - AWS CLI configured (`aws sts get-caller-identity` works)
+- Sandbox profile configured and working: `aws sts get-caller-identity --profile kodekloud-sandbox`
 - Terraform >= 1.7
 - kubectl + helm installed
 - An AWS account with permissions to create EKS, VPC, IAM
+
+If using a restricted sandbox account, you also need `iam:PassRole` allowed for the EKS cluster role. If this is denied by Organizations/SCP, Lab 01 apply cannot create EKS in that account.
 
 ## Architecture Decisions (production rationale)
 
@@ -43,15 +46,27 @@ VPC (3 AZs)
 
 ```bash
 cd labs/lab-01-eks-cluster-foundation/terraform
-terraform init
-terraform plan -out=tfplan
-terraform apply tfplan
+AWS_PROFILE=kodekloud-sandbox terraform init
+AWS_PROFILE=kodekloud-sandbox terraform plan -var='enable_eks_secrets_encryption=false' -var='kms_enable_key_rotation=false' -out=tfplan
+AWS_PROFILE=kodekloud-sandbox terraform apply tfplan
+```
+
+If your AWS account allows KMS key management permissions, you can omit these vars and run with defaults.
+
+If apply fails with `AccessDenied` on `iam:PassRole`, verify permission:
+
+```bash
+AWS_PROFILE=kodekloud-sandbox aws --no-cli-pager iam simulate-principal-policy \
+  --policy-source-arn arn:aws:iam::<ACCOUNT_ID>:user/<IAM_USER> \
+  --action-names iam:PassRole \
+  --resource-arns arn:aws:iam::<ACCOUNT_ID>:role/lab01-eks-cluster-role
 ```
 
 ### Step 2: Configure kubectl
 
 ```bash
 aws eks update-kubeconfig \
+  --profile kodekloud-sandbox \
   --region us-east-1 \
   --name lab01-eks \
   --alias lab01
@@ -111,7 +126,7 @@ Intentionally set `subnet_ids` in the node group to public subnets. Nodes will c
 - [ ] All kube-system pods `Running` (no `Pending` or `CrashLoopBackOff`)
 - [ ] IRSA test pod logs show correct role ARN (not node role)
 - [ ] EBS PVC reaches `Bound` state
-- [ ] `aws eks describe-cluster --name lab01-eks` shows `ACTIVE`
+- [ ] `aws eks describe-cluster --profile kodekloud-sandbox --name lab01-eks` shows `ACTIVE`
 - [ ] Control plane logs appear in CloudWatch under `/aws/eks/lab01-eks/cluster`
 
 ---
@@ -120,7 +135,7 @@ Intentionally set `subnet_ids` in the node group to public subnets. Nodes will c
 
 ```bash
 kubectl delete -f k8s/
-terraform destroy
+AWS_PROFILE=kodekloud-sandbox terraform destroy
 ```
 
 > **Warning:** `terraform destroy` will delete the VPC and all subnets. Ensure no other resources depend on it.

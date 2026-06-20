@@ -35,6 +35,7 @@ Scenario:
 - Lab 01 cluster running
 - `helm` installed
 - Terraform in `terraform/` to provision the Karpenter IAM role + SQS queue
+- Sandbox profile configured and working: `aws sts get-caller-identity --profile kodekloud-sandbox`
 
 ---
 
@@ -42,8 +43,8 @@ Scenario:
 
 ```bash
 cd labs/lab-10-karpenter-spot/terraform
-terraform init
-terraform apply
+AWS_PROFILE=kodekloud-sandbox terraform init
+AWS_PROFILE=kodekloud-sandbox terraform apply
 ```
 
 This provisions:
@@ -56,14 +57,14 @@ This provisions:
 ```bash
 export CLUSTER_NAME=lab01-eks
 export KARPENTER_VERSION=1.0.0
-export KARPENTER_ROLE_ARN=$(cd terraform && terraform output -raw karpenter_irsa_role_arn)
+export KARPENTER_ROLE_ARN=$(cd terraform && AWS_PROFILE=kodekloud-sandbox terraform output -raw karpenter_irsa_role_arn)
 
 helm registry logout public.ecr.aws || true
 helm upgrade --install karpenter oci://public.ecr.aws/karpenter/karpenter \
   --version "${KARPENTER_VERSION}" \
   --namespace kube-system \
   --set "settings.clusterName=${CLUSTER_NAME}" \
-  --set "settings.interruptionQueue=$(cd terraform && terraform output -raw sqs_queue_name)" \
+  --set "settings.interruptionQueue=$(cd terraform && AWS_PROFILE=kodekloud-sandbox terraform output -raw sqs_queue_name)" \
   --set controller.resources.requests.cpu=1 \
   --set controller.resources.requests.memory=1Gi \
   --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="${KARPENTER_ROLE_ARN}" \
@@ -106,7 +107,7 @@ helm install aws-node-termination-handler eks/aws-node-termination-handler \
   --namespace kube-system \
   --set enableSpotInterruptionDraining=true \
   --set enableRebalanceMonitoring=true \
-  --set queueURL=$(cd terraform && terraform output -raw sqs_queue_url)
+  --set queueURL=$(cd terraform && AWS_PROFILE=kodekloud-sandbox terraform output -raw sqs_queue_url)
 
 # Simulate interruption manually by draining a Spot node
 SPOT_NODE=$(kubectl get nodes -l karpenter.sh/capacity-type=spot \

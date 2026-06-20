@@ -51,3 +51,15 @@ variable "node_group_max" {
   type        = number
   default     = 6
 }
+
+variable "kms_enable_key_rotation" {
+  description = "Enable KMS key rotation for EKS secrets key. Set false in restricted sandbox accounts."
+  type        = bool
+  default     = true
+}
+
+variable "enable_eks_secrets_encryption" {
+  description = "Enable EKS envelope encryption with a customer-managed KMS key. Set false in restricted sandbox accounts."
+  type        = bool
+  default     = true
+}

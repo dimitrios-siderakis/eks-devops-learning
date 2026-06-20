@@ -109,8 +109,10 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 - Failure scenario 1 (requests/HPA relation) completed (assumed)
 - Failure scenario 2 (readiness 404) completed and recovered
 - Failure scenario 3 (aggressive liveness) completed and recovered
+- lab-04 Part A/B completed: immutable ConfigMap behavior validated, native Secret decode/injection validated
+- AWS sandbox blocker diagnosed for Part C prerequisites (`iam:PassRole` denied by Organizations policy)
 
-**Next Action:** Execute lab-04 and continue incident/debug notes per lab
+**Next Action:** Re-run AWS sandbox permission preflight before retrying lab-04 Part C: `AWS_PROFILE=kodekloud-sandbox aws --no-cli-pager iam simulate-principal-policy --policy-source-arn arn:aws:iam::<ACCOUNT_ID>:user/<IAM_USER> --action-names iam:PassRole --resource-arns arn:aws:iam::<ACCOUNT_ID>:role/lab01-eks-cluster-role`
 
 ---
 

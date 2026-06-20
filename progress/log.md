@@ -2,8 +2,8 @@
 
 > Format per session: date · lab(s) worked · skills updated · blockers · next action
 >
-> **Current status (2026-06-20): PHASE 1 IN PROGRESS — lab-03 closed, day-2 next.**  
-> Lab-03 has been executed and closed. Cluster was cleaned (`kubectl delete ns web`). Skills are now being updated from real hands-on evidence.
+> **Current status (2026-06-20): PHASE 1 IN PROGRESS — Day 2 partial complete (lab-04 A/B done), Part C blocked by sandbox IAM policy.**  
+> Lab-03 is closed. Lab-04 Part A and B are validated on local cluster. Part C requires AWS permissions (`iam:PassRole`) not available in the current KodeKloud sandbox.
 
 ---
 
@@ -140,6 +140,37 @@
 
 **Next action:**
 - Proceed to Day 2 / `lab-04-configmaps-secrets-manager`
+
+---
+
+## 2026-06-20 — Lab-04 execution (partial): ConfigMaps + Native Secrets validated, AWS CSI blocked
+
+**Lab:** lab-04-configmaps-secrets-manager (Part A + Part B complete, Part C blocked)  
+**Time spent:** not logged  
+**Cluster:** Rancher Desktop (local, k3s) + KodeKloud AWS sandbox (Terraform preflight)
+
+**What was done:**
+- Completed Part A ConfigMaps validation:
+  - env var injection verified (`FIRSTNAME`, `LASTNAME`)
+  - file mount verified (`/etc/config/app.conf`)
+  - immutable ConfigMap patch correctly rejected
+- Completed Part B Native Secrets validation:
+  - secret decode proved base64-only (`Password123%`)
+  - pod env injection verified (`password=Password123`)
+- Added command usage notes in `notes/lab-04.md` for `kubectl patch` vs `kubectl edit` vs `kubectl apply`
+- Standardized Terraform/AWS command patterns to explicit sandbox profile usage in lab docs + workflow
+- Attempted Lab-01 Terraform for Part C prerequisites; blocked by Organizations policy (`iam:PassRole`)
+
+**Blockers / decision:**
+- Blocker: sandbox user denied `iam:PassRole` (and previously restricted KMS APIs)
+- Decision: stop AWS-backed Part C in current sandbox; retry only with sandbox/account where `iam:PassRole` is allowed
+
+**Skills updated:**
+- ConfigMaps & Secrets management: 0 -> 2
+
+**Next action:**
+- Validate next sandbox/account before retrying Lab-04 Part C with this exact first command:
+  - `AWS_PROFILE=kodekloud-sandbox aws --no-cli-pager iam simulate-principal-policy --policy-source-arn arn:aws:iam::<ACCOUNT_ID>:user/<IAM_USER> --action-names iam:PassRole --resource-arns arn:aws:iam::<ACCOUNT_ID>:role/lab01-eks-cluster-role`
 
 ---
 
