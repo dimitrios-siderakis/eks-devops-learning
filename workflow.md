@@ -36,37 +36,58 @@ Follow this every session, every time.
 
 ## 🚀 SESSION START (do this first, before anything else)
 
-1. Open `progress/log.md` — read the last entry. What was the next action?
-2. Open `roadmap/eks-2-week-focused.md` — which day are you on? What does it say to do?
-3. Check `skills_matrix.md` — what is still at level 0 that has a lab ready?
-4. Decide on one concrete task. One lab, one concept, one failure scenario. Not three.
+Do not manually inspect every file unless something looks inconsistent.
+
+Instead, ask Copilot to read the source-of-truth files and come back with one recommended next task.
+
+Files Copilot should always review:
+1. `progress/log.md`
+2. `roadmap/eks-2-week-focused.md`
+3. `skills_matrix.md`
+4. Active goal file in `goals/` if one exists for the current focus
+
+Rules for session start:
+1. One task only. One lab, one concept, or one failure scenario.
+2. Copilot must return a recommendation, not a menu of five options.
+3. Copilot must include the exact first command to run.
+4. Manually override only if you have a strong reason.
 
 Ask Copilot:
-```
 
-Session start template (copy/paste):
 ```text
 Session Start Check
-- Current context: <kctx output>
-- Active roadmap phase/day: <phase/day>
-- One task only: <lab/topic/failure>
-- First command to run: <exact command>
-```
-What should I work on today based on:
-- roadmap/eks-2-week-focused.md (Phase 1 — current)
-- roadmap/eks-4-week-roadmap.md (Phase 2 — after Phase 1 complete)
-- skills_matrix.md
+
+Review:
 - progress/log.md
+- roadmap/eks-2-week-focused.md
+- skills_matrix.md
+- relevant file in goals/
+
+Return:
+- current context: <kctx output if relevant>
+- active phase/day
+- what was last completed
+- top 1 recommended next task
+- why this is the priority now
+- exact first command to run
 ```
 
 ---
 
 ## 🏁 SESSION END (do this before closing)
 
-1. Update `progress/log.md` with today's entry (use the template at the bottom of that file)
-2. Update `skills_matrix.md` — change any levels that genuinely changed
-3. Write the "Next action" line — be specific, not vague
-4. Commit and push to GitHub:
+Do not manually close the session file-by-file unless something looks wrong.
+
+Instead, ask Copilot to review the session outcome and propose the closeout updates.
+
+Copilot should:
+1. Propose the `progress/log.md` entry
+2. Propose `skills_matrix.md` changes only where evidence exists
+3. Propose the exact `Next action` line with one exact first command
+4. Check consistency across roadmap, goals, and progress files
+5. Then help commit and push
+
+Commit and push to GitHub:
 
 ```bash
 cd /Users/disi01/Documents/GitHub/Skills-Workspace
@@ -76,8 +97,22 @@ git push
 ```
 
 Ask Copilot:
-```
-Generate a log entry for today's session and tell me which skills_matrix.md levels to update
+
+```text
+Session End Check
+
+Review:
+- progress/log.md
+- skills_matrix.md
+- active roadmap file
+- relevant goal file
+
+Return:
+- proposed log entry
+- exact skill changes with justification
+- confidence (1-5)
+- exact next action line
+- exact first command for next session
 ```
 
 Session end template (copy/paste):
@@ -105,21 +140,19 @@ If any of the above are stale, update them in the same commit.
 
 ## ✅ Step 1 — Decide what to work on
 
-Ask Copilot:
+Use the recommendation returned in `SESSION START`.
 
-What should I work on today based on:
-- roadmap/eks-2-week-focused.md (Phase 1 — current)
-- roadmap/eks-4-week-roadmap.md (Phase 2 — after Phase 1 complete)
-- skills_matrix.md
-- progress/log.md
-- Nigel Poulton sources (examples and concepts)
-- KodeKloud progress (if available)
+Before executing, confirm these four things:
+1. The task is singular and concrete
+2. The success criteria are clear
+3. The first command is known
+4. "Done for this session" is well-defined
 
-Expected output:
-- Clear task with the exact day number from the active roadmap phase
-- Preferably a hands-on lab
-- Focus on weakest skills
-- Use Nigel examples where relevant, extended to real-world scenarios
+Expected output from Copilot at this stage:
+- Confirmed task for this session
+- Success criteria
+- First command to run
+- Stop condition for the session
 
 ---
 
@@ -153,6 +186,12 @@ Each log should include:
 - What failed / was difficult
 - Key learnings
 - Confidence level (1–5)
+- Exact next action with one first command
+
+Rule for `Next action` everywhere in this repo:
+- Must name one concrete next task
+- Must include one exact first command
+- Can include one fallback option only if necessary
 
 ---
 
