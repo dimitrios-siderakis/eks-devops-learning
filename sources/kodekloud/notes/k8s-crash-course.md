@@ -24,13 +24,15 @@ Another node with kubernetes installed on it. The master watches over the nodes 
 
 ##Kubectl commands : 
 
-Kubectl run hello-minikube  #is used to deploy an application on the cluster 
-kubectl cluster-info #is used to get information about the cluster. 
-kubectl get nodes #is used to get information about all nodes in the cluster. 
-kubectl run nginx-pod -image=nginx #is used to create a pod names nginx-pod based on an nginx image
-kubectl get pods -o wide #to  check for the node the pod is placed on.
-kubectl describe pod nginx        # events section is your best debug tool
-kubectl create -f pod-definition.yml # create a pod based on the definition saved in a file 
+```bash
+kubectl run hello-minikube  # is used to deploy an application on the cluster
+kubectl cluster-info  # is used to get information about the cluster
+kubectl get nodes  # is used to get information about all nodes in the cluster
+kubectl run nginx-pod --image=nginx  # is used to create a pod named nginx-pod based on an nginx image
+kubectl get pods -o wide  # to check for the node the pod is placed on
+kubectl describe pod nginx  # events section is your best debug tool
+kubectl create -f pod-definition.yml  # create a pod based on the definition saved in a file
+```
 
 ## Pod
 
