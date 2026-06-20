@@ -112,6 +112,37 @@
 
 ---
 
+## 2026-06-20 — Lab-03 execution: rollout, rollback, probes, and PDB behavior
+
+**Lab:** lab-03-production-deployments  
+**Time spent:** not logged  
+**Cluster:** Rancher Desktop (local, k3s)
+
+**What was done:**
+- Re-established baseline manifests and verified service, HPA, and PDB health
+- Completed clean v2 rolling update and successful rollout verification
+- Injected bad image and observed stalled rollout (`ImagePullBackOff` + progress deadline exceeded)
+- Executed rollback and confirmed deployment recovered
+- Ran node drain test and confirmed PDB enforcement (`Cannot evict pod as it would violate the pod's disruption budget`)
+- Completed failure scenario 2: readiness path 404, endpoint reduction, recovery
+- Completed failure scenario 3: aggressive liveness + restart churn, recovery to conservative defaults
+- Attempted failure scenario 4 (PDB deadlock); not reproducible in this environment with current controller behavior
+
+**Blocker / decision:**
+- No blocking issue; cluster returned to healthy state with original lab guardrails restored
+
+**Skills updated:**
+- Deployments / ReplicaSets: 0 -> 2
+- Resource requests/limits & QoS: 0 -> 2
+- Horizontal Pod Autoscaler: 0 -> 2
+- Pod Disruption Budgets: 0 -> 2
+
+**Next action:**
+- Option A: run failure scenario 1 (requests removed -> HPA `<unknown>`) to complete all scenarios
+- Option B: proceed to lab-04 and return later for scenario 1
+
+---
+
 <!-- TEMPLATE — copy this block for each session
 ## YYYY-MM-DD — [Lab title]
 

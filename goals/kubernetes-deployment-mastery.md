@@ -94,7 +94,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 **Target Date:** 2026-07-20  
 **Source:** Hands-on labs (failure scenarios and validation checklists)  
 **Linked Labs:** lab-03 (Production Deployments - remaining scenarios), lab-04, lab-05, lab-06  
-**Progress:** 0/6 labs  
+**Progress:** 1/6 labs (lab-03 executed)  
 **Key Topics:**
 - kubectl explain command
 - kubectl apply command
@@ -104,7 +104,12 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 - Failure scenario investigation
 - Root cause analysis
 
-**Next Action:** Execute lab-03 end-to-end with remaining failure scenarios
+**Latest Evidence (2026-06-20):**
+- lab-03 core flow completed (rollout, bad-image rollback, PDB drain protection)
+- Failure scenario 2 (readiness 404) completed and recovered
+- Failure scenario 3 (aggressive liveness) completed and recovered
+
+**Next Action:** Continue with lab-04 and maintain incident/debug notes per lab
 
 ---
 
@@ -159,7 +164,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 | 2. Containerization | NOT STARTED | 0% | 2026-07-10 |
 | 3. Networking | NOT STARTED | 0% | 2026-07-25 |
 | 4. Config Management | NOT STARTED | 0% | 2026-08-10 |
-| 5. Troubleshooting | IN PROGRESS | 0% | 2026-07-20 |
+| 5. Troubleshooting | IN PROGRESS | 17% | 2026-07-20 |
 | 6. Best Practices | NOT STARTED | 0% | 2026-09-15 |
 | 7. Training (KCNA) | NOT STARTED | 0% | 2026-08-31 |
 
@@ -185,3 +190,8 @@ Each task is considered complete when:
 - Linked all tasks to KodeKloud courses and hands-on labs
 - Set target dates for remaining 6 tasks
 - Scheduled lab-03 execution as next action
+
+**2026-06-20 (later update)**
+- Executed lab-03 end-to-end core flow and validated rollout/rollback/PDB behavior
+- Completed failure scenarios 2 and 3 with full recovery
+- Updated troubleshooting task progress to 1/6 labs

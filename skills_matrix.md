@@ -1,7 +1,7 @@
 # Skills Matrix
 
-> Updated: 2026-06-16 | Focus: Kubernetes / EKS Production Readiness  
-> Labs scaffolded: 01–10 | Labs completed: 0 (not yet executed against a live cluster)
+> Updated: 2026-06-20 | Focus: Kubernetes / EKS Production Readiness  
+> Labs scaffolded: 01–10 | Labs completed: 1 (lab-03 executed on a live cluster)
 
 Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production capable · `4` Expert / can teach  
 `(s)` = skill covered in a scaffolded lab, ready to execute
@@ -12,17 +12,17 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 
 | Skill | Level | Last Lab | Notes |
 |-------|-------|----------|-------|
-| Pod lifecycle & scheduling | 0 | — | Covered: lab-03(s), lab-06(s) |
-| Deployments / ReplicaSets / DaemonSets | 0 | — | Covered: lab-03(s) |
-| Services (ClusterIP, NodePort, LB) | 0 | — | Covered: lab-02(s), lab-07(s) |
+| Pod lifecycle & scheduling | 1 | lab-03 | Topology spread + scheduler behavior observed during failures |
+| Deployments / ReplicaSets / DaemonSets | 2 | lab-03 | Rolling updates, rollback, and rollout diagnostics completed |
+| Services (ClusterIP, NodePort, LB) | 1 | lab-03 | Service endpoint behavior validated via readiness failures |
 | ConfigMaps & Secrets management | 0 | — | Covered: lab-04(s) |
-| Resource requests/limits & QoS classes | 0 | — | Covered: lab-03(s), lab-08(s) |
+| Resource requests/limits & QoS classes | 2 | lab-03 | HPA dependency on requests validated |
 | RBAC (Roles, ClusterRoles, Bindings) | 0 | — | Gap — no lab yet |
 | Network Policies | 0 | — | Covered: lab-02(s), lab-07(s) |
 | PersistentVolumes / StorageClasses | 0 | — | Covered: lab-05(s) |
-| Horizontal / Vertical Pod Autoscaler | 0 | — | Covered: lab-03(s) |
-| Pod Disruption Budgets | 0 | — | Covered: lab-03(s), lab-05(s) |
-| Taints, Tolerations, Affinity rules | 0 | — | Partially: lab-03 topology spread |
+| Horizontal / Vertical Pod Autoscaler | 2 | lab-03 | HPA behavior observed during rollout and recovery |
+| Pod Disruption Budgets | 2 | lab-03 | Drain protection tested and verified |
+| Taints, Tolerations, Affinity rules | 1 | lab-03 | Topology spread constraints actively exercised |
 | Admission Controllers / Webhooks | 0 | — | Covered: lab-08(s) Kyverno |
 
 ---
@@ -123,7 +123,7 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 |-----|--------|----------------|
 | lab-01 EKS Cluster Foundation | Scaffolded | EKS arch, node groups, IRSA, add-ons, control plane logging |
 | lab-02 Networking & Ingress | Scaffolded | AWS LBC, ALB, ExternalDNS, NetworkPolicies |
-| lab-03 Production Deployments | Scaffolded | Deployments, probes, PDB, HPA, topology spread |
+| lab-03 Production Deployments | Completed | Deployments, probes, PDB, HPA, topology spread |
 | lab-04 ConfigMaps & Secrets Manager | Scaffolded | ConfigMaps, Secrets, CSI driver, IRSA |
 | lab-05 StatefulSet + EBS | Scaffolded | StatefulSets, gp3 StorageClass, PVCs, AZ affinity |
 | lab-06 Init Containers & Sidecar | Scaffolded | Init containers, sidecar pattern, Fluent Bit |
