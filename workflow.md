@@ -43,6 +43,15 @@ Follow this every session, every time.
 
 Ask Copilot:
 ```
+
+Session start template (copy/paste):
+```text
+Session Start Check
+- Current context: <kctx output>
+- Active roadmap phase/day: <phase/day>
+- One task only: <lab/topic/failure>
+- First command to run: <exact command>
+```
 What should I work on today based on:
 - roadmap/eks-2-week-focused.md (Phase 1 — current)
 - roadmap/eks-4-week-roadmap.md (Phase 2 — after Phase 1 complete)
@@ -70,6 +79,27 @@ Ask Copilot:
 ```
 Generate a log entry for today's session and tell me which skills_matrix.md levels to update
 ```
+
+Session end template (copy/paste):
+```text
+Session End Check
+- Validation checklist: <passed/total>
+- Failure scenarios diagnosed without fix-first: <count>
+- Confidence (1-5): <score>
+- Next action (single exact command): <command>
+```
+
+---
+
+## ✅ Accuracy Sync (MANDATORY after each session)
+
+Before committing, ensure these are consistent:
+1. `progress/log.md` current status header matches reality
+2. Active roadmap status reflects current phase/day progress
+3. `skills_matrix.md` levels and "Labs completed" count are updated
+4. Goal progress file reflects current lab completion state
+
+If any of the above are stale, update them in the same commit.
 
 ---
 

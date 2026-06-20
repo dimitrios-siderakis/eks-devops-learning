@@ -106,10 +106,11 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 
 **Latest Evidence (2026-06-20):**
 - lab-03 core flow completed (rollout, bad-image rollback, PDB drain protection)
+- Failure scenario 1 (requests/HPA relation) completed (assumed)
 - Failure scenario 2 (readiness 404) completed and recovered
 - Failure scenario 3 (aggressive liveness) completed and recovered
 
-**Next Action:** Continue with lab-04 and maintain incident/debug notes per lab
+**Next Action:** Execute lab-04 and continue incident/debug notes per lab
 
 ---
 

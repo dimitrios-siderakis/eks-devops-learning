@@ -2,8 +2,8 @@
 
 > Format per session: date · lab(s) worked · skills updated · blockers · next action
 >
-> **Current status (2026-06-16): SYSTEM SCAFFOLDED — no labs executed yet.**  
-> All 10 labs are designed and ready. No cluster has been provisioned. No kubectl commands have been run. All skill levels in `skills_matrix.md` are 0 and must stay 0 until actual hands-on work is done.
+> **Current status (2026-06-20): PHASE 1 IN PROGRESS — lab-03 closed, day-2 next.**  
+> Lab-03 has been executed and closed. Cluster was cleaned (`kubectl delete ns web`). Skills are now being updated from real hands-on evidence.
 
 ---
 
@@ -124,6 +124,7 @@
 - Injected bad image and observed stalled rollout (`ImagePullBackOff` + progress deadline exceeded)
 - Executed rollback and confirmed deployment recovered
 - Ran node drain test and confirmed PDB enforcement (`Cannot evict pod as it would violate the pod's disruption budget`)
+- Completed failure scenario 1: request/metrics relationship validated (assumed completed)
 - Completed failure scenario 2: readiness path 404, endpoint reduction, recovery
 - Completed failure scenario 3: aggressive liveness + restart churn, recovery to conservative defaults
 - Attempted failure scenario 4 (PDB deadlock); not reproducible in this environment with current controller behavior
@@ -138,8 +139,7 @@
 - Pod Disruption Budgets: 0 -> 2
 
 **Next action:**
-- Option A: run failure scenario 1 (requests removed -> HPA `<unknown>`) to complete all scenarios
-- Option B: proceed to lab-04 and return later for scenario 1
+- Proceed to Day 2 / `lab-04-configmaps-secrets-manager`
 
 ---
 

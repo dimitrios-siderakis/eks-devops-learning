@@ -1,7 +1,7 @@
 # Phase 1: EKS/Kubernetes Fundamentals (2 Weeks)
 
 > Created: 2026-06-16  
-> Status: **NOT STARTED** — scaffolded only  
+> Status: **IN PROGRESS** — Day 1 completed, Day 2 next  
 > Scope: Kubernetes fundamentals → EKS production capable  
 > Assumes: Lab 01 cluster is provisioned (or use a local kind cluster for Week 1)  
 > Cadence: ~2–3 hours per day
@@ -21,6 +21,8 @@ Goal: Be able to deploy, inspect, debug, and update any workload without referen
 
 ### Day 1 — Pods, Deployments, Services
 
+**Current:** ✅ Completed on 2026-06-20 (core flow + failure scenarios 1, 2, 3)
+
 **Theory (30 min):** KodeKloud CKA sections: Core Concepts + Services  
 **Hands-on:**
 
@@ -38,7 +40,7 @@ kubectl apply -f labs/lab-03-production-deployments/k8s/hpa.yaml
 ```
 
 **Validate:** All checks in `labs/lab-03-production-deployments/README.md`  
-**Hit deliberately:** Failure Scenario 2 (readinessProbe 404) — diagnose it  
+**Hit deliberately:** Failure Scenarios 1, 2, 3 — diagnose before reading fix  
 **Update:** `skills_matrix.md` — Deployments: 0 → 2, HPA: 0 → 2, PDB: 0 → 2
 
 ---
