@@ -14,14 +14,16 @@ metadata:
   name: gp3-encrypted
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
-provisioner: ebs.csi.aws.com
+    # LOCAL ADAPTATION: provisioner changed to rancher.io/local-path for k3s/Rancher Desktop.
+    # On EKS restore to: ebs.csi.aws.com with parameters below.
+    # Concepts demonstrated (ordering, DNS, persistence) are identical regardless of backend.
+provisioner: rancher.io/local-path
 volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Delete
-allowVolumeExpansion: true
-parameters:
-  type: gp3
-  encrypted: "true"
-  # Optional: specify CMK ARN for customer-managed encryption
-  # kmsKeyId: "arn:aws:kms:us-east-1:123456789:key/..."
-  throughput: "125"
-  iops: "3000"
+allowVolumeExpansion: false   # local-path does not support online resize
+# EKS-only parameters (ignored/removed for local):
+# parameters:
+#   type: gp3
+#   encrypted: "true"
+#   throughput: "125"
+#   iops: "3000"

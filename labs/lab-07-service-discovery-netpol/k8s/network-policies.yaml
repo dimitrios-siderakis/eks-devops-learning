@@ -47,12 +47,16 @@ spec:
             matchLabels:
               env: dev
     # Allow reach to shared namespace
+    # NOTE: port 80 here (container port), not 8080 (Service port).
+    # Flannel evaluates NetworkPolicy egress AFTER kube-proxy DNAT,
+    # so the packet's destination port is already the container port.
+    # Calico/Cilium evaluate before DNAT — you'd use 8080 there.
     - to:
         - namespaceSelector:
             matchLabels:
               env: shared
       ports:
-        - port: 8080
+        - port: 80
     # DNS — MUST include, or nslookup breaks after default-deny
     - to:
         - namespaceSelector:
@@ -99,13 +103,13 @@ spec:
         - namespaceSelector:
             matchLabels:
               env: prod
-    # Allow reach to shared namespace
+    # Allow reach to shared namespace (port 80 — see dev policy comment)
     - to:
         - namespaceSelector:
             matchLabels:
               env: shared
       ports:
-        - port: 8080
+        - port: 80
     # DNS
     - to:
         - namespaceSelector:

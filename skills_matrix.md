@@ -1,7 +1,7 @@
 # Skills Matrix
 
-> Updated: 2026-06-20 | Focus: Kubernetes / EKS Production Readiness  
-> Labs scaffolded: 01–10 | Labs completed: 1 (lab-03) + 1 partial (lab-04 A/B)
+> Updated: 2026-06-25 | Focus: Kubernetes / EKS Production Readiness  
+> Labs scaffolded: 01–10 | Labs completed: 4 (lab-03, lab-05, lab-06, lab-07) + 1 partial (lab-04 A/B)
 
 Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production capable · `4` Expert / can teach  
 `(s)` = skill covered in a scaffolded lab, ready to execute
@@ -12,14 +12,14 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 
 | Skill | Level | Last Lab | Notes |
 |-------|-------|----------|-------|
-| Pod lifecycle & scheduling | 1 | lab-03 | Topology spread + scheduler behavior observed during failures |
+| Pod lifecycle & scheduling | 3 | lab-05 | Ordered StatefulSet startup/shutdown, init container volume seeding, liveness probe failure diagnosis |
 | Deployments / ReplicaSets / DaemonSets | 2 | lab-03 | Rolling updates, rollback, and rollout diagnostics completed |
-| Services (ClusterIP, NodePort, LB) | 1 | lab-03 | Service endpoint behavior validated via readiness failures |
+| Services (ClusterIP, NodePort, LB) | 2 | lab-07 | DNS scoping, cross-namespace FQDN, NetworkPolicy interaction validated |
 | ConfigMaps & Secrets management | 2 | lab-04 | ConfigMap env/file injection + native Secret decode/injection validated |
 | Resource requests/limits & QoS classes | 2 | lab-03 | HPA dependency on requests validated |
 | RBAC (Roles, ClusterRoles, Bindings) | 0 | — | Gap — no lab yet |
-| Network Policies | 0 | — | Covered: lab-02(s), lab-07(s) |
-| PersistentVolumes / StorageClasses | 0 | — | Covered: lab-05(s) |
+| Network Policies | 2 | lab-07 | default-deny + explicit allow; Flannel post-DNAT port evaluation; cross-ns isolation verified |
+| PersistentVolumes / StorageClasses | 3 | lab-05 | volumeClaimTemplates, RWO PVC per pod, data persistence across pod deletion, PVC survival after scaledown |
 | Horizontal / Vertical Pod Autoscaler | 2 | lab-03 | HPA behavior observed during rollout and recovery |
 | Pod Disruption Budgets | 2 | lab-03 | Drain protection tested and verified |
 | Taints, Tolerations, Affinity rules | 1 | lab-03 | Topology spread constraints actively exercised |
@@ -62,7 +62,7 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 |-------|-------|----------|-------|
 | Container Insights (CloudWatch) | 0 | — | Covered: lab-06(s) Fluent Bit sidecar |
 | Prometheus + Grafana on EKS | 0 | — | Gap — Phase 2, Week 2 |
-| Fluentbit log shipping to CloudWatch / S3 | 0 | — | Covered: lab-06(s) |
+| Fluentbit log shipping to CloudWatch / S3 | 1 | lab-06 | Sidecar pattern validated locally; input+parse confirmed; output deferred (no IRSA) |
 | Distributed tracing (X-Ray / OTEL) | 0 | — | Gap — no lab yet |
 | kube-state-metrics + custom alerts | 0 | — | Gap — no lab yet |
 

@@ -24,6 +24,12 @@
 | Helm for Beginners | helm-basics | lab-09, lab-10 | MEDIUM |
 | ArgoCD | argocd | post-week-4 | LOW |
 
+## Supplemental External Theory Source
+
+| Source | Use Case | Rule |
+|--------|----------|------|
+| Stackademic all-in-one Linux/DevOps blogs: https://blog.stackademic.com/all-in-one-linux-devops-automation-blogs-46621975f0f8 | Quick inclusive refresher when a specific concept needs explanation/check | Use only for targeted theory lookup, not as primary course path |
+
 ## How to use this folder
 
 ```

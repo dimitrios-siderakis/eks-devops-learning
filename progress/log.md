@@ -3,8 +3,8 @@
 > Format per session: date · lab(s) worked · skills updated · blockers · next action
 > Presentation rule: keep one consolidated entry per date and append same-day updates in execution order.
 >
-> **Current status (2026-06-20): PHASE 1 IN PROGRESS — Day 2 complete for local scope; Lab-04 Part C deferred due to sandbox IAM policy.**  
-> Lab-03 is closed. Lab-04 Part A and B are validated on local cluster. Part C is deferred until an AWS account/sandbox with `iam:PassRole` is available.
+> **Current status (2026-06-25): PHASE 1 IN PROGRESS — Days 3, 4, 5 complete. Lab-07, Lab-06, Lab-05 closed.**  
+> Lab-03 closed. Lab-04 Part A/B closed (Part C deferred). Lab-07 closed. Lab-06 closed (CloudWatch deferred — no IRSA). Lab-05 closed (EBS-specific features noted; local-path used). Day 6 next (Ingress deep dive — requires EKS).
 
 ---
 
@@ -87,7 +87,63 @@
 
 ---
 
-## 2026-06-20 — Consolidated Daily Progress (theory + labs + session restarts)
+## 2026-06-25 — Phase 1 Day 3 + Day 4: Service Discovery + NetworkPolicies + Init Containers + Sidecar
+
+**Lab:** lab-07-service-discovery-netpol (completed)  
+**Time spent:** ~1h  
+**Cluster:** Rancher Desktop (local, k3s)
+
+**What was done:**
+- Applied namespaces (dev, prod, shared), sd-deployments, jump pods
+- Phase 2: proved cross-namespace reachability before any NetworkPolicy (`dev/jump → ent.prod` returned `text-prod`)
+- Proved DNS namespace scoping: short name `ent` from dev resolves to `ent.dev.svc.cluster.local`, not prod
+- Applied all 6 NetworkPolicies (default-deny-all + explicit allow in each namespace)
+- Verified `dev → prod` blocked (connection refused — Flannel sends TCP RST instead of silent drop)
+- Verified `prod → dev` blocked
+- Verified `dev → shared-api` allowed after policy fix
+
+**Bug found and fixed in lab manifest:**
+- `network-policies.yaml` egress rule to `shared` namespace used `port: 8080` (Service port)
+- Flannel evaluates NetworkPolicy egress **after** kube-proxy DNAT, so the packet's destination port is already `80` (container port) by evaluation time
+- Fix: changed egress port to `80` in both `allow-intra-dev` and `allow-intra-prod`
+- Lesson: Calico/Cilium evaluate before DNAT (use Service port); Flannel/kube-proxy iptables evaluate after DNAT (use container port)
+
+**Validation checklist:** all 6 items passed
+
+**Skills updated:**
+- Services (ClusterIP, NodePort, LB): 1 → 2
+- Network Policies: 0 → 2
+
+**Next action:** Phase 1 Day 4 — Init Containers + Sidecar (lab-06)
+
+---
+
+### Lab-06 — Init Containers + Sidecar (appended same session)
+
+**Lab:** lab-06-init-sidecar (Part A complete; Part B local-only — CloudWatch deferred)  
+**Cluster:** Rancher Desktop (local, k3s)
+
+**What was done:**
+- Part A: Applied init-demo-ns + init-pod without postgres Service — pod stuck `Init:0/2`
+- Read live logs from `init-wait-db`: confirmed DNS loop (`NXDOMAIN` every 2s)
+- Applied `postgres-stub-svc.yaml` — init-1 unblocked, progressed through `Init:1/2` → `PodInitializing` → `Running`
+- Read logs from all three containers in sequence: init-wait-db → init-migrate → app
+- Part B: Applied `sidecar-fluent-bit.yaml` — `sidecar-pod` reached `2/2 Running`
+- Generated 5 JSON log entries via `kubectl exec` into `ctr-app` shared emptyDir volume
+- Verified app container wrote to `/var/log/app/app.log`
+- Fluent Bit logs showed heartbeat entries (app auto-writing) + AWS credential failures at output stage only — input/parse stages confirmed working
+- Attempted Failure Scenario 4 (kill Fluent Bit) — discovered image is fully distroless (no shell, no kill)
+- Learned `kubectl debug --target` with ephemeral containers as the correct tool for distroless debugging
+
+**Deferred:** CloudWatch log delivery (Part B output stage) — requires IRSA on EKS
+
+**Skills updated:**
+- Pod lifecycle & scheduling: 1 → 2
+- Fluent Bit log shipping to CloudWatch: 0 → 1
+
+**New tool learned:** `kubectl debug -it --image=busybox --target=<container>` — ephemeral container for distroless pod debugging
+
+**Next action:** Phase 1 Day 5 — StatefulSets + EBS (lab-05)
 
 **Labs / tracks worked:**
 - KodeKloud Beginners (course completion)

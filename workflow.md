@@ -13,7 +13,12 @@ It ensures:
 
 - Nigel Poulton → base concepts and examples
 - KodeKloud → guided exercises
+- Stackademic all-in-one Linux/DevOps blog → quick supplemental reference for targeted theory lookups only: https://blog.stackademic.com/all-in-one-linux-devops-automation-blogs-46621975f0f8
 - Always extend both into production-grade EKS scenarios
+
+Usage constraint for Stackademic source:
+- Use it only when explaining or checking a specific theory topic.
+- Do not use it as the primary learning path, roadmap driver, or progress baseline.
 
 Never use sources as-is without upgrading them
 

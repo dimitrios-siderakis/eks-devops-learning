@@ -90,6 +90,7 @@ Update after every lab execution.
 |--------|------|
 | [Nigel Poulton](sources/nigel_poulton/) | Concept foundation and base examples — always extend to EKS |
 | [KodeKloud](sources/kodekloud/) | Structured guided exercises — use to identify weak areas |
+| Stackademic all-in-one Linux/DevOps blogs: https://blog.stackademic.com/all-in-one-linux-devops-automation-blogs-46621975f0f8 | Supplemental quick theory reference for specific concept explanation/check only (not primary learning path) |
 
 ---
 

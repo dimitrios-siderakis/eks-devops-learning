@@ -6,6 +6,11 @@
 > Assumes: Lab 01 cluster is provisioned (or use a local kind cluster for Week 1)  
 > Cadence: ~2–3 hours per day
 >
+> **Resources:**
+> - Theory: [Kubernetes Official Docs](https://kubernetes.io/docs/home/) — use for concept pages, API reference, and task guides
+> - Hands-on course: KodeKloud (see `sources/kodekloud/`)
+> - Book + repos: Nigel Poulton (see `sources/nigel_poulton/`)
+>
 > **Sequence:** This is Phase 1. When all 10 days are complete and every
 > validation checklist passes, continue to
 > [Phase 2: `roadmap/eks-4-week-roadmap.md`](eks-4-week-roadmap.md).
@@ -95,6 +100,8 @@ kubectl exec -n dev jump -- wget -qO- --timeout=5 http://ent.prod.svc.cluster.lo
 
 ### Day 4 — Init Containers, Sidecar, Multi-container Pods
 
+**Current:** ✅ Complete on 2026-06-25 (Part A: init sequencing fully validated; Part B: sidecar pattern + shared emptyDir validated locally; CloudWatch output deferred — no IRSA on local cluster; distroless debug via `kubectl debug` learned)
+
 **Reference:** `sources/nigel_poulton/repo_k8sbook/pods/initpod.yml`, `sidecarpod.yml`  
 **Hands-on:**
 
@@ -116,6 +123,8 @@ kubectl logs -n init-lab sidecar-pod -c ctr-fluent-bit --tail=20
 ---
 
 ### Day 5 — StatefulSets + EBS Storage
+
+**Current:** ✅ Complete on 2026-06-25 (local-path StorageClass substituted for EBS; all StatefulSet concepts validated: ordered startup, stable DNS, persistence, reverse scaledown; liveness probe crash loop diagnosed and fixed with init container)
 
 **Reference:** `sources/nigel_poulton/repo_k8sbook/statefulsets/` — all 5 files  
 **Hands-on:**

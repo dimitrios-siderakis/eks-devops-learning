@@ -30,6 +30,29 @@ spec:
         app: tkb-sts
     spec:
       terminationGracePeriodSeconds: 30
+      initContainers:
+        # Seeds index.html before nginx starts.
+        # Without this, the PVC mount overlays /usr/share/nginx/html with an
+        # empty directory — nginx returns 403, probes fail, pod restarts forever.
+        - name: init-html
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              if [ ! -f /usr/share/nginx/html/index.html ]; then
+                echo "Initialised: $HOSTNAME" > /usr/share/nginx/html/index.html
+              fi
+          volumeMounts:
+            - name: webroot
+              mountPath: /usr/share/nginx/html
+          resources:
+            requests:
+              cpu: 5m
+              memory: 8Mi
+            limits:
+              cpu: 20m
+              memory: 16Mi
       containers:
         - name: ctr-web
           image: nginx:1.25-alpine
