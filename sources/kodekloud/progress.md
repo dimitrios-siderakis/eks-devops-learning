@@ -57,11 +57,11 @@ Notes: `sources/kodekloud/notes/k8s-crash-course.md`
 
 Notes: `sources/kodekloud/notes/k8s-beginners.md`
 
-## Kubernetes and Cloud-Native Associate (KCNA) (8% / 9 of 115 lessons)
+## Kubernetes and Cloud-Native Associate (KCNA) (19% / 22 of 115 lessons)
 
 - [x] Introduction (3 lessons) — completed 2026-06-20
-- [ ] Kubernetes Fundamentals (9 lessons) — in progress (6/9 lessons completed, 67%)
-- [ ] Kubernetes Resources (15 lessons)
+- [x] Kubernetes Fundamentals (9 lessons) — completed 2026-07-02
+- [ ] Kubernetes Resources (15 lessons) — in progress (9/15 lessons completed, 60%) as of 2026-07-02
 - [ ] Scheduling (12 lessons)
 - [ ] Container Orchestration - Security (13 lessons)
 - [ ] Container Orchestration - Networking (6 lessons)

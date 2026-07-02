@@ -190,6 +190,28 @@
 
 ---
 
+---
+
+## 2026-07-02 — KCNA continuation: Kubernetes Fundamentals ✅ complete + Kubernetes Resources (9/15)
+
+**Lab:** none (theory session)
+**Cluster:** none
+**Course:** Kubernetes and Cloud-Native Associate (KCNA) — progressed from 8% (9/115) to 19% (22/115)
+
+**Completed:**
+- ✅ **Kubernetes Fundamentals** (9/9 lessons) — Quiz, Notes, Module Completion
+- **Kubernetes Resources** (9/15 lessons — 60% complete)
+  - ✅ Pods, Demo - Pods, Pods with YAML, Demo - Pods with YAML
+  - ✅ ReplicaSets, Demo - ReplicaSets
+  - ✅ Deployments, Demo - Deployments
+  - ✅ Deployments - Rolling Updates and Rollbacks
+
+**Key concepts reinforced:** Containers, orchestration, Kubernetes architecture, CRI, Docker vs containerd; Pods → ReplicaSets → Deployments; Rolling updates (maxSurge, maxUnavailable)
+
+**Next action:** Resume Kubernetes Resources (Demo - Deployments - Rolling Updates) → finish all 15 lessons
+
+---
+
 <!-- TEMPLATE — copy this block for each session
 ## YYYY-MM-DD — [Lab title]
 
