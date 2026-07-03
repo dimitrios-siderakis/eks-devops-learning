@@ -76,6 +76,17 @@ Next recommended order: Finish Kubernetes Fundamentals quiz + notes -> Kubernete
 
 Notes: `sources/kodekloud/notes/kcna.md`
 
+## Helm for Beginners (0% / 0 of 33 lessons)
+
+- [ ] Introduction (2 lessons)
+- [ ] Introduction to Helm (13 lessons)
+- [ ] Helm Charts Anatomy (17 lessons)
+- [ ] Conclusion (1 lesson)
+
+Next recommended order: Introduction -> Introduction to Helm -> Helm Charts Anatomy -> Conclusion
+
+Notes: `sources/kodekloud/notes/helm-for-beginners.md`
+
 ## CKA
 
 - [ ] Cluster Architecture

@@ -75,18 +75,25 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 
 ### 4. [ ] Configuration Management: Helm, Templating, Package Management
 
-**Status:** NOT STARTED  
+**Status:** IN PROGRESS  
 **Target Date:** 2026-08-10  
 **Source:** KodeKloud "Helm for Beginners" course  
 **Linked Labs:** lab-09 (Ingress ALB), lab-10 (Karpenter Spot)  
-**Progress:** 0/course  
+**Suggested Learning Resource:** https://github.com/BetssonGroup/iac-kubernetes-data/tree/main/charts/helmet  
+**Progress:** 0/33 lessons  
 **Key Topics:**
 - Helm basics
 - Charts and templates
 - Package management
 - Helm workflows
 
-**Dependency:** Complete Task 1 + networking fundamentals
+**Suggested 1-Day Sprint Task:**
+- Take the generic `helmet` chart as a reference and map its values structure to one existing lab workload.
+- Template a minimal release with image tag, replica count, and service port as values.
+- Run one install, one upgrade, and one rollback to validate the workflow.
+- Record what belongs in chart templates versus values files.
+
+**Dependency:** Complete Task 1; networking fundamentals can continue in parallel
 
 ---
 
@@ -171,12 +178,12 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 | 1. Core Concepts | ✅ COMPLETED | 100% | 2026-06-20 |
 | 2. Containerization | IN PROGRESS | 67% | 2026-07-10 |
 | 3. Networking | IN PROGRESS | 20% | 2026-07-25 |
-| 4. Config Management | NOT STARTED | 0% | 2026-08-10 |
+| 4. Config Management | IN PROGRESS | 0% | 2026-08-10 |
 | 5. Troubleshooting | IN PROGRESS | 50% | 2026-07-20 |
 | 6. Best Practices | NOT STARTED | 0% | 2026-09-15 |
 | 7. Training (KCNA) | IN PROGRESS | 8% | 2026-08-31 |
 
-**Overall Progress:** 1/7 tasks completed (14%) — 3 additional tasks actively in progress
+**Overall Progress:** 1/7 tasks completed (14%) — 4 additional tasks actively in progress
 
 ---
 

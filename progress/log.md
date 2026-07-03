@@ -212,6 +212,26 @@
 
 ---
 
+## 2026-07-03 — Pivot planned: Helm for Beginners aligned to Task 4
+
+**Lab:** none (course planning)
+**Cluster:** none
+**Course:** Helm for Beginners (KodeKloud) — 0/33 lessons
+
+**What changed:**
+- Decided to start KodeKloud **Helm for Beginners** now, aligned with goals Task 4: Configuration Management.
+- Added course tracking under `sources/kodekloud/progress.md`.
+- Added notes file at `sources/kodekloud/notes/helm-for-beginners.md`.
+- Updated Task 4 in `goals/kubernetes-deployment-mastery.md` from NOT STARTED to IN PROGRESS.
+
+**Why:**
+- Helm is already a planned objective and is safer to progress while the active Kubernetes context is pointed at a production cluster.
+- It builds directly toward chart templating, package management, and later lab-09/lab-10 work.
+
+**Next action:** Start Helm for Beginners → Introduction module, lesson 1.
+
+---
+
 <!-- TEMPLATE — copy this block for each session
 ## YYYY-MM-DD — [Lab title]
 
