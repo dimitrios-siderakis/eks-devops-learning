@@ -80,7 +80,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 **Source:** KodeKloud "Helm for Beginners" course  
 **Linked Labs:** lab-09 (Ingress ALB), lab-10 (Karpenter Spot)  
 **Suggested Learning Resource:** https://github.com/BetssonGroup/iac-kubernetes-data/tree/main/charts/helmet  
-**Progress:** 16/33 lessons (48%)
+**Progress:** 33/33 lessons (100%) — course complete; lab-03 production-style chart lifecycle validated locally
 **Key Topics:**
 - Helm basics
 - Charts and templates
@@ -92,6 +92,15 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 - Template a minimal release with image tag, replica count, and service port as values.
 - Run one install, one upgrade, and one rollback to validate the workflow.
 - Record what belongs in chart templates versus values files.
+
+**Latest Evidence (2026-07-06):**
+- Completed KodeKloud Helm for Beginners (33/33 lessons).
+- Completed Helm Charts Anatomy module, including writing charts, functions, pipelines, conditionals, `with`, ranges, named templates, hooks, packaging/signing, and uploading charts.
+- Completed all Helm course labs.
+- Converted `lab-03-production-deployments` into a Helm chart with Namespace, Deployment, Service, HPA, and PDB templates.
+- Validated Helm lifecycle locally on Rancher Desktop: `lint`, `template`, install dry-run, install, upgrade dry-run, upgrade to image tag `2.0`, rollback dry-run, rollback to revision 1, values inspection, status/history checks, uninstall, and namespace cleanup.
+- Verified Deployment rollout, Service endpoints, HPA metrics, PDB disruption budget, and rollback image restoration.
+- Follow-up hardening required: add restricted-compatible pod/container security contexts; then chart an ingress-facing workload before lab-09/EKS.
 
 **Dependency:** Complete Task 1; networking fundamentals can continue in parallel
 
@@ -178,7 +187,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 | 1. Core Concepts | ✅ COMPLETED | 100% | 2026-06-20 |
 | 2. Containerization | IN PROGRESS | 67% | 2026-07-10 |
 | 3. Networking | IN PROGRESS | 20% | 2026-07-25 |
-| 4. Config Management | IN PROGRESS | 25% | 2026-08-10 |
+| 4. Config Management | IN PROGRESS | 85% | 2026-08-10 |
 | 5. Troubleshooting | IN PROGRESS | 50% | 2026-07-20 |
 | 6. Best Practices | NOT STARTED | 0% | 2026-09-15 |
 | 7. Training (KCNA) | IN PROGRESS | 8% | 2026-08-31 |
@@ -226,3 +235,11 @@ Each task is considered complete when:
 - Completed KodeKloud Helm labs for installing Helm, deploying a chart, and upgrading a chart
 - Started Helm Charts Anatomy and completed Understanding Helm charts
 - Task 4 progress updated: 0% → 25% pending chart authoring and production-style Helm follow-up lab
+
+**2026-07-06:**
+- Helm for Beginners completed: 33/33 lessons (100%)
+- Completed Helm Charts Anatomy and Conclusion modules
+- Completed labs for writing charts, functions/pipelines, conditionals/with/ranges, chart hooks, and uploading charts
+- Task 4 progress updated: 25% -> 70%; keep IN PROGRESS until one repo workload is charted and install/upgrade/rollback is validated
+- Created Helm chart for `lab-03-production-deployments` and validated full local release lifecycle: lint, template, install dry-run, install, upgrade dry-run, upgrade, rollback dry-run, rollback, status/history/values inspection, and uninstall cleanup
+- Task 4 progress updated: 70% -> 85%; keep IN PROGRESS until restricted PodSecurity hardening and ingress-facing/EKS Helm validation are complete

@@ -3,7 +3,7 @@
 > Format per session: date · lab(s) worked · skills updated · blockers · next action
 > Presentation rule: keep one consolidated entry per date and append same-day updates in execution order.
 >
-> **Current status (2026-07-05): PHASE 1 IN PROGRESS — Helm for Beginners in progress (16/33, 48%).**
+> **Current status (2026-07-06): PHASE 1 IN PROGRESS — Helm course complete; lab-03 Helm chart follow-up validated locally.**
 > Lab-03 closed. Lab-04 Part A/B closed (Part C deferred). Lab-07 closed. Lab-06 closed (CloudWatch deferred — no IRSA). Lab-05 closed (EBS-specific features noted; local-path used). Day 6 next (Ingress deep dive — requires EKS).
 
 ---
@@ -263,6 +263,119 @@
 **Next action:**
 - Resume Helm Charts Anatomy at **Writing a Helm chart**.
 - After the module is complete, create a production-style Helm follow-up lab for one existing workload with values, templates, install, upgrade, rollback, and failure validation.
+
+---
+
+## 2026-07-06 — Helm for Beginners completed
+
+**Lab:** KodeKloud Helm course labs only
+**Cluster:** KodeKloud course environment
+**Course:** Helm for Beginners (KodeKloud) — 100% complete (33/33 lessons)
+
+**What was done:**
+- Completed **Helm Charts Anatomy** module (17/17 lessons), including:
+  - Understanding Helm charts
+  - Writing a Helm chart
+  - Making sure a chart is working as intended
+  - Functions and pipelines
+  - Conditionals, `with` blocks, and ranges
+  - Named templates
+  - Chart hooks
+  - Packaging and signing charts
+  - Uploading charts
+- Completed all Helm Charts Anatomy labs:
+  - Writing a Helm chart
+  - Using functions and pipelines
+  - Conditionals, with blocks, and ranges
+  - Chart hooks
+  - Uploading charts
+- Completed **Conclusion** module (1/1 lesson).
+
+**Blockers / decisions:**
+- No blocker logged.
+- Helm course theory/labs are complete, but Task 4 should remain **IN PROGRESS** until a repo workload is converted into a production-style chart and validated locally or on EKS.
+
+**Skills updated:**
+- Helm chart authoring: 1 -> 2
+
+**Next action:**
+- Create a production-style Helm follow-up lab using one existing workload, preferably `lab-03-production-deployments` first because it has Deployment, Service, probes, HPA, and PDB behavior already validated.
+- Minimum validation: `helm lint`, `helm template`, `helm install`, values-driven image tag or replica change, `helm upgrade`, `helm rollback`, and notes on what belongs in templates vs values.
+- After that, apply Helm to an ingress-facing workload before returning to Day 6 / lab-09 on EKS.
+
+### Helm follow-up lab — lab-03 chart authoring and release lifecycle (appended same day)
+
+**Lab:** `labs/lab-03-production-deployments/chart`  
+**Cluster:** Rancher Desktop (local, k3s, context verified: `rancher-desktop`)  
+**Release:** `lab03`
+
+**What was done:**
+- Created a Helm chart for the existing lab-03 workload:
+  - `Chart.yaml`
+  - `values.yaml`
+  - `templates/_helpers.tpl`
+  - `templates/namespace.yaml`
+  - `templates/deployment.yaml`
+  - `templates/service.yaml`
+  - `templates/hpa.yaml`
+  - `templates/pdb.yaml`
+- Converted lab-03 manifests into reusable templates while preserving:
+  - Deployment name `web-app`
+  - namespace `web`
+  - Service `web-app-svc`
+  - HPA `web-app-hpa`
+  - PDB `web-app-pdb`
+  - probes, resources, rolling update strategy, topology spread, and preStop lifecycle hook
+- Added Helm workflow documentation to `labs/lab-03-production-deployments/README.md`.
+- Reviewed the chart command-by-command:
+  - `Chart.yaml`
+  - `values.yaml`
+  - helpers
+  - Namespace, Service, Deployment, HPA, and PDB templates
+
+**Validation completed:**
+- `helm lint ./chart` passed (`0 chart(s) failed`).
+- `helm template lab03 ./chart` rendered expected resources.
+- `helm install lab03 ./chart --dry-run` passed.
+- `helm install lab03 ./chart` completed as revision 1.
+- Verified Kubernetes resources:
+  - 3 pods `Running`
+  - Deployment `3/3`
+  - HPA reading CPU (`2%/60%`)
+  - PDB allowed disruptions = `1`
+  - Service endpoints had all 3 ready pod IPs
+- `helm upgrade lab03 ./chart --set image.tag=2.0 --set changeCause="v2 - updated application image via Helm" --dry-run` passed.
+- `helm upgrade lab03 ./chart --set image.tag=2.0 --set changeCause="v2 - updated application image via Helm"` completed as revision 2.
+- Verified image changed to `nigelpoulton/getting-started-k8s:2.0`.
+- `helm rollback lab03 1 --dry-run` passed (with Helm warning to prefer `--dry-run=client`).
+- `helm rollback lab03 1` completed as revision 3.
+- Verified image returned to `nigelpoulton/getting-started-k8s:1.0`.
+- `helm history lab03` showed:
+  - revision 1 superseded — install
+  - revision 2 superseded — upgrade
+  - revision 3 deployed — rollback to 1
+- `helm get values lab03 --all` confirmed active values were restored to image tag `1.0`.
+- `helm uninstall lab03` completed.
+- Verified cleanup:
+  - no Helm release remains
+  - no resources remain in `web`
+  - namespace `web` deleted
+
+**Observed warning / follow-up improvement:**
+- Pod Security Admission warned that the workload would violate `restricted:latest`.
+- Current namespace enforces `baseline` and warns on `restricted`, so the release succeeded.
+- Follow-up chart hardening should add:
+  - `securityContext.allowPrivilegeEscalation: false`
+  - `securityContext.capabilities.drop: ["ALL"]`
+  - `securityContext.runAsNonRoot: true` where image compatibility allows
+  - `seccompProfile.type: RuntimeDefault`
+
+**Skills updated:**
+- Helm chart authoring: 2 -> 3
+
+**Next action:**
+- Add restricted-compatible pod/container security context support to the chart values/templates and re-run lint/template/install/upgrade/rollback.
+- Then apply the same Helm pattern to an ingress-facing workload before returning to Day 6 / lab-09 on EKS.
 
 ---
 

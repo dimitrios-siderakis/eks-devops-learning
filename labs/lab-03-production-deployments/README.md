@@ -114,6 +114,92 @@ kubectl drain <node-name> --ignore-daemonsets --delete-emptydir-data
 
 ---
 
+## Helm Follow-up: Chart This Workload
+
+The `chart/` directory converts the same lab resources into a Helm release:
+
+- `templates/namespace.yaml`
+- `templates/deployment.yaml`
+- `templates/service.yaml`
+- `templates/hpa.yaml`
+- `templates/pdb.yaml`
+- `values.yaml`
+
+The main lesson: keep reusable Kubernetes structure in `templates/`, and put release-specific knobs in `values.yaml`.
+
+### Pre-flight
+
+Use the local training cluster:
+
+```bash
+kubectl config use-context rancher-desktop
+kubectl config current-context
+kubectl get nodes
+```
+
+This lab uses `topologySpreadConstraints` with `topology.kubernetes.io/zone`. If Rancher Desktop has only one node and it is missing the zone label, add it:
+
+```bash
+kubectl label node lima-rancher-desktop topology.kubernetes.io/zone=local-az-1 --overwrite
+```
+
+### Render and Validate
+
+```bash
+helm lint ./chart
+helm template lab03 ./chart
+```
+
+### Install
+
+```bash
+helm install lab03 ./chart
+kubectl rollout status deployment/web-app -n web --timeout=120s
+kubectl get all -n web
+```
+
+### Upgrade
+
+This simulates moving from the original `deployment-v1.yaml` image to `deployment-v2.yaml`:
+
+```bash
+helm upgrade lab03 ./chart \
+  --set image.tag=2.0 \
+  --set changeCause="v2 - updated application image via Helm"
+
+kubectl rollout status deployment/web-app -n web --timeout=120s
+helm history lab03
+```
+
+### Roll Back
+
+```bash
+helm rollback lab03 1
+kubectl rollout status deployment/web-app -n web --timeout=120s
+helm history lab03
+```
+
+### Clean Up
+
+```bash
+helm uninstall lab03
+kubectl delete namespace web
+```
+
+### What Belongs in `values.yaml`
+
+- Image repository/tag
+- Replica count
+- Service port
+- Resource requests/limits
+- Probe paths and timings
+- HPA min/max/target
+- PDB availability rule
+
+Keep API versions, resource kinds, selectors, and rollout structure in templates unless they truly differ by environment.
+
+---
+
 ## Failure Scenarios
 
 ### Failure 1: Missing resource `requests` → scheduler ignores limits

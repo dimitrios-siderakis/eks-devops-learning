@@ -21,7 +21,7 @@
 | Course | Slug | Aligns to Labs | Priority |
 |--------|------|---------------|----------|
 | Amazon EKS Basics | eks-basics | lab-01, lab-02 | HIGH |
-| Helm for Beginners | helm-basics | lab-09, lab-10 | MEDIUM |
+| Helm for Beginners | helm-basics | lab-09, lab-10 | ✅ COMPLETED 2026-07-06 |
 | ArgoCD | argocd | post-week-4 | LOW |
 
 ## Supplemental External Theory Source

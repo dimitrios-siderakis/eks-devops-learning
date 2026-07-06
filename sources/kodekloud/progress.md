@@ -76,14 +76,35 @@ Next recommended order: Finish Kubernetes Fundamentals quiz + notes -> Kubernete
 
 Notes: `sources/kodekloud/notes/kcna.md`
 
-## Helm for Beginners (48% / 16 of 33 lessons)
+## Helm for Beginners ✅ COMPLETED 2026-07-06 (100% / 33 of 33 lessons)
 
 - [x] Introduction (2 lessons) — completed 2026-07-05
 - [x] Introduction to Helm (13 lessons) — completed 2026-07-05
-- [ ] Helm Charts Anatomy (17 lessons) — in progress (1/17 lessons completed, 6%) as of 2026-07-05
-- [ ] Conclusion (1 lesson)
+- [x] Helm Charts Anatomy (17 lessons) — completed 2026-07-06
+  - [x] Understanding Helm charts
+  - [x] Writing a Helm chart
+  - [x] Making sure Chart is working as intended
+  - [x] Lab: Writing a helm chart
+  - [x] Functions
+  - [x] Pipelines
+  - [x] Lab: Using Functions and Pipelines
+  - [x] Conditionals
+  - [x] With Blocks
+  - [x] Ranges
+  - [x] Lab: Conditionals, With Blocks and Ranges
+  - [x] Named Templates
+  - [x] Chart Hooks
+  - [x] Lab: Chart Hooks
+  - [x] Packaging and Signing Charts
+  - [x] Uploading Charts
+  - [x] Lab: Uploading Charts
+- [x] Conclusion (1 lesson) — completed 2026-07-06
+- [x] Production-style Helm follow-up — completed 2026-07-06
+  - [x] Charted `lab-03-production-deployments`
+  - [x] Validated `helm lint` and `helm template`
+  - [x] Validated install dry-run, install, upgrade dry-run, upgrade, rollback dry-run, rollback, history/status/values checks, uninstall, and cleanup
 
-Next recommended order: Resume Helm Charts Anatomy at `Writing a Helm chart` -> finish anatomy -> Conclusion -> production-style Helm follow-up lab
+Next recommended order: harden lab-03 chart for restricted PodSecurity -> repeat lifecycle validation -> chart ingress-facing workload before lab-09/EKS
 
 Notes: `sources/kodekloud/notes/helm-for-beginners.md`
 
