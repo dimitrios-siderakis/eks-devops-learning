@@ -76,14 +76,14 @@ Next recommended order: Finish Kubernetes Fundamentals quiz + notes -> Kubernete
 
 Notes: `sources/kodekloud/notes/kcna.md`
 
-## Helm for Beginners (0% / 0 of 33 lessons)
+## Helm for Beginners (48% / 16 of 33 lessons)
 
-- [ ] Introduction (2 lessons)
-- [ ] Introduction to Helm (13 lessons)
-- [ ] Helm Charts Anatomy (17 lessons)
+- [x] Introduction (2 lessons) — completed 2026-07-05
+- [x] Introduction to Helm (13 lessons) — completed 2026-07-05
+- [ ] Helm Charts Anatomy (17 lessons) — in progress (1/17 lessons completed, 6%) as of 2026-07-05
 - [ ] Conclusion (1 lesson)
 
-Next recommended order: Introduction -> Introduction to Helm -> Helm Charts Anatomy -> Conclusion
+Next recommended order: Resume Helm Charts Anatomy at `Writing a Helm chart` -> finish anatomy -> Conclusion -> production-style Helm follow-up lab
 
 Notes: `sources/kodekloud/notes/helm-for-beginners.md`
 

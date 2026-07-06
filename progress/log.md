@@ -3,7 +3,7 @@
 > Format per session: date · lab(s) worked · skills updated · blockers · next action
 > Presentation rule: keep one consolidated entry per date and append same-day updates in execution order.
 >
-> **Current status (2026-06-25): PHASE 1 IN PROGRESS — Days 3, 4, 5 complete. Lab-07, Lab-06, Lab-05 closed.**  
+> **Current status (2026-07-05): PHASE 1 IN PROGRESS — Helm for Beginners in progress (16/33, 48%).**
 > Lab-03 closed. Lab-04 Part A/B closed (Part C deferred). Lab-07 closed. Lab-06 closed (CloudWatch deferred — no IRSA). Lab-05 closed (EBS-specific features noted; local-path used). Day 6 next (Ingress deep dive — requires EKS).
 
 ---
@@ -229,6 +229,40 @@
 - It builds directly toward chart templating, package management, and later lab-09/lab-10 work.
 
 **Next action:** Start Helm for Beginners → Introduction module, lesson 1.
+
+---
+
+## 2026-07-05 — Helm for Beginners: Introduction + Intro to Helm complete
+
+**Lab:** KodeKloud Helm course labs only
+**Cluster:** KodeKloud course environment
+**Course:** Helm for Beginners (KodeKloud) — 48% complete (16/33 lessons)
+
+**What was done:**
+- Completed **Introduction** module (2/2 lessons).
+- Completed **Introduction to Helm** module (13/13 lessons), including:
+  - Helm installation/configuration
+  - Lab: Installing Helm
+  - Helm components and charts
+  - Working with Helm basics
+  - Customizing chart parameters
+  - Lab: using Helm to deploy a chart
+  - Lifecycle management with Helm
+  - Lab: upgrading a Helm chart
+  - Course resources and notes
+- Started **Helm Charts Anatomy** module.
+- Completed first lesson in Helm Charts Anatomy: **Understanding Helm charts**.
+
+**Blockers / decisions:**
+- No blocker logged.
+- Do not count Helm as production-capable yet; chart authoring is only at early course/anatomy stage.
+
+**Skills updated:**
+- Helm chart authoring: 0 -> 1
+
+**Next action:**
+- Resume Helm Charts Anatomy at **Writing a Helm chart**.
+- After the module is complete, create a production-style Helm follow-up lab for one existing workload with values, templates, install, upgrade, rollback, and failure validation.
 
 ---
 

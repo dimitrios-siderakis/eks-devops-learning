@@ -1,6 +1,6 @@
 # Skills Matrix
 
-> Updated: 2026-06-25 | Focus: Kubernetes / EKS Production Readiness  
+> Updated: 2026-07-05 | Focus: Kubernetes / EKS Production Readiness
 > Labs scaffolded: 01–10 | Labs completed: 4 (lab-03, lab-05, lab-06, lab-07) + 1 partial (lab-04 A/B)
 
 Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production capable · `4` Expert / can teach  
@@ -85,7 +85,7 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 
 | Skill | Level | Last Lab | Notes |
 |-------|-------|----------|-------|
-| Helm chart authoring | 0 | — | |
+| Helm chart authoring | 1 | KodeKloud Helm | Helm basics, install/deploy/upgrade labs complete; chart anatomy started |
 | ArgoCD app-of-apps pattern | 0 | — | |
 | GitHub Actions → ECR → EKS deploy pipeline | 0 | — | |
 | Kustomize overlays (dev/staging/prod) | 0 | — | |

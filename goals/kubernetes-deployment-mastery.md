@@ -80,7 +80,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 **Source:** KodeKloud "Helm for Beginners" course  
 **Linked Labs:** lab-09 (Ingress ALB), lab-10 (Karpenter Spot)  
 **Suggested Learning Resource:** https://github.com/BetssonGroup/iac-kubernetes-data/tree/main/charts/helmet  
-**Progress:** 0/33 lessons  
+**Progress:** 16/33 lessons (48%)
 **Key Topics:**
 - Helm basics
 - Charts and templates
@@ -178,7 +178,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 | 1. Core Concepts | ✅ COMPLETED | 100% | 2026-06-20 |
 | 2. Containerization | IN PROGRESS | 67% | 2026-07-10 |
 | 3. Networking | IN PROGRESS | 20% | 2026-07-25 |
-| 4. Config Management | IN PROGRESS | 0% | 2026-08-10 |
+| 4. Config Management | IN PROGRESS | 25% | 2026-08-10 |
 | 5. Troubleshooting | IN PROGRESS | 50% | 2026-07-20 |
 | 6. Best Practices | NOT STARTED | 0% | 2026-09-15 |
 | 7. Training (KCNA) | IN PROGRESS | 8% | 2026-08-31 |
@@ -219,3 +219,10 @@ Each task is considered complete when:
 - Completed Introduction module (3/3)
 - Progressed Kubernetes Fundamentals to 6/9 lessons (67%)
 - Updated Task 2 to IN PROGRESS and Task 7 to IN PROGRESS
+
+**2026-07-05:**
+- Helm for Beginners progressed to 16/33 lessons (48%)
+- Completed Introduction and Introduction to Helm modules
+- Completed KodeKloud Helm labs for installing Helm, deploying a chart, and upgrading a chart
+- Started Helm Charts Anatomy and completed Understanding Helm charts
+- Task 4 progress updated: 0% → 25% pending chart authoring and production-style Helm follow-up lab
