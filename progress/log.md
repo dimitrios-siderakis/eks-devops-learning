@@ -3,7 +3,7 @@
 > Format per session: date · lab(s) worked · skills updated · blockers · next action
 > Presentation rule: keep one consolidated entry per date and append same-day updates in execution order.
 >
-> **Current status (2026-07-06): PHASE 1 IN PROGRESS — Helm course complete; lab-03 Helm chart follow-up validated locally.**
+> **Current status (2026-07-08): PHASE 1 IN PROGRESS — Helm course complete; lab-03 Helm chart hardening and revalidation accepted complete.**
 > Lab-03 closed. Lab-04 Part A/B closed (Part C deferred). Lab-07 closed. Lab-06 closed (CloudWatch deferred — no IRSA). Lab-05 closed (EBS-specific features noted; local-path used). Day 6 next (Ingress deep dive — requires EKS).
 
 ---
@@ -364,7 +364,7 @@
 **Observed warning / follow-up improvement:**
 - Pod Security Admission warned that the workload would violate `restricted:latest`.
 - Current namespace enforces `baseline` and warns on `restricted`, so the release succeeded.
-- Follow-up chart hardening should add:
+- Follow-up chart hardening was later accepted complete:
   - `securityContext.allowPrivilegeEscalation: false`
   - `securityContext.capabilities.drop: ["ALL"]`
   - `securityContext.runAsNonRoot: true` where image compatibility allows
@@ -374,8 +374,16 @@
 - Helm chart authoring: 2 -> 3
 
 **Next action:**
-- Add restricted-compatible pod/container security context support to the chart values/templates and re-run lint/template/install/upgrade/rollback.
-- Then apply the same Helm pattern to an ingress-facing workload before returning to Day 6 / lab-09 on EKS.
+- Apply the same Helm pattern to an ingress-facing workload before returning to Day 6 / lab-09 on EKS.
+
+### 2026-07-08 status correction — lab-03 chart hardening accepted complete
+
+**What changed:**
+- Restricted-compatible pod/container security context support for the `lab-03` chart is considered complete.
+- Helm revalidation after that hardening is considered complete.
+
+**Next action:**
+- Chart an ingress-facing workload, then return to Day 6 / lab-09 on EKS.
 
 ---
 

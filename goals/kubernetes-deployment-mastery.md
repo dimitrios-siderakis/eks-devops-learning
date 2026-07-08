@@ -13,7 +13,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 
 ---
 
-## Task Breakdown (2/7 complete)
+## Task Breakdown (3/7 complete)
 
 ### 1. ✅ Core Concepts: Pods, Services, Deployments, Namespaces, ConfigMaps, Replication
 
@@ -73,14 +73,15 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 
 ---
 
-### 4. [ ] Configuration Management: Helm, Templating, Package Management
+### 4. ✅ Configuration Management: Helm, Templating, Package Management
 
-**Status:** IN PROGRESS  
+**Status:** COMPLETED  
+**Completion Date:** 2026-07-08  
 **Target Date:** 2026-08-10  
 **Source:** KodeKloud "Helm for Beginners" course  
 **Linked Labs:** lab-09 (Ingress ALB), lab-10 (Karpenter Spot)  
 **Suggested Learning Resource:** https://github.com/BetssonGroup/iac-kubernetes-data/tree/main/charts/helmet  
-**Progress:** 33/33 lessons (100%) — course complete; lab-03 production-style chart lifecycle validated locally
+**Progress:** 33/33 lessons (100%) — course complete; lab-03 production-style chart lifecycle, restricted hardening, and revalidation accepted complete
 **Key Topics:**
 - Helm basics
 - Charts and templates
@@ -100,7 +101,8 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 - Converted `lab-03-production-deployments` into a Helm chart with Namespace, Deployment, Service, HPA, and PDB templates.
 - Validated Helm lifecycle locally on Rancher Desktop: `lint`, `template`, install dry-run, install, upgrade dry-run, upgrade to image tag `2.0`, rollback dry-run, rollback to revision 1, values inspection, status/history checks, uninstall, and namespace cleanup.
 - Verified Deployment rollout, Service endpoints, HPA metrics, PDB disruption budget, and rollback image restoration.
-- Follow-up hardening required: add restricted-compatible pod/container security contexts; then chart an ingress-facing workload before lab-09/EKS.
+- Restricted-compatible chart hardening and post-hardening Helm revalidation are accepted complete as of 2026-07-08.
+- Proof comment: Completed Helm for Beginners (33/33) and converted `lab-03-production-deployments` into a production-style Helm chart, validating lint/template/install/upgrade/rollback/uninstall plus restricted PodSecurity hardening.
 
 **Dependency:** Complete Task 1; networking fundamentals can continue in parallel
 
@@ -185,14 +187,14 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 | Task | Status | Completion % | Target Date |
 |------|--------|--------------|-------------|
 | 1. Core Concepts | ✅ COMPLETED | 100% | 2026-06-20 |
-| 2. Containerization | IN PROGRESS | 67% | 2026-07-10 |
+| 2. Containerization | ✅ COMPLETED | 100% | 2026-07-02 |
 | 3. Networking | IN PROGRESS | 20% | 2026-07-25 |
-| 4. Config Management | IN PROGRESS | 85% | 2026-08-10 |
+| 4. Config Management | ✅ COMPLETED | 100% | 2026-07-08 |
 | 5. Troubleshooting | IN PROGRESS | 50% | 2026-07-20 |
 | 6. Best Practices | NOT STARTED | 0% | 2026-09-15 |
 | 7. Training (KCNA) | IN PROGRESS | 8% | 2026-08-31 |
 
-**Overall Progress:** 1/7 tasks completed (14%) — 4 additional tasks actively in progress
+**Overall Progress:** 3/7 tasks completed (43%) — 3 additional tasks actively in progress
 
 ---
 
@@ -243,3 +245,6 @@ Each task is considered complete when:
 - Task 4 progress updated: 25% -> 70%; keep IN PROGRESS until one repo workload is charted and install/upgrade/rollback is validated
 - Created Helm chart for `lab-03-production-deployments` and validated full local release lifecycle: lint, template, install dry-run, install, upgrade dry-run, upgrade, rollback dry-run, rollback, status/history/values inspection, and uninstall cleanup
 - Task 4 progress updated: 70% -> 85%; keep IN PROGRESS until restricted PodSecurity hardening and ingress-facing/EKS Helm validation are complete
+
+**2026-07-08:**
+- Task 4 marked COMPLETED after accepting restricted PodSecurity hardening and post-hardening Helm revalidation as complete.

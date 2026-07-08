@@ -85,7 +85,7 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 
 | Skill | Level | Last Lab | Notes |
 |-------|-------|----------|-------|
-| Helm chart authoring | 3 | lab-03 Helm chart | Helm course complete; lab-03 chart created with values/templates/helpers for Deployment, Service, HPA, PDB, Namespace; lint/template/install/upgrade/rollback/uninstall validated locally; restricted PodSecurity hardening remains |
+| Helm chart authoring | 3 | lab-03 Helm chart | Helm course complete; lab-03 chart created with values/templates/helpers for Deployment, Service, HPA, PDB, Namespace; lint/template/install/upgrade/rollback/uninstall validated locally; restricted PodSecurity hardening and revalidation accepted complete |
 | ArgoCD app-of-apps pattern | 0 | — | |
 | GitHub Actions → ECR → EKS deploy pipeline | 0 | — | |
 | Kustomize overlays (dev/staging/prod) | 0 | — | |

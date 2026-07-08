@@ -103,8 +103,10 @@ Notes: `sources/kodekloud/notes/kcna.md`
   - [x] Charted `lab-03-production-deployments`
   - [x] Validated `helm lint` and `helm template`
   - [x] Validated install dry-run, install, upgrade dry-run, upgrade, rollback dry-run, rollback, history/status/values checks, uninstall, and cleanup
+  - [x] Restricted-compatible chart hardening accepted complete — 2026-07-08
+  - [x] Post-hardening Helm lifecycle revalidation accepted complete — 2026-07-08
 
-Next recommended order: harden lab-03 chart for restricted PodSecurity -> repeat lifecycle validation -> chart ingress-facing workload before lab-09/EKS
+Next recommended order: chart ingress-facing workload before lab-09/EKS
 
 Notes: `sources/kodekloud/notes/helm-for-beginners.md`
 
