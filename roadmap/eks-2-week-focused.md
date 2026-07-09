@@ -124,7 +124,6 @@ kubectl logs -n init-lab sidecar-pod -c ctr-fluent-bit --tail=20
 
 ### Day 5 — StatefulSets + EBS Storage
 
-**Current:** ✅ Complete on 2026-06-25 (local-path StorageClass substituted for EBS; all StatefulSet concepts validated: ordered startup, stable DNS, persistence, reverse scaledown; liveness probe crash loop diagnosed and fixed with init container)
 
 **Reference:** `sources/nigel_poulton/repo_k8sbook/statefulsets/` — all 5 files  
 **Hands-on:**
