@@ -3,7 +3,7 @@
 > Format per session: date · lab(s) worked · skills updated · blockers · next action
 > Presentation rule: keep one consolidated entry per date and append same-day updates in execution order.
 >
-> **Current status (2026-07-08): PHASE 1 IN PROGRESS — Helm course complete; lab-03 Helm chart hardening and revalidation accepted complete.**
+> **Current status (2026-07-17): PHASE 1 IN PROGRESS — KCNA 29% complete (33/115); Kubernetes Resources and Container Orchestration - Networking complete.**
 > Lab-03 closed. Lab-04 Part A/B closed (Part C deferred). Lab-07 closed. Lab-06 closed (CloudWatch deferred — no IRSA). Lab-05 closed (EBS-specific features noted; local-path used). Day 6 next (Ingress deep dive — requires EKS).
 
 ---
@@ -384,6 +384,24 @@
 
 **Next action:**
 - Chart an ingress-facing workload, then return to Day 6 / lab-09 on EKS.
+
+---
+
+## 2026-07-17 — KCNA: Kubernetes Resources + Networking complete
+
+**Lab:** none (theory session)
+**Cluster:** none
+**Course:** Kubernetes and Cloud-Native Associate (KCNA) — progressed from 19% (22/115) to 29% (33/115)
+
+**Completed:**
+- **Kubernetes Resources** (15/15 lessons), including rolling-update demo, imperative vs declarative workflows, `kubectl explain`, `kubectl apply`, namespaces, and the module quiz.
+- **Container Orchestration - Networking** (6/6 lessons): Cluster Networking, Pod Networking, CNI, DNS, Ingress, and Quiz - Networking.
+
+**Skills updated:**
+- No level changes. Networking theory reinforced existing hands-on evidence from lab-07; EKS ingress and CNI implementation remain to be validated in lab-02/lab-09.
+
+**Next action:**
+- Start KCNA **Scheduling** (0/12), then continue to Container Orchestration - Security.
 
 ---
 

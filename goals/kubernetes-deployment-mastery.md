@@ -56,11 +56,11 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 
 ### 3. [ ] Networking: Services, Service Discovery, Ingress Controllers, Network Policies
 
-**Status:** NOT STARTED  
+**Status:** IN PROGRESS
 **Target Date:** 2026-07-25  
 **Source:** KCNA - Container Orchestration (Networking) module + hands-on labs  
 **Linked Labs:** lab-02 (EKS Networking & Ingress), lab-07 (Service Discovery & Network Policies), lab-09 (Ingress ALB Deep Dive)  
-**Progress:** 0/6 lessons  
+**Progress:** 6/6 KCNA lessons complete; lab-07 complete; lab-02 and lab-09 remain
 **Key Topics:**
 - Cluster Networking
 - Pod Networking
@@ -163,7 +163,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 **Status:** IN PROGRESS  
 **Target Date:** 2026-08-31  
 **Source:** KCNA full course (115 lessons) + Mock exams  
-**Progress:** 9/115 lessons  
+**Progress:** 33/115 lessons (29%)
 **Key Modules:**
 - Introduction (3)
 - Kubernetes Fundamentals (9)
@@ -178,7 +178,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 - Mock Exams (5)
 - Conclusion (2)
 
-**Next Action:** Start KCNA course after lab-03 completion
+**Next Action:** Start Scheduling (12 lessons), then Container Orchestration - Security
 
 ---
 
@@ -188,11 +188,11 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 |------|--------|--------------|-------------|
 | 1. Core Concepts | ✅ COMPLETED | 100% | 2026-06-20 |
 | 2. Containerization | ✅ COMPLETED | 100% | 2026-07-02 |
-| 3. Networking | IN PROGRESS | 20% | 2026-07-25 |
+| 3. Networking | IN PROGRESS | 50% | 2026-07-25 |
 | 4. Config Management | ✅ COMPLETED | 100% | 2026-07-08 |
 | 5. Troubleshooting | IN PROGRESS | 50% | 2026-07-20 |
 | 6. Best Practices | NOT STARTED | 0% | 2026-09-15 |
-| 7. Training (KCNA) | IN PROGRESS | 8% | 2026-08-31 |
+| 7. Training (KCNA) | IN PROGRESS | 29% | 2026-08-31 |
 
 **Overall Progress:** 3/7 tasks completed (43%) — 3 additional tasks actively in progress
 
@@ -248,3 +248,9 @@ Each task is considered complete when:
 
 **2026-07-08:**
 - Task 4 marked COMPLETED after accepting restricted PodSecurity hardening and post-hardening Helm revalidation as complete.
+
+**2026-07-17:**
+- KCNA Kubernetes Resources completed (15/15).
+- KCNA Container Orchestration - Networking completed (6/6).
+- KCNA overall progress updated: 22/115 (19%) -> 33/115 (29%).
+- Task 3 Networking updated: 20% -> 50%; lab-02 and lab-09 remain for EKS/Ingress validation.

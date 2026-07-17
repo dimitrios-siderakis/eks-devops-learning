@@ -1,7 +1,7 @@
 # Kubernetes and Cloud-Native Associate (KCNA) — Notes
 
 > Course: Kubernetes and Cloud-Native Associate (KCNA) (KodeKloud)
-> Status: 🔄 IN PROGRESS — 8% (9/115 lessons) as of 2026-06-20
+> Status: 🔄 IN PROGRESS — 29% (33/115 lessons) as of 2026-07-17
 > Previous: Kubernetes for the Absolute Beginners (completed 2026-06-20)
 > Certification Level: Associate (intermediate)
 
@@ -54,7 +54,7 @@ Key notes:
 
 
 
-### Kubernetes Resources (in progress: 9/15 as of 2026-07-02)
+### Kubernetes Resources (✅ completed 2026-07-17)
 
 - Completed lessons:
 	- Pods (09:04) — basic Pod spec, labels, selectors
@@ -66,20 +66,14 @@ Key notes:
 	- Deployments (04:21) — abstraction over RS, rolling updates, history
 	- Demo - Deployments (04:26) — kubectl create deployment, editing and observing rollouts
 	- Deployments - Rolling Updates and Rollbacks (06:32) — maxSurge, maxUnavailable, revision history, kubectl rollout
-
-- Pending in this module (6 remaining):
 	- Demo - Deployments - Rolling Updates and Rollbacks (14:35)
 	- Imperative vs Declarative (12:49)
-	- Kubernetes Explain Command
-	- Namespaces
-	- Services
-	- ConfigMaps
-	- Secrets
-	- PersistentVolumes
-	- StatefulSets
-	- DaemonSets
+	- Kubectl Explain Command (01:51)
+	- Kubectl Apply Command (04:31)
+	- Kubernetes Namespaces (08:20)
+	- Quiz - Kubernetes Resources
 
-Key takeaways (60% complete):
+Key takeaways:
 - Pod is atomic unit; ReplicaSet ensures replicas; Deployment manages rollouts
 - Labels/selectors are fundamental to Kubernetes coupling and grouping
 - Rolling update strategy (maxSurge/maxUnavailable) controls blast radius and availability
@@ -92,11 +86,23 @@ For example, if you define replicas: 3, Kubernetes will try to keep 3 Pods runni
 
 Simple rule --   Deployment = ReplicaSet + rolling updates + rollback support
 
-### Scheduling
+### Scheduling (not started: 0/12)
 
 ### Container Orchestration - Security
 
-### Container Orchestration - Networking
+### Container Orchestration - Networking (✅ completed 2026-07-17)
+
+- Cluster Networking (02:12)
+- Pod Networking (09:00)
+- CNI in Kubernetes (03:07)
+- DNS in Kubernetes (05:36)
+- Ingress (17:35)
+- Quiz - Networking
+
+Key takeaways:
+- Kubernetes networking spans node, Pod, and Service connectivity, with CNI implementing Pod networking.
+- Cluster DNS provides service discovery, while Ingress exposes HTTP/S routes into the cluster.
+- This module reinforces the hands-on DNS, cross-namespace connectivity, and NetworkPolicy work completed in lab-07.
 
 ### Container Orchestration - Storage
 
