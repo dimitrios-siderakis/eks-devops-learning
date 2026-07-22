@@ -1,0 +1,16 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ingress-deep-dive-tls
+  namespace: ingress-lab-local
+spec:
+  secretName: ingress-deep-dive-tls
+  issuerRef:
+    name: local-selfsigned
+    kind: ClusterIssuer
+  dnsNames:
+    - shield.127.0.0.1.sslip.io
+    - hydra.127.0.0.1.sslip.io
+    - mcu.127.0.0.1.sslip.io
+

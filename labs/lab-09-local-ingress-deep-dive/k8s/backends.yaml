@@ -1,0 +1,142 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-pages
+  namespace: ingress-lab-local
+data:
+  shield.html: |-
+    <!doctype html><title>SHIELD</title><h1>SHIELD backend</h1>
+  hydra.html: |-
+    <!doctype html><title>HYDRA</title><h1>HYDRA backend</h1>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shield
+  namespace: ingress-lab-local
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shield
+  template:
+    metadata:
+      labels:
+        app: shield
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: nginx
+          image: nginxinc/nginx-unprivileged:1.27-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 5
+          volumeMounts:
+            - name: page
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: shield.html
+              readOnly: true
+      volumes:
+        - name: page
+          configMap:
+            name: backend-pages
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-shield
+  namespace: ingress-lab-local
+spec:
+  selector:
+    app: shield
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hydra
+  namespace: ingress-lab-local
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hydra
+  template:
+    metadata:
+      labels:
+        app: hydra
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: nginx
+          image: nginxinc/nginx-unprivileged:1.27-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 5
+          volumeMounts:
+            - name: page
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: hydra.html
+              readOnly: true
+      volumes:
+        - name: page
+          configMap:
+            name: backend-pages
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-hydra
+  namespace: ingress-lab-local
+spec:
+  selector:
+    app: hydra
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+

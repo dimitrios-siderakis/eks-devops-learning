@@ -3,8 +3,8 @@
 > Format per session: date · lab(s) worked · skills updated · blockers · next action
 > Presentation rule: keep one consolidated entry per date and append same-day updates in execution order.
 >
-> **Current status (2026-07-17): PHASE 1 IN PROGRESS — KCNA 29% complete (33/115); Kubernetes Resources and Container Orchestration - Networking complete.**
-> Lab-03 closed. Lab-04 Part A/B closed (Part C deferred). Lab-07 closed. Lab-06 closed (CloudWatch deferred — no IRSA). Lab-05 closed (EBS-specific features noted; local-path used). Day 6 next (Ingress deep dive — requires EKS).
+> **Current status (2026-07-22): PHASE 1 IN PROGRESS — KCNA 29% complete (33/115); Task 3 local path 1/2 labs complete.**
+> Lab-03 closed. Lab-04 Part A/B closed (Part C deferred). Lab-05, lab-06, and lab-07 closed. Lab-02 Local closed; Lab-09 Local next. AWS/EKS-specific validation remains deferred.
 
 ---
 
@@ -402,6 +402,60 @@
 
 **Next action:**
 - Start KCNA **Scheduling** (0/12), then continue to Container Orchestration - Security.
+
+---
+
+## 2026-07-22 — Task 3 local networking path + Lab 02 Local complete
+
+**Lab:** `lab-02-local-networking-ingress` completed on Rancher Desktop
+**Cluster:** Rancher Desktop (k3s v1.32.4, single node)
+
+**What was done:**
+- Added `lab-02-local-networking-ingress` as a no-Terraform/no-AWS Rancher
+  Desktop lab using ingress-nginx, cert-manager, local TLS, `sslip.io`, and
+  NetworkPolicies.
+- Added `lab-09-local-ingress-deep-dive` for host routing, regex path routing,
+  rewrites, controller configuration inspection, and six failure scenarios.
+- Preserved the original EKS/ALB labs for future AWS-specific validation.
+- Updated the roadmap, goal, README, and skills matrix to distinguish general
+  Kubernetes networking completion from deferred EKS skills.
+- Verified context, node readiness, CoreDNS, and metrics-server.
+- Installed ingress-nginx chart 4.15.1 alongside Rancher Desktop's existing
+  Traefik controller; verified the non-default `nginx` IngressClass.
+- Installed cert-manager v1.21.0 with Certificate and ClusterIssuer CRDs.
+- Deployed restricted-compatible frontend/API workloads plus a staging network
+  probe; validated both production Deployments had two Ready endpoints.
+- Proved namespaces are not isolation: staging reached production before policy.
+- Applied default-deny NetworkPolicies; DNS still resolved while staging HTTP
+  was rejected by Flannel with TCP RST (`curl` exit 7).
+- Issued a self-signed certificate with SANs for both `sslip.io` hosts.
+- Validated host routing to frontend and API, HTTPS responses, and HTTP 308
+  redirect through an ingress-nginx port-forward.
+
+**Failures diagnosed and recovered:**
+- Helm ingress-nginx install was interrupted in `pending-install`; removed the
+  incomplete release, retried, then repaired an orphaned release record with
+  `--take-ownership` while preserving the healthy controller.
+- Staging Pod hit `CreateContainerConfigError`: `runAsNonRoot` could not verify
+  image user `curl_user`; confirmed UID/GID with Docker and set UID 100/GID 101.
+- Initial HTTPS request returned connection refused because the foreground
+  port-forward had stopped; proved the missing listener with `lsof`, restarted
+  it in a dedicated terminal, and revalidated both routes.
+
+**Validation:** core checklist passed; three real failure scenarios diagnosed
+before recovery. AWS ALB/LBC, ACM, Route53/ExternalDNS, and VPC CNI were not
+tested and remain deferred.
+
+**Confidence:** 3/5 — completed successfully with guided execution; repeat the
+host-routing and controller-debugging flow in Lab 09 Local to consolidate it.
+
+**Skills updated:**
+- Ingress controllers (provider-neutral): 0 -> 2
+- TLS certificate automation (cert-manager): 0 -> 2
+
+**Next action:**
+- Start Lab 09 Local with exactly:
+  `cat sources/nigel_poulton/repo_k8sbook/ingress/ig-mcu-host.yml`
 
 ---
 

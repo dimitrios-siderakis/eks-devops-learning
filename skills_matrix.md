@@ -1,7 +1,7 @@
 # Skills Matrix
 
-> Updated: 2026-07-17 | Focus: Kubernetes / EKS Production Readiness
-> Labs scaffolded: 01–10 | Labs completed: 4 (lab-03, lab-05, lab-06, lab-07) + 1 partial (lab-04 A/B)
+> Updated: 2026-07-22 | Focus: Kubernetes / EKS Production Readiness
+> Labs scaffolded: 01–10 + 2 local variants | Labs completed: 5 (lab-02-local, lab-03, lab-05, lab-06, lab-07) + 1 partial (lab-04 A/B)
 
 Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production capable · `4` Expert / can teach  
 `(s)` = skill covered in a scaffolded lab, ready to execute
@@ -19,6 +19,7 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 | Resource requests/limits & QoS classes | 2 | lab-03 | HPA dependency on requests validated |
 | RBAC (Roles, ClusterRoles, Bindings) | 0 | — | Gap — no lab yet |
 | Network Policies | 2 | lab-07 | default-deny + explicit allow; Flannel post-DNAT port evaluation; cross-ns isolation verified |
+| Ingress controllers (provider-neutral) | 2 | lab-02-local | ingress-nginx installed beside Traefik; explicit class, two TLS host routes, redirect, Service endpoints, and controller recovery validated |
 | PersistentVolumes / StorageClasses | 3 | lab-05 | volumeClaimTemplates, RWO PVC per pod, data persistence across pod deletion, PVC survival after scaledown |
 | Horizontal / Vertical Pod Autoscaler | 2 | lab-03 | HPA behavior observed during rollout and recovery |
 | Pod Disruption Budgets | 2 | lab-03 | Drain protection tested and verified |
@@ -73,6 +74,7 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 | Skill | Level | Last Lab | Notes |
 |-------|-------|----------|-------|
 | Pod Security Standards (restricted profile) | 0 | — | Covered: lab-08(s) |
+| TLS certificate automation (cert-manager) | 2 | lab-02-local | cert-manager installed; ClusterIssuer, Certificate readiness, TLS Secret use, and two certificate SANs validated |
 | OPA / Kyverno policy enforcement | 0 | — | Covered: lab-08(s) 4 ClusterPolicies |
 | Secrets management (Secrets Store CSI / ESO) | 0 | — | Covered: lab-04(s) |
 | Image scanning (ECR + Trivy) | 0 | — | Gap — no lab yet |
@@ -123,6 +125,7 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 |-----|--------|----------------|
 | lab-01 EKS Cluster Foundation | Scaffolded | EKS arch, node groups, IRSA, add-ons, control plane logging |
 | lab-02 Networking & Ingress | Scaffolded | AWS LBC, ALB, ExternalDNS, NetworkPolicies |
+| lab-02-local Networking & Ingress | Completed | ingress-nginx, cert-manager local TLS, NetworkPolicies |
 | lab-03 Production Deployments | Completed | Deployments, probes, PDB, HPA, topology spread |
 | lab-04 ConfigMaps & Secrets Manager | Partial (A/B complete, C blocked by AWS IAM) | ConfigMaps, Secrets, CSI driver, IRSA |
 | lab-05 StatefulSet + EBS | Scaffolded | StatefulSets, gp3 StorageClass, PVCs, AZ affinity |
@@ -130,6 +133,7 @@ Legend: `0` Not started · `1` Aware · `2` Hands-on basic · `3` Production cap
 | lab-07 Service Discovery + NetPol | Scaffolded | DNS, namespace isolation, NetworkPolicies |
 | lab-08 Pod Security + Kyverno | Scaffolded | PSA, Kyverno ClusterPolicies |
 | lab-09 Ingress Deep Dive (ALB) | Scaffolded | AWS LBC annotations, host/path routing, ACM, ExternalDNS |
+| lab-09-local Ingress Deep Dive | Scaffolded | nginx host/path routing, regex rewrites, local TLS, controller debugging |
 | lab-10 Karpenter + Spot | Scaffolded | Karpenter v1 NodePool/EC2NodeClass, Spot SQS interruption, Terraform |
 
 **How to update levels after completing a lab:**

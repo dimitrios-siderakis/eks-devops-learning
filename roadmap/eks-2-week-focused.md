@@ -1,7 +1,7 @@
 # Phase 1: EKS/Kubernetes Fundamentals (2 Weeks)
 
 > Created: 2026-06-16  
-> Status: **IN PROGRESS** — Day 1 completed; Day 2 complete for local scope; Day 3 next  
+> Status: **IN PROGRESS** — Days 1–5 completed for available scope; Day 6 local path 1/2 labs complete
 > Scope: Kubernetes fundamentals → EKS production capable  
 > Assumes: Lab 01 cluster is provisioned (or use a local kind cluster for Week 1)  
 > Cadence: ~2–3 hours per day
@@ -158,6 +158,21 @@ Goal: Ingress with real ALB, autoscaling with Karpenter, and pod security enforc
 Read `mappings/k8s_learning_map.md` section on Ingress gaps before starting.
 
 **Hands-on:** Run Lab 09 — see full instructions in `labs/lab-09-ingress-alb-deep-dive/README.md`
+
+**Local completion path (no AWS account):** Execute
+[`lab-02-local-networking-ingress`](../labs/lab-02-local-networking-ingress/README.md),
+then [`lab-09-local-ingress-deep-dive`](../labs/lab-09-local-ingress-deep-dive/README.md)
+on Rancher Desktop. This completes the Kubernetes ingress/networking outcome but
+does not complete AWS LBC, ALB, ACM, Route53/ExternalDNS, or EKS VPC CNI skills.
+
+Exact first command for the local path:
+
+```bash
+kubectl config current-context
+```
+
+**Local progress:** `lab-02-local-networking-ingress` completed 2026-07-22;
+`lab-09-local-ingress-deep-dive` is next.
 
 Key concepts to nail:
 - Nigel uses nginx-ingress; on EKS you use AWS LBC → fundamentally different annotation model

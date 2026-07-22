@@ -59,8 +59,8 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 **Status:** IN PROGRESS
 **Target Date:** 2026-07-25  
 **Source:** KCNA - Container Orchestration (Networking) module + hands-on labs  
-**Linked Labs:** lab-02 (EKS Networking & Ingress), lab-07 (Service Discovery & Network Policies), lab-09 (Ingress ALB Deep Dive)  
-**Progress:** 6/6 KCNA lessons complete; lab-07 complete; lab-02 and lab-09 remain
+**Linked Labs:** lab-07 (complete), lab-02-local and lab-09-local (local completion path), lab-02 and lab-09 (deferred AWS/EKS validation)
+**Progress:** 75% — KCNA Networking, lab-07, and lab-02-local complete; lab-09-local remains
 **Key Topics:**
 - Cluster Networking
 - Pod Networking
@@ -69,7 +69,14 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 - Ingress
 - Quiz - Networking
 
-**Dependency:** Must complete Task 1 (✅ done) and begin lab-02
+**Completion path:** Execute every validation and failure scenario in
+`lab-02-local-networking-ingress`, then `lab-09-local-ingress-deep-dive` on
+Rancher Desktop. AWS LBC, ALB, ACM, Route53/ExternalDNS, and EKS VPC CNI remain
+separate deferred platform skills and are not required to close this
+Kubernetes-focused task.
+
+**Next Action:** Start Lab 09 Local with
+`cat sources/nigel_poulton/repo_k8sbook/ingress/ig-mcu-host.yml`.
 
 ---
 
@@ -114,7 +121,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 **Target Date:** 2026-07-20  
 **Source:** Hands-on labs (failure scenarios and validation checklists)  
 **Linked Labs:** lab-03 (Production Deployments - remaining scenarios), lab-04, lab-05, lab-06  
-**Progress:** 4/6 labs (lab-03, lab-04, lab-07, lab-06, lab-05 executed)  
+**Progress:** six labs now provide troubleshooting evidence, including lab-02-local
 **Key Topics:**
 - kubectl explain command
 - kubectl apply command
@@ -135,7 +142,13 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 - lab-06 completed: init container sequencing (chained dependency gate), sidecar pattern (shared emptyDir log volume), distroless debugging via `kubectl debug` ephemeral containers
 - lab-05 completed: StatefulSet ordered startup/shutdown, stable DNS via headless Service, PVC persistence across pod deletion and scaledown; liveness probe crash loop diagnosed and fixed
 
-**Next Action:** Day 6 — Ingress deep dive (lab-09, requires EKS cluster)
+**Latest Evidence (2026-07-22):**
+- Recovered an interrupted Helm install and repaired orphaned release ownership.
+- Diagnosed a restricted non-root startup failure caused by a named image user;
+  verified and applied numeric UID/GID.
+- Isolated local connection refusal to a stopped port-forward using `lsof`.
+
+**Next Action:** Lab 09 Local ingress deep dive on Rancher Desktop.
 
 ---
 
@@ -188,7 +201,7 @@ Progress on Kubernetes know-how: Work more on issues, deployments, and investiga
 |------|--------|--------------|-------------|
 | 1. Core Concepts | ✅ COMPLETED | 100% | 2026-06-20 |
 | 2. Containerization | ✅ COMPLETED | 100% | 2026-07-02 |
-| 3. Networking | IN PROGRESS | 50% | 2026-07-25 |
+| 3. Networking | IN PROGRESS | 75% | 2026-07-25 |
 | 4. Config Management | ✅ COMPLETED | 100% | 2026-07-08 |
 | 5. Troubleshooting | IN PROGRESS | 50% | 2026-07-20 |
 | 6. Best Practices | NOT STARTED | 0% | 2026-09-15 |
@@ -254,3 +267,18 @@ Each task is considered complete when:
 - KCNA Container Orchestration - Networking completed (6/6).
 - KCNA overall progress updated: 22/115 (19%) -> 33/115 (29%).
 - Task 3 Networking updated: 20% -> 50%; lab-02 and lab-09 remain for EKS/Ingress validation.
+
+**2026-07-22:**
+- Added a no-Terraform, no-AWS Task 3 completion path for Rancher Desktop.
+- Added `lab-02-local-networking-ingress` for ingress-nginx, cert-manager local
+  TLS, host routing, and NetworkPolicy isolation.
+- Added `lab-09-local-ingress-deep-dive` for host/path routing, regex rewrites,
+  TLS inspection, controller diagnostics, and six deliberate failures.
+- Kept Task 3 IN PROGRESS until both local lab checklists are executed; AWS/EKS
+  networking skills remain explicitly deferred.
+- Completed `lab-02-local-networking-ingress`: ingress-nginx and cert-manager
+  installed, pre/post-policy isolation proved, TLS SANs verified, two host rules
+  validated, and HTTP-to-HTTPS redirect confirmed.
+- Diagnosed and recovered three real failures: incomplete/orphaned Helm release,
+  named non-root image user rejection, and a stopped port-forward listener.
+- Task 3 progress updated from 50% to 75%; `lab-09-local` remains.

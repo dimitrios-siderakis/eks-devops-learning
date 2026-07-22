@@ -1,0 +1,12 @@
+controller:
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    default: false
+  ingressClass: nginx
+  service:
+    type: NodePort
+  watchIngressWithoutClass: false
+  config:
+    ssl-redirect: "true"
+

@@ -31,6 +31,7 @@ Start at Phase 1. Do not advance until every lab validation checklist passes wit
 |-----|-------|--------------|
 | [lab-01](labs/lab-01-eks-cluster-foundation/) | EKS Cluster Foundation | VPC, managed node groups, IRSA, EKS add-ons, Bottlerocket |
 | [lab-02](labs/lab-02-eks-networking-ingress/) | Networking & Ingress | ALB Ingress, ExternalDNS, Network Policies |
+| [lab-02-local](labs/lab-02-local-networking-ingress/) | Local Networking & Ingress | ingress-nginx, local TLS, Network Policies |
 | [lab-03](labs/lab-03-production-deployments/) | Production Deployments | Probes, HPA, PDB, rolling updates, topology spread |
 | [lab-04](labs/lab-04-configmaps-secrets-manager/) | ConfigMaps & Secrets | ConfigMaps, native Secrets, Secrets Store CSI, AWS Secrets Manager |
 | [lab-05](labs/lab-05-statefulset-ebs/) | StatefulSets & EBS | StorageClass, PVC, StatefulSet, PDB, EBS CSI |
@@ -38,6 +39,7 @@ Start at Phase 1. Do not advance until every lab validation checklist passes wit
 | [lab-07](labs/lab-07-service-discovery-netpol/) | Service Discovery & NetPol | CoreDNS, ClusterIP, cross-namespace policies |
 | [lab-08](labs/lab-08-pod-security-kyverno/) | Pod Security & Kyverno | Pod Security Standards, Kyverno ClusterPolicies |
 | [lab-09](labs/lab-09-ingress-alb-deep-dive/) | ALB Ingress Deep Dive | Host/path routing, TLS termination, ACM, IngressGroup |
+| [lab-09-local](labs/lab-09-local-ingress-deep-dive/) | Local Ingress Deep Dive | nginx host/path routing, rewrites, local TLS |
 | [lab-10](labs/lab-10-karpenter-spot/) | Karpenter & Spot | NodePool, EC2NodeClass, Spot interruption handling |
 
 Each lab contains:
